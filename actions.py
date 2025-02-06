@@ -2,18 +2,26 @@ import numpy as np
 import json
 
 class Action:
-    def __init__(self, config: str):
-        with open(config, 'r') as file:
-            self.actions = json.load(file)
+    def __init__(self, config: dict):
+        self.__id = config["id"]
+        self.type = config["type"]
+        self.direction = config["direction"]
+        self.cost = config["cost"]
+
+    def set_type(self, new_type: str):
+        self.type = new_type
     
-    def get_cost(self, action: str):
-        if action not in self.actions.keys():
-            return -1
-        else:
-            return self.actions[action]["cost"]
-        
-    def set_cost(self, action: str, new_cost: int):
-        if action not in self.actions.keys():
-            return -1
-        else:
-            self.actions[action]["cost"] = new_cost
+    def set_direction(self, new_direction: list[int]):
+        self.direction = new_direction
+    
+    def set_cost(self, new_cost: int):
+        self.cost = new_cost
+
+    def get_type(self) -> str:
+        return self.type
+    
+    def get_direction(self) -> list[int]:
+        return self.direction
+    
+    def get_cost(self) -> int:
+        return self.cost
