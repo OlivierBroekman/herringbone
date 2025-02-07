@@ -1,5 +1,3 @@
-import numpy as np
-
 class Action:
     """This class represents the actions for a reinforcement learning problem."""
     def __init__(self, config: dict):
