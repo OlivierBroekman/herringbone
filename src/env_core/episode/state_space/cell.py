@@ -4,6 +4,9 @@ class Cell:
     def __init__(self, coordinates: list[int], piece: str = None):
         self._coordinates = coordinates
         self._piece = piece
+
+    def __str__(self):
+        return str(self._piece)
     
     # Setters and getters
     @property
