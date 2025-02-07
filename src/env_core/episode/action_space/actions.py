@@ -1,13 +1,14 @@
 import numpy as np
-import json
 
 class Action:
+    """This class represents the actions for a reinforcement learning problem."""
     def __init__(self, config: dict):
         self.__id = config["id"]
         self._type = config["type"]
         self._direction = config["direction"]
         self._cost = config["cost"]
 
+    # Setters and getters
     @property
     def type(self) -> str:
         return self._type
