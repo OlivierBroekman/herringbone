@@ -1,7 +1,8 @@
+from piece import Piece
+
 class Cell:
     """This class represents a cell in a gridworld"""
-    # TODO: Change piece in constructor to instance of piece class, added str as placeholder
-    def __init__(self, coordinates: list[int], piece: str = None):
+    def __init__(self, coordinates: list[int], piece: Piece = None):
         self._coordinates = coordinates
         self._piece = piece
 
@@ -18,9 +19,9 @@ class Cell:
         self.coordinates = new_coordinates
     
     @property
-    def piece(self) -> str:
+    def piece(self) -> Piece:
         return self.piece
     
     @piece.setter
-    def piece(self, new_piece):
+    def piece(self, new_piece: Piece):
         self.piece = new_piece
