@@ -8,12 +8,9 @@
 > A wall is a "non-visitable" piece.  
 
 ### State Space  
-- [ ] board  
-  * self.map_loader  
-  * render()  
-  * self.pieces = piece[][]
+- [ ] boardfile
+  * piece[][]: self.pieces = map_loader.load_map(filepath)  
   * observe_pieces() -> dict(piece, [x,y])  
-
 
 - [x] piece class  
   * config.json  
@@ -32,31 +29,29 @@
 
 ### Main Policy  
 //TODO: NEED TO BE DISCUSSED ASAP.
-- [ ] episode  
+- [ ] episode (actions, states, policy)
+  * self.action_space
+  * self.state_space  
   * self.total_reward  
   * get_step_count()  
-  * self.history (<s,a,r>)  
-  * self.action_space = load_actions()  
-  * self.state_space()  
+  * boards[][] = self.history
   * self.policy  
-  * run_episode()  
-  * sample_action() = self.policy.get_next(self.action_space, self.state_space.get_obs)  
-  * update_piece_locations()  
-  * calculate_new_reward(last_action, new_location)  
-    * get_location_reward()  
-    * get_action_reward()  
+  * run()
+  * update_policy()
+  * PREV:
+    * sample_action() = self.policy.get_next(self.action_space, self.state_space.get_obs)  
+    * update_piece_locations()  
+    * calculate_new_reward(last_action, new_location)  
+      * get_location_reward()  
+      * get_action_reward()  
 
 - [ ] policy  
   * get_next() -> action_id  
 
 ### utils  
-- render  
-  * config.json  
-  * ASCII  
-  * array  
+- map_loader
 
-- map_loader  
-  * config.json  
+
 
 
 ---
