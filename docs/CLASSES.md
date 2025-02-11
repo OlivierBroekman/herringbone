@@ -1,6 +1,6 @@
 ### Terminology  
 - piece: an object on the board (e.g., agent, predator, wall).  
-- cell: a location on the board that may host a piece.  
+- board: a 2D array of pieces.
 - reward: positive values indicate a reward, while negative values indicate a cost. Rewards are cumulative.  
 
 > Note: "Colliding" with a piece grants a reward; collisions are piece-based, not cell-based. This allows for dynamic objects.  
@@ -8,28 +8,22 @@
 > A wall is a "non-visitable" piece.  
 
 ### State Space  
-- board  
+- [ ] board  
   * self.map_loader  
   * render()  
-  * self.cells == cell[ ][ ]  
+  * self.pieces = piece[][]
   * observe_pieces() -> dict(piece, [x,y])  
 
-- cell class  
-  * self.coordinates  
-  * self.piece  
 
-- piece class  
+- [x] piece class  
   * config.json  
   * self.terminal  
   * self.location  
-  * self.start_location  
   * self.collision_reward #TODO help  
   * self.is_visitable  
-  * reset()  
-  * step(curr_state, action) -> new_state, reward  
 
 ### Action Space  
-- action class  
+- [x] action class  
   * config.json  
   * self.type  
   * self._id  
@@ -37,7 +31,8 @@
   * self.movement  
 
 ### Main Policy  
-- episode  
+//TODO: NEED TO BE DISCUSSED ASAP.
+- [ ] episode  
   * self.total_reward  
   * get_step_count()  
   * self.history (<s,a,r>)  
@@ -51,7 +46,7 @@
     * get_location_reward()  
     * get_action_reward()  
 
-- policy  
+- [ ] policy  
   * get_next() -> action_id  
 
 ### utils  
