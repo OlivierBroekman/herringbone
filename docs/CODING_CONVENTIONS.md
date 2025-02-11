@@ -8,6 +8,6 @@
 
 ## Github
 1. Think of a commit message as "This commit I will []", e.g. git commit -m "add README.md"
-2. add co-authors when working together!
+2. add co-authors when working together (pair - programming)!
 
 ```git config --global alias.commit-db "commit --trailer 'Co-authored-by: hujanbiru <pangilon@protonmail.com>' --trailer 'Co-authored-by: OlivierBroekman <olivier.broekman@ru.nl>'"```
