@@ -9,10 +9,16 @@ class Board:
     def observe_pieces(self) -> dict:
         pass  # TODO ignore static pieces?
 
-    def __str__(self):
-        horizon = f"+{'----+' * len(self.pieces[0])}"
+    def __str__(self):  # TODO Color enum
+        num_sep = len(self.pieces[0]) - 1
+        grid = f"╔{'═══╦' * num_sep}═══╗\n"
 
-        return f"{horizon}\n{'\n'.join(
-            f"| {' | '.join(f'{(p.character or "?"):>2}' for p in row)} |\n{horizon}"
-            for row in self.pieces
-        )}"
+        for i_row, row in enumerate(self.pieces):
+            grid += "║ " + " ║ ".join(
+                f"{p.color.encode('utf-8').decode('unicode_escape')}{(p.character or '?')}\033[0m" for p in
+                row) + " ║\n"
+            if i_row < len(self.pieces) - 1:
+                grid += f"╠{'═══╬' * num_sep}═══╣\n"
+
+        grid += f"╚{'═══╩' * num_sep}═══╝"
+        return grid

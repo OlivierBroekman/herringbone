@@ -3,18 +3,21 @@
     "is_terminal": false,
     "reward": -1,
     "is_visitable": true,
-    "character": " "
+    "character": " ",
+    "color": "\\033[34m"
   },
   "1": {
     "is_terminal": false,
     "reward": 0,
     "is_visitable": true,
-    "character": "AG"
+    "character": "A",
+    "color": "\\033[31m"
   },
   "2": {
     "is_terminal": true,
     "reward": 10,
     "is_visitable": true,
-    "character": "TA"
+    "character": "T",
+    "color": "\\033[32m"
   }
 }

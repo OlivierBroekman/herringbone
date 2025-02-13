@@ -33,7 +33,8 @@ def init_piece(piece_vals: dict[str, Any], coordinates: list[int]) -> Piece:
             start_location=coordinates,
             reward=piece_vals["reward"],
             is_visitable=piece_vals["is_visitable"],
-            character=piece_vals["character"]
+            character=piece_vals["character"],
+            color=piece_vals["color"],
         )
     except KeyError as e:
         raise KeyError(f"Piece has no attribute: {e}") from e
