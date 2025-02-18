@@ -10,7 +10,7 @@
     "is_terminal": false,
     "reward": 0,
     "is_visitable": true,
-    "character": "A",
+    "character": "AB",
     "color": "\\033[31m"
   },
   "2": {

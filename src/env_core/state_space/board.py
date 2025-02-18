@@ -1,3 +1,7 @@
+
+import os
+
+
 from pathlib import Path
 from src.env_core.utils.map_loader import load_map
 
@@ -22,3 +26,6 @@ class Board:
 
         grid += f"╚{'═══╩' * num_sep}═══╝"
         return grid
+
+board = Board(Path('src/env_core/config/piece_config.json'), Path('src/env_core/maps/example.csv'))
+print(board)
