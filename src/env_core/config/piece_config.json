@@ -4,20 +4,20 @@
     "reward": -1,
     "is_visitable": true,
     "character": " ",
-    "color": "\\033[34m"
+    "color": "blue"
   },
   "1": {
     "is_terminal": false,
     "reward": 0,
     "is_visitable": true,
-    "character": "AB",
-    "color": "\\033[31m"
+    "character": "=^.^=",
+    "color": "red"
   },
   "2": {
     "is_terminal": true,
     "reward": 10,
     "is_visitable": true,
-    "character": "T",
-    "color": "\\033[32m"
+    "character": "<x)))><",
+    "color": "green"
   }
 }
