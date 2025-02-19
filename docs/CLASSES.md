@@ -63,7 +63,7 @@
   * self.policy (can be passed an existing policy, if no policy is passed assume default policy)
   * create_policy(states, actions) -> policy 
 
-- [ ] algorithm (policy) (abstract class)
+- [x] algorithm (policy) (abstract class)
   * self.policy
   * run() -> policy
 
