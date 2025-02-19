@@ -1,3 +1,4 @@
+import os
 from enum import Enum
 from pathlib import Path
 from src.env_core.utils.map_loader import load_map
@@ -37,3 +38,6 @@ class Board:
 
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
         return grid
+
+board = Board(Path('src/env_core/config/piece_config.json'), Path('src/env_core/maps/example.csv'))
+print(board)
