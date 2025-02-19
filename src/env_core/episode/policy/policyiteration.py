@@ -7,7 +7,7 @@ from action_space.action import Action
 class PolicyIteration(Algorithm):
     def __init__(self, board: Board, actions: list[Action], theta_threshold: float, gamma: float):
         assert 0 <= theta_threshold <= 1 and 0 <= gamma <= 1
-        self._policy = Policy()
+        self._policy = Policy(board=board, actions=actions)
         self._board = board
         self._actions = actions
         self._theta_threshold = theta_threshold
@@ -15,15 +15,14 @@ class PolicyIteration(Algorithm):
 
     
     # Setters and getters
-    # @property
-    # def policy(self) -> Policy:
-    #     return self._policy
+    @property
+    def policy(self) -> Policy:
+        return self._policy
     
-    # @policy.getter
-    # def policy(self, new_policy: Policy):
-    #     self._policy = new_policy
+    @policy.getter
+    def policy(self, new_policy: Policy):
+        self._policy = new_policy
 
-    # Setters and getters
     @property
     def board(self) -> Board:
         return self._board
@@ -59,19 +58,16 @@ class PolicyIteration(Algorithm):
     
     def run(self) -> Policy:
         # Policy Evaluation
-
-        delta = 0
-        
         states = []
-        while delta < self._theta_threshold:
-            for state in states:
-                old_value = state.value()
-
-                new_value = 0
-
-                delta = max(delta, abs(old_value - new_value))
+        def expected_utility():
             
-            return 0
+            return
+
+        def policy_evaluation():
+            for i in range(20):
+                for state in states:
+                    pass
+            return
         
         # Policy Improvement
         policy_stable = True

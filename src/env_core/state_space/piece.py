@@ -7,7 +7,8 @@ class Piece:
             reward: float,
             is_visitable: bool,
             character: str,
-            color: str
+            color: str,
+            value: float = 0
     ):
         self._is_terminal = is_terminal
         self._location = location
@@ -16,6 +17,7 @@ class Piece:
         self._is_visitable = is_visitable
         self._character = character
         self._color = color
+        self._value = value
 
     def __str__(self):
         return self._character
@@ -68,3 +70,11 @@ class Piece:
     @property
     def color(self) -> str:
         return self._color
+
+    @property
+    def value(self) -> float:
+        return self._value
+    
+    @value.setter
+    def value(self, new_value):
+        self._value = new_value
