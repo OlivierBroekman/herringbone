@@ -59,7 +59,7 @@
       * get_location_reward()  
       * get_action_reward()   -->
 
-- [ ] policy (float[][] = None)
+- [x] policy (float[][] = None)
   * self.policy (can be passed an existing policy, if no policy is passed assume default policy)
   * create_policy(states, actions) -> policy 
 
