@@ -1,5 +1,5 @@
 ### Terminology  
-- piece: an object on the board (e.g., agent, predator, wall).  
+- piece: an object on the board (e.g., agent, predator, wall, empty square).  
 - board: a 2D array of pieces.
 - reward: positive values indicate a reward, while negative values indicate a cost. Rewards are cumulative.  
 
