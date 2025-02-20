@@ -2,7 +2,7 @@ import json, csv
 from pathlib import Path
 from typing import Any
 
-from src.env_core.episode.state_space.piece import Piece
+from src.env_core.state_space.piece import Piece
 
 
 def load_config(path_config: Path) -> dict:
