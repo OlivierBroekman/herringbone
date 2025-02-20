@@ -58,15 +58,21 @@ class PolicyIteration(Algorithm):
     
     def run(self) -> Policy:
         # Policy Evaluation
-        states = []
-        def expected_utility():
-            
-            return
+        board = self.board
+
+        states = [state for row in board for state in row]
+
+        def expected_utility(state: Piece, action: Action, policy: Policy):            
+            return 
 
         def policy_evaluation():
-            for i in range(20):
+            delta = 0
+
+            while delta <= self.theta_threshold:
                 for state in states:
-                    pass
+                    old_value = state.value
+                    state.value = state.reward + self.gamma * sum()
+                    delta = max(delta, abs(old_value - state.value))
             return
         
         # Policy Improvement
