@@ -1,26 +1,32 @@
 from action_space.action import Action
 from state_space.board import Board
+from state_space.piece import Piece
 
 class Policy:
-    def __init__(self, actions: list[Action], board: Board, policy: list[list[float]] = None):
+    def __init__(self, actions: list[Action], board: Board, policy: dict[Piece, dict[Action, float]] = None):
         self._actions = actions
         self._board = board
         if policy != None: self._policy = policy
         else: self._policy = self.create_default_policy(actions, board)
 
-    def create_default_policy(self, actions: list[Action], board: Board) -> list[list[float]]:
+    def create_default_policy(self, actions: list[Action], board: Board) -> dict[Piece, dict[Action, float]]:
         """
         Creates a default, uniform policy,
         Where every action is just as likely as any other in any state.
+
+        Arguments:
+            actions: list[Action]: List of actions retrieved from action_config.json
+            board: Board: Board retrieved from piece_config.json
+
+        Returns:
+            dict[Piece, dict[Action, float]]: A nested dictionary mapping states and actions to probabilities
         """
         
-        ###
-        # N.B.: Assumption of a rectangular gridworld
-        ###
-        n_states = len(board.pieces) * len(board.pieces[0])
+        states = [state for row in board for state in row]
         m_actions = len(actions)
 
-        policy = [[(1/m_actions) for _ in range(m_actions)] for _ in range(n_states)]
+        policy = {state: {action: (1/m_actions) for action in actions} for state in states}
+
         return policy
     
     # Setters and getters
