@@ -1,7 +1,3 @@
-from xxlimited import new
-from traitlets import Bool
-
-
 class Piece:
     def __init__(
             self,
