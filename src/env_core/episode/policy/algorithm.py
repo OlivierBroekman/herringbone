@@ -2,19 +2,31 @@ from policy import Policy
 from abc import ABC, abstractmethod
 
 class Algorithm(ABC):
-    def __init__(self, policy: Policy):
+    def __init__(
+            self, 
+            policy: Policy
+            ):
+        
         self._policy = policy
     
     # Setter and getter
-    @property
-    def policy(self) -> Policy:
-        return self._policy
-    
-    @policy.setter
-    def policy(self, new_policy: Policy):
+    def set_policy(
+            self, 
+            new_policy: Policy
+            ):
+        
         self._policy = new_policy
+    
+    def get_policy(
+            self
+            ) -> Policy:
+        
+        return self._policy
 
 
     @abstractmethod
-    def run(self) -> Policy:
+    def run(
+        self
+        ) -> Policy:
+        
         pass

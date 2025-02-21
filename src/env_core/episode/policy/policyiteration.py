@@ -1,3 +1,4 @@
+from mdp import MDP
 from algorithm import Algorithm
 from policy import Policy
 from state_space.board import Board
@@ -5,58 +6,101 @@ from state_space.piece import Piece
 from action_space.action import Action
 
 class PolicyIteration(Algorithm):
-    def __init__(self, board: Board, actions: list[Action], theta_threshold: float, gamma: float):
+    def __init__(
+            self, 
+            mdp: MDP, 
+            theta_threshold: float, 
+            gamma: float
+            ):
+        
         assert 0 <= theta_threshold <= 1 and 0 <= gamma <= 1
-        self._policy = Policy(board=board, actions=actions)
-        self._board = board
-        self._actions = actions
+        self._mdp = mdp
+        self._policy = Policy(mdp=self.get_mdp)
+        self._board = mdp.get_board()
+        self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
         self._gamma = gamma
 
     
     # Setters and getters
-    @property
-    def policy(self) -> Policy:
-        return self._policy
+    def set_mdp(
+        self, new_mdp: MDP
+        ):
+
+        self._mdp = new_mdp
     
-    @policy.getter
-    def policy(self, new_policy: Policy):
+    def get_mdp(
+        self
+        ) -> MDP:
+
+        return self._mdp
+
+    def set_policy(
+        self, new_policy: Policy
+        ):
+
         self._policy = new_policy
+    
+    def get_policy(
+        self
+        ) -> Policy:
 
-    @property
-    def board(self) -> Board:
+        return self._policy
+
+    def set_board(
+        self, new_board: Board
+        ):
+
+        self._board = new_board
+    
+    def get_board(
+        self
+        ) -> Board:
+
         return self._board
-    
-    @board.getter
-    def board(self, new_board: Board):
-        self.board = new_board
 
-    @property
-    def actions(self) -> list[Action]:
-        return self._actions
-    
-    @actions.getter
-    def actions(self, new_actions: list[Action]):
+    def set_actions(
+        self, new_actions: list[Action]
+        ):
+
         self._actions = new_actions
+    
+    def get_actions(
+        self
+        ) -> list[Action]:
 
-    @property
-    def theta_threshold(self) -> float:
+        return self._actions
+
+    def set_theta_threshold(
+        self, new_theta_threshold: float
+        ):
+
+        self._theta_threshold = new_theta_threshold
+    
+    def get_theta_threshold(
+        self
+        ) -> float:
+
         return self._theta_threshold
-    
-    @theta_threshold.getter
-    def theta_threshold(self, new_theta):
-        self._theta_threshold = new_theta
 
-    @property
-    def gamma(self) -> float:
-        return self._gamma
-    
-    @gamma.getter
-    def gamma(self, new_gamma: float):
+    def set_gamma(
+        self, new_gamma: float
+        ):
+
         self._gamma = new_gamma
+    
+    def get_gamma(
+        self
+        ) -> float:
+
+        return self._gamma
+
 
     
-    def run(self) -> Policy:
+    def run(
+            self
+            ) -> Policy:
+        
         # Policy Evaluation
         board = self.board
 
