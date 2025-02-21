@@ -22,18 +22,34 @@
   * self.is_terminal  
   * self.location  
   * self.start_location
-  * self.reward #TODO help  
+  * self.reward 
   * self.is_visitable
   * self.character
   * self.color
+  * self.value (for value updating)
 
 ### Action Space  
 - [x] action class  
   * config.json  
-  * self.type  
-  * self._id  
+  * self._id 
+  * self.type
   * self.cost (negative!)  
   * self.movement  
+
+### Transition Space
+- [ ] transitionmatrix class
+  * config.json (?)
+  * self.mdp
+  * self.action
+  * self.matrix
+  * helper(board, action)
+  * \__str__()
+
+
+- [x] MDP class
+  * self.actions
+  * self.board
+  * self.transition_matrices
 
 ### Main Policy  
 //TODO: Improve upon the episode class
@@ -60,6 +76,9 @@
       * get_action_reward()   -->
 
 - [x] policy (float[][] = None)
+  * self.mdp
+  * self.actions
+  * self.board
   * self.policy (can be passed an existing policy, if no policy is passed assume default policy)
   * create_policy(states, actions) -> policy 
 
@@ -67,13 +86,17 @@
   * self.policy
   * run() -> policy
 
-- [ ] policyiteration (policy, theta_threshold, gamma) (algorithm subclass) 
+- [ ] policyiteration (mdp, policy, theta_threshold, gamma) (algorithm subclass)
+  * self.mdp
+  * self.board
+  * self.actions
   * self.policy
   * self.theta_threshold
   * self.gamma
   * run() -> policy
 
-- [ ] valueiteration(states, actions, theta_threshold, gamma)
+- [ ] valueiteration(mdp, theta_threshold, gamma)
+  * self.mdp
   * self.states
   * self.actions
   * self.theta_threshold
