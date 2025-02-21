@@ -52,7 +52,7 @@ class MDP:
                                 new_matrices: dict[Action, TransitionMatrix]
                                 ):
         
-        self.transition_matrices = new_matrices
+        self._transition_matrices = new_matrices
 
     def get_transition_matrices(
             self
