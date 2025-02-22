@@ -1,49 +1,96 @@
+from mdp import MDP
 from action_space.action import Action
 from state_space.board import Board
+from state_space.piece import Piece
 
 class Policy:
-    def __init__(self, actions: list[Action], board: Board, policy: list[list[float]] = None):
-        self._actions = actions
-        self._board = board
+    """This class represents a policy."""
+    def __init__(
+            self, 
+            mdp: MDP, 
+            policy: dict[Piece, dict[Action, float]] = None
+            ):
+        
+        self._mdp = mdp
+        self._actions = mdp.get_actions()
+        self._board = mdp.get_board()
         if policy != None: self._policy = policy
-        else: self._policy = self.create_default_policy(actions, board)
+        else: self._policy = self.create_default_policy(mdp)
 
-    def create_default_policy(self, actions: list[Action], board: Board) -> list[list[float]]:
+    def create_default_policy(
+            self, 
+            actions: list[Action], 
+            board: Board
+            ) -> dict[Piece, dict[Action, float]]:
+        
         """
         Creates a default, uniform policy,
         Where every action is just as likely as any other in any state.
+
+        Arguments:
+            actions: list[Action]: List of actions retrieved from action_config.json
+            board: Board: Board retrieved from piece_config.json
+
+        Returns:
+            dict[Piece, dict[Action, float]]: A nested dictionary mapping states and actions to probabilities
         """
         
-        ###
-        # N.B.: Assumption of a rectangular gridworld
-        ###
-        n_states = len(board.pieces) * len(board.pieces[0])
+        states = [state for row in board for state in row]
         m_actions = len(actions)
 
-        policy = [[(1/m_actions) for _ in range(m_actions)] for _ in range(n_states)]
+        policy = {state: {action: (1/m_actions) for action in actions} for state in states}
+
         return policy
     
     # Setters and getters
-    @property
-    def actions(self) -> list[Action]:
-        return self._actions
-    
-    @actions.setter
-    def actions(self, new_actions: list[Action]):
+    def set_mdp(
+            self, 
+            new_mdp: MDP
+            ):
+        
+        self._mdp = new_mdp
+
+    def get_mdp(
+            self
+            ) -> MDP:
+        
+        return self._mdp
+
+    def set_actions(
+            self, 
+            new_actions: list[Action]
+            ):
+        
         self._actions = new_actions
-    
-    @property
-    def board(self) -> Board:
-        return self._board
-    
-    @board.setter
-    def board(self, new_board):
+
+    def get_actions(
+            self
+            ) -> list[Action]:
+        
+        return self._actions
+
+    def set_board(
+            self, 
+            new_board: Board
+            ): 
+        
         self._board = new_board
 
-    @property
-    def policy(self) -> list[list[float]]:
-        return self._policy
-    
-    @policy.setter
-    def policy(self, new_policy: list[list[float]]):
+    def get_board(
+            self
+            ) -> Board:
+        
+        return self._board
+
+    def set_policy(
+            self, 
+            new_policy: dict[Piece, dict[Action, float]]
+            ):
+        
         self._policy = new_policy
+
+    def get_policy(
+            self
+            ) -> dict[Piece, dict[Action, float]]:
+        
+        return self._policy
