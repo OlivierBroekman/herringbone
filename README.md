@@ -43,7 +43,7 @@ The architecture of the code can be [found here](docs/architecture.md).
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) 
+For information on contributing and coding & Github etiquette read [CONTRIBUTING.md](docs/CONTRIBUTING.md) 
 
 ## Authors
 @olivier-broekman
