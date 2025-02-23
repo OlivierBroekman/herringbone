@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from env_core.action_space.action import Action
 from env_core.state_space.board import Board
 from env_core.state_space.piece import Piece
@@ -21,9 +23,9 @@ class TransitionMatrix:
                 ) -> dict[Piece, dict[Piece, float]]:
             
             states = [piece for row in board for piece in row]
-            direction = action.get_direction()
-            inner = {piece:0. for piece in states}
-            outer = {piece:inner for piece in states}
+            direction = action.get_direction() # !
+            inner = {piece: 0. for piece in states}
+            outer = {piece: deepcopy(inner) for piece in states}
             return outer
 
 
