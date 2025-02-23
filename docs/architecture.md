@@ -1,4 +1,4 @@
-### Terminology  
+## Terminology  
 - piece: an object on the board (e.g., agent, predator, wall, empty square).  
 - board: a 2D array of pieces.
 - reward: positive values indicate a reward, while negative values indicate a cost. Rewards are cumulative.  
@@ -11,6 +11,7 @@
 
 //FIXME: Running into a lot of cross-references between classes
 
+## Classes
 ### State Space  
 - [ ] boardfile
   * piece[][]: self.pieces = map_loader.load_map(filepath)  
@@ -107,7 +108,42 @@
 ### Utils  
 - [x] map_loader
 
-
+## Directory Tree
+```
+.
+├── __init__.py
+├── env_core
+│   ├── __init__.py
+│   ├── action_space
+│   │   ├── __init__.py
+│   │   └── action.py
+│   ├── config
+│   │   ├── action_config.json
+│   │   └── piece_config.json
+│   ├── episode
+│   │   ├── __init__.py
+│   │   ├── episode.py
+│   │   └── policy
+│   │       ├── algorithm.py
+│   │       ├── policy.py
+│   │       ├── policyiteration.py
+│   │       └── random_policy.py
+│   ├── maps
+│   │   └── example.csv
+│   ├── mdp.py
+│   ├── state_space
+│   │   ├── __init__.py
+│   │   ├── board.py
+│   │   └── piece.py
+│   └── utils
+│       ├── __init__.py
+│       ├── map_loader.py
+│       └── render.py
+├── tests
+│   └── __init__.py
+└── transition_space
+    └── transition_matrix.py
+```
 
 
 ---
