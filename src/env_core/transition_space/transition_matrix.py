@@ -16,13 +16,14 @@ class TransitionMatrix:
         
         self._mdp = mdp
         self._action = action
-        self._matrix = helper(board=mdp.get_board(), action=action)
+        self._matrix = self._build_transition_matrix(board=mdp.get_board(), action=action)
         
-        def helper(
+    
+    def _build_transition_matrix(
                 board: Board,
                 action: Action
                 ) -> dict[Piece, dict[Piece, float]]:
-            
+            """Build the transition matrix based on the given board and action."""
             states = [piece for row in board.pieces for piece in row]
 
             board_shape = (len(board.pieces), len(board.pieces[0]))
@@ -34,9 +35,11 @@ class TransitionMatrix:
             outer = {piece: deepcopy(inner) for piece in states}
 
             # 2D ASSUMPTION 
+            # Assign transition probabilities
             for piece in states:
                 idx = piece.get_location()
                 for direction, probability in zip(directions, probabilities):
+                    # Make sure probabilities are only added for locations inside of bounds
                     new_idx = [np.clip(idx[0] + direction[0], a_min=0, a_max=board_shape[0] - 1),
                                 np.clip(idx[1] + direction[1], a_min=0, a_max=board_shape[1] - 1)]
                     new_piece = board.pieces[new_idx[0]][new_idx[1]]
@@ -44,7 +47,7 @@ class TransitionMatrix:
             return outer
 
 
-    # Setter and getter
+    # Setters and getters
     def set_mdp(
         self, 
         new_mdp: MDP):
