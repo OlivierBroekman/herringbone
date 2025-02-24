@@ -35,7 +35,8 @@
   * self._id 
   * self.type
   * self.cost (negative!)  
-  * self.movement  
+  * self.directions
+  * self.probabilities  
 
 ### Transition Space
 - [ ] transitionmatrix class
