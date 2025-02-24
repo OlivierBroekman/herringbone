@@ -1,5 +1,6 @@
 # Customization
-> *note that these configs are subject to change, the up-to-date formats can be found in the config directory*.
+> [!IMPORTANT]
+> *These configs are subject to change, the up-to-date formats can be found in the config directory*.
 
 The package can be customized/configured in the following ways:
 1. Custom maps
@@ -22,6 +23,7 @@ IDs can be tweaked in the pieces config.
 ### Custom Pieces
 A piece contains the properties of a field on the board (note that this contains the empty field/piece). The pieces config maps the ID of a piece to its properties, and is essential for loading maps.
 
+> [!WARNING]
 > **IMPORTANT**: A pieces config should ALWAYS contain a 0 for empty field and 1 for agent!
 
 *Default:*
