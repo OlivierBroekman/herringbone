@@ -3,7 +3,7 @@
         "id": 0,
         "type": "movement",
         "directions": [
-            [0,1]
+            [-1,0]
         ],
         "probabilities": [
             1
@@ -14,7 +14,7 @@
         "id": 1,
         "type": "movement",
         "directions": [
-            [0,-1]
+            [1,0]
         ],
         "probabilities": [
             1
@@ -25,7 +25,7 @@
         "id": 2,
         "type": "movement",
         "directions": [
-            [-1,0]
+            [0,-1]
         ],
         "probabilities": [
             1
@@ -36,7 +36,7 @@
         "id": 3,
         "type": "movement",
         "directions": [
-            [1,0]
+            [0,1]
         ],
         "probabilities": [
             1
