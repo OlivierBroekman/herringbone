@@ -2,8 +2,10 @@
     "up": {
         "id": 0,
         "type": "movement",
-        "direction": [
-            0,
+        "directions": [
+            [0,1]
+        ],
+        "probabilities": [
             1
         ],
         "cost": 0
@@ -11,36 +13,44 @@
     "down": {
         "id": 1,
         "type": "movement",
-        "direction": [
-            0,
-            -1
+        "directions": [
+            [0,-1]
+        ],
+        "probabilities": [
+            1
         ],
         "cost": 0
     },
     "left": {
         "id": 2,
         "type": "movement",
-        "direction": [
-            -1,
-            0
+        "directions": [
+            [-1,0]
+        ],
+        "probabilities": [
+            1
         ],
         "cost": 0
     },
     "right": {
         "id": 3,
         "type": "movement",
-        "direction": [
-            1,
-            0
+        "directions": [
+            [1,0]
+        ],
+        "probabilities": [
+            1
         ],
         "cost": 0
     },
     "observe": {
         "id": 4,
         "type": "observation",
-        "direction": [
-            0,
-            0
+        "directions": [
+            [0,0]
+        ],
+        "probabilities": [
+            1
         ],
         "cost": 1
     }

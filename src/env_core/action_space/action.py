@@ -7,7 +7,10 @@ class Action:
         
         self.__id = config["id"]
         self._type = config["type"]
-        self._direction = config["direction"]
+        self._directions = config["directions"]
+        self._probabilities = config["probabilities"]
+        assert sum(config["probabilities"]) == 1
+        assert len(config["probabilities"] == config["directions"])
         self._cost = config["cost"]
 
     # Setters and getters
@@ -24,18 +27,31 @@ class Action:
         
         return self._type
     
-    def set_direction(
+    def set_directions(
             self, 
-            new_direction: list[int]
+            new_directions: list[list[int]]
             ):
         
-        self._direction = new_direction
+        self._directions = new_directions
 
-    def get_direction(
+    def get_directions(
             self
-            ) -> list[int]:
+            ) -> list[list[int]]:
         
-        return self._direction
+        return self._directions
+    
+    def set_probabilities(
+            self, 
+            new_probs: list[float]
+            ):
+        
+        self._probabilities = new_probs
+
+    def get_probabilities(
+            self
+            ) -> list[float]:
+        
+        return self._probabilities
     
     def set_cost(
             self, 
