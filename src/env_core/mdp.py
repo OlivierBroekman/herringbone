@@ -52,7 +52,7 @@ class MDP:
             self
         ) -> list[list[Piece]]:
 
-        return self._board.pieces
+        return [piece for row in self._board.pieces for piece in row]
     
     def set_transition_matrices(self, 
                                 new_matrices: dict[Action, TransitionMatrix]
