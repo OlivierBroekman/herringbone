@@ -39,3 +39,22 @@ for e in episodes:
 final_ep = Episode(algorithm, max_depth)
 final_ep.show = True
 final_ep.run()
+
+# %%
+import herringbone
+
+# Create a Piece instance
+hw = herringbone.Piece(
+    is_terminal=False,
+    location=[1, 2],
+    start_location=[0, 0],
+    reward=10.0,
+    is_visitable=True,
+    character="hello_world!",
+    color="red",
+    value=5.0
+)
+
+print(hw)
+
+# %%

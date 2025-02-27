@@ -1,0 +1,1 @@
+from .map_loader import load_map
