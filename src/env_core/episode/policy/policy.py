@@ -15,7 +15,7 @@ class Policy:
         self._actions = mdp.get_actions()
         self._board = mdp.get_board()
         if policy != None: self._policy = policy
-        else: self._policy = self.create_default_policy(mdp)
+        else: self._policy = self.create_default_policy(actions=mdp.get_actions(), board=mdp.get_board())
 
     def create_default_policy(
             self, 

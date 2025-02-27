@@ -3,13 +3,18 @@
 - board: a 2D array of pieces.
 - reward: positive values indicate a reward, while negative values indicate a cost. Rewards are cumulative.  
 
-> Note: "Colliding" with a piece grants a reward; collisions are piece-based, not cell-based. This allows for dynamic objects.  
-> A trap is a static piece that acts as a terminal state.  
-> A wall is a "non-visitable" piece. 
+## Remarks 
+> [!NOTE] 
+> "Colliding" with a piece grants a reward; collisions are piece-based, not cell-based. This allows for dynamic objects.  
 
-> The Policy Iteration algorithm combines both the policy evaluation and policy improvement algorithms, for simplicity's sake we will make one class algorithm (policy iteration) encapsulating both policy evaluation and policy improvement.
+- A trap is a static piece that acts as a terminal state.  
+- A wall is a "non-visitable" piece. 
 
-//FIXME: Running into a lot of cross-references between classes
+- The Policy Iteration algorithm combines both the policy evaluation and policy improvement algorithms, for simplicity's sake we will make one class algorithm (policy iteration) encapsulating both policy evaluation and policy improvement.
+
+
+> [!WARNING]
+> //FIXME: Running into a lot of cross-references between classes
 
 ## Classes
 ### State Space  
@@ -35,7 +40,8 @@
   * self._id 
   * self.type
   * self.cost (negative!)  
-  * self.movement  
+  * self.directions
+  * self.probabilities  
 
 ### Transition Space
 - [ ] transitionmatrix class

@@ -48,6 +48,12 @@ class MDP:
         
         return self._board
     
+    def get_states(
+            self
+        ) -> list[list[Piece]]:
+
+        return [piece for row in self._board.pieces for piece in row]
+    
     def set_transition_matrices(self, 
                                 new_matrices: dict[Action, TransitionMatrix]
                                 ):
