@@ -2,7 +2,7 @@
 <p><img src="https://i.imgur.com/gkM0qIe.png" alt="Logo" width="300"></p>
 </div>
 
-# [NAME] - Reinforcement Learning Env.
+# herringbone - Reinforcement Learning Env.
 
 
 Customizable grid world environment and algorithm set for reinforcement learning.
@@ -18,16 +18,16 @@ To install the package, clone the repository or download it from the [release pa
 git clone https://github.com/olivier-broekman/reinforcement-learning.git
 ```
 
-To use the package either install it locally: *[wise to rename src?]*
+To use the package either install it locally: 
 
 ```bash
 cd reinforcement-learning
 pip install .
 ```
 
-... or put the src folder in your working directory.
+... or put the herringbone folder in your working directory.
 
-You can now use the environment with `import [package-name]`. 
+You can now use the environment with `import herringbone`. 
 
 ### Demo
 A demon file on how to use the package can be found in `.ipynb` and `.py` format can be found in the main repo.
@@ -43,12 +43,15 @@ The architecture of the code can be [found here](docs/architecture.md).
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) 
+For information on contributing and coding & Github etiquette read [CONTRIBUTING.md](docs/CONTRIBUTING.md) 
 
 ## Authors
-@olivier-broekman
-@hujanbiru
-@bram-bolt
+
+[@olivier-broekman](https://github.com/OlivierBroekman)
+
+[@jiworo](https://github.com/jiworo)
+
+[@bram-bolt](https://github.com/Bram-Bolt)
 
 ## License
 This project is licensed under the ??? License - see the  [LICENSE](LICENSE)  file for details.

@@ -1,7 +1,7 @@
 import os
 from enum import Enum
 from pathlib import Path
-from src.env_core.utils.map_loader import load_map
+from herringbone import load_map
 
 
 class Color(Enum):

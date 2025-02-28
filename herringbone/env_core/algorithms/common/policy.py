@@ -1,7 +1,5 @@
-from mdp import MDP
-from action_space.action import Action
-from state_space.board import Board
-from state_space.piece import Piece
+from herringbone import MDP, Piece, Board, Action
+
 
 class Policy:
     """This class represents a policy."""

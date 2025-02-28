@@ -1,9 +1,4 @@
-from mdp import MDP
-from algorithm import Algorithm
-from policy import Policy
-from state_space.board import Board
-from state_space.piece import Piece
-from action_space.action import Action
+from herringbone import MDP, Algorithm, Policy, Board, Piece, Action
 
 class PolicyIteration(Algorithm):
     def __init__(
