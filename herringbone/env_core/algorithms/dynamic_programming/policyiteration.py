@@ -10,7 +10,7 @@ class PolicyIteration(Algorithm):
         
         assert 0 <= theta_threshold <= 1 and 0 <= gamma <= 1
         self._mdp = mdp
-        self._policy = Policy(mdp=self.get_mdp)
+        self._policy = Policy(mdp=self.get_mdp).get_policy()
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
@@ -97,22 +97,63 @@ class PolicyIteration(Algorithm):
             ) -> Policy:
         
         # Policy Evaluation
-        board = self.board
+        board = self._board
 
-        states = [state for row in board for state in row]
+        states = self._mdp.get_states()
 
-        def expected_utility(state: Piece, action: Action, policy: Policy):            
-            return 
+        # state_values = {state: 0 for state in states}
 
-        def policy_evaluation():
+        def expected_utility(
+                state: Piece,
+                action: Action, 
+                mdp: MDP
+                ) -> float: 
+            
+            """Get the expected utility of some state action pair"""
+            
+            # Get correct transition matrix for the given state/action pair. 
+            # This matrix has a probability assigned of moving to that state given the initial state and action
+            matrix = mdp.get_transition_matrices()[action][state]
+            
+            # Get the expected utility of the state by summing the product 
+            # of all probabilities with the value of each successor state
+            exp_utility = sum(probability * new_state.get_value()
+                              for new_state, probability in matrix.items())
+            return exp_utility
+
+        def policy_evaluation(
+                policy: Policy,
+                mdp: MDP
+                ):
+            """
+            Policy Evaluation algorithm, based on 
+            Reinforcement Learning: An Introduction by Sutton, R. & Barto, A.
+            """
+            
+            # We only need to initialise delta, as all states have already been given a default value of 0
             delta = 0
 
-            while delta <= self.theta_threshold:
+            while delta <= self.get_theta_threshold():
                 for state in states:
-                    old_value = state.value
-                    state.value = state.reward + self.gamma * sum()
+                    old_value = state.get_value()
+                    new_value = 0
+                    # Loop over all of the possible actions given by the policy
+                    for action, action_probability in policy[state].items():
+                        # Get all possible new states for each action, given by the transition matrix
+                        for new_state, transition_probability in mdp.get_transition_matrices()[action][state].items():
+                            # Calculate the expected value of the state
+                            new_value += (action_probability 
+                                          * transition_probability 
+                                          * (state.get_reward() 
+                                             + self.get_gamma() 
+                                             * new_state.get_value()))
+                    
+                    state.set_value(new_value)
+                    
+                    # Stopping criterion
                     delta = max(delta, abs(old_value - state.value))
-            return
+
+                    # We do not need to return anything as the values are a field of the Piece class
         
         # Policy Improvement
         policy_stable = True
