@@ -12,6 +12,7 @@ class Action:
         assert sum(config["probabilities"]) == 1
         assert len(config["probabilities"] == config["directions"])
         self._cost = config["cost"]
+        self._value = 0
 
     # Setters and getters
     def set_type(
@@ -65,3 +66,16 @@ class Action:
             ) -> int:
         
         return self._cost
+    
+    def set_value(
+            self, 
+            new_val: float
+            ):
+        
+        self._value = new_val
+    
+    def get_value(
+            self
+            ) -> float:
+        
+        return self._value
