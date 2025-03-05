@@ -1,68 +1,61 @@
 import numpy as np
-import random
-from src.env_core.action_space.action import Action
-from src.env_core.state_space import Piece
-from dataclasses import dataclass
+from herringbone import Action, Piece, Policy, Episode, Trajectory
 from typing import List, Dict, Tuple
 
-@dataclass
-class Step:
-    state: Piece
-    action: Action
-    reward: float
 
-class MC_Control:
+class MonteCarloController:
     def __init__(self, mdp, discount=0.9, epsilon=0.1):
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
 
-        # Initialize
-        # Q(s, a) and returns
-        self.q_values: Dict[Piece, Dict[Action, float]] = {s: {a: 0.0 for a in mdp.actions(s)} for s in mdp.states}
-        self.returns: Dict[Tuple[Piece, Action], List[float]] = {} # will make later
-        # arbitrray policy
-        self.policy = {s: random.choice(list(self.q_values[s].keys())) for s in mdp.states}
+        # Arbitrary policy
+        self.policy = Policy(mdp)
+        # Arbitrary Q(s, a)
+        self.q_values: Dict[Piece, Dict[Action, float]] = {
+            s: {a: 0.0 for a in mdp.get_actions(s)} for s in mdp.get_states()
+        }
+        # Initialize Returns for every (s, a) pair with empty lists
+        self.returns: Dict[Tuple[Piece, Action], List[float]] = {
+            (s, a): [] for s in mdp.get_states() for a in mdp.get_actions(s)
+        }
 
-
-    def update_q_values(self, history: List[Step]):
+    def update_q_values(self, trajectory: Trajectory):
         """First-visit Monte Carlo update for Q(s, a)."""
+        S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
+        T = len(S)
         G = 0
-        visited_pairs = set()
-        for t in reversed(range(len(history))):  # Backward update (kan allebei ik weet niet wat het beste is?)
-            step = history[t]
-            S_t, A_t, R_t = step.state, step.action, step.reward
-            G = self.discount * G + R_t  # Compute return
+        for t in reversed(range(T - 1)):
+            G = self.discount * G + R[t + 1]  # Compute return
+            if (S[t], A[t]) not in list(zip(S[:t], A[:t])):  # First-visit MC
 
-            if (S_t, A_t) not in visited_pairs:  # First-visit MC
-                visited_pairs.add((S_t, A_t))
+                self.returns[(S[t], A[t])].append(G)
+                self.q_values[S[t]][A[t]] = np.mean(self.returns[(S[t], A[t])])  #
 
-                if (S_t, A_t) not in self.returns: # init empty list
-                    self.returns[(S_t, A_t)] = []
+                best_action = max(
+                    self.q_values[S[t]], key=self.q_values[S[t]].get
+                )  # argmax_a Q(S_t,a)
 
-                self.returns[(S_t, A_t)].append(G)
-                self.q_values[S_t][A_t] = np.mean(self.returns[(S_t, A_t)])
+                for a in (actions := self.mdp.get_actions(S[t])):
+                    if a == best_action:
+                        new_prob = 1 - self.epsilon + (self.epsilon / len(actions))
+                    else:
+                        new_prob = self.epsilon / len(actions)
 
-                # Policy improvement (make greedy)
-                best_action = max(self.q_values[S_t], key=self.q_values[S_t].get) 
-        
-                self.policy[S_t] = best_action
-                
-                # need to understand book to finish this
-                
-                # episolon greedy?
-                
+                    self.policy.update_policy_action(S[t], a, new_prob)
+                #   self.policy.update_policy_action(
+                #                         S[t],
+                #                         a,
+                #                         (
+                #                             1 - self.epsilon + (self.epsilon / len(actions))
+                #                             if a == best_action
+                #                             else self.epsilon / len(actions)
+                #                         ),
+                #                     ) # if statements or? # if similar smoothing is required for other alg pls let me know
+
     def train(self, n_episodes):
-        for _ in range(n_episodes): 
+        for _ in range(n_episodes):
             ep = Episode(self.policy, self.mdp)
             ep.run()
-            history: List[Step] = ep.history()
-            self.update_q_values(history)
-        
-        
-# Example Usage
-discount = 0.9
-mc_control = MC_Control(mdp, discount)
-mc_control.train(n_episodes=10000) 
-
-optimal_policy = mc_control.policy
+            trajectory = ep.trajectory()
+            self.update_q_values(trajectory)

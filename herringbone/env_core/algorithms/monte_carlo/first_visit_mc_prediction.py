@@ -1,40 +1,61 @@
-from typing import List
-from herringbone import MDP, Episode, Policy, Trajectory
 import numpy as np
+from herringbone import Action, Piece, Policy, Episode, Trajectory
+from typing import List, Dict, Tuple
 
 
-class MonteCarloPredictor:
-    # initialize
-    # V(s) for all s in States
-    # Returns(S) <- an empty list for all s in S(t)
-
-    def __init__(self, mdp: MDP, discount: float):
+class MonteCarloController:
+    def __init__(self, mdp, discount=0.9, epsilon=0.1):
         self.mdp = mdp
         self.discount = discount
-        self.returns = {}
-        self.value_functions = {}
-        for s in mdp.get_states():
-            self.value_functions[s] = 0
-            self.returns[s] = []
+        self.epsilon = epsilon
 
-    # input: policy
-    def evaluate_policy(self, policy: Policy, n_samples=1000):
-        """Runs policy evaluation using Monte Carlo simulation."""
-        for n in range(n_samples):
-            ep = Episode(policy=policy, mdp=self.mdp)
-            ep.run()
-            trajectory: Trajectory = (
-                ep.trajectory()
-            )  # trajectory -> (List[Piece], List[Action], List[Reward])
-            self.update_value_function(trajectory)
+        # Arbitrary policy
+        self.policy = Policy(mdp)
+        # Arbitrary Q(s, a)
+        self.q_values: Dict[Piece, Dict[Action, float]] = {
+            s: {a: 0.0 for a in mdp.get_actions(s)} for s in mdp.get_states()
+        }
+        # Initialize Returns for every (s, a) pair with empty lists
+        self.returns: Dict[Tuple[Piece, Action], List[float]] = {
+            (s, a): [] for s in mdp.get_states() for a in mdp.get_actions(s)
+        }
 
-    def update_value_function(self, trajectory: Trajectory):
-        """First-visit Monte Carlo update for V"""
+    def update_q_values(self, trajectory: Trajectory):
+        """First-visit Monte Carlo update for Q(s, a)."""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)
         G = 0
         for t in reversed(range(T - 1)):
-            G = self.discount * G + R[t + 1]
-            if S[t] not in S[:t]:  # check if it is first time visiting the state
-                self.returns[S[t]].append(G)
-                self.value_functions[S[t]] = np.mean(self.returns[S[t]])
+            G = self.discount * G + R[t + 1]  # Compute return
+            if (S[t], A[t]) not in list(zip(S[:t], A[:t])):  # First-visit MC
+
+                self.returns[(S[t], A[t])].append(G)
+                self.q_values[S[t]][A[t]] = np.mean(self.returns[(S[t], A[t])])  #
+
+                best_action = max(
+                    self.q_values[S[t]], key=self.q_values[S[t]].get
+                )  # argmax_a Q(S_t,a)
+
+                for a in (actions := self.mdp.get_actions(S[t])):
+                    if a == best_action:
+                        new_prob = 1 - self.epsilon + (self.epsilon / len(actions))
+                    else:
+                        new_prob = self.epsilon / len(actions)
+
+                    self.policy.update_policy_action(S[t], a, new_prob)
+                #   self.policy.update_policy_action(
+                #                         S[t],
+                #                         a,
+                #                         (
+                #                             1 - self.epsilon + (self.epsilon / len(actions))
+                #                             if a == best_action
+                #                             else self.epsilon / len(actions)
+                #                         ),
+                #                     ) # if statements or? # if similar smoothing is required for other alg pls let me know
+
+    def train(self, n_episodes):
+        for _ in range(n_episodes):
+            ep = Episode(self.policy, self.mdp)
+            ep.run()
+            trajectory = ep.trajectory()
+            self.update_q_values(trajectory)
