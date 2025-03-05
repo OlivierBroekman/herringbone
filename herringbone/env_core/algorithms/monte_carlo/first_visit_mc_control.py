@@ -4,7 +4,7 @@ from typing import List, Dict, Tuple
 
 
 class MonteCarloController:
-    def __init__(self, mdp, discount=0.9, epsilon=0.1):
+    def __init__(self, mdp, discount=0.9, epsilon=0.1, seed=42):
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
