@@ -1,8 +1,6 @@
 from .action_space import Action
-from .algorithms import Policy
-from .algorithms import Algorithm 
-from .algorithms import PolicyIteration
-from .episode import Episode
+from .algorithms import (Policy, Algorithm, PolicyIteration, MonteCarloController, MonteCarloPredictor)
+from .episode import Episode, Trajectory
 from .state_space import Piece
 from .state_space import Board
 from .transition_space import TransitionMatrix

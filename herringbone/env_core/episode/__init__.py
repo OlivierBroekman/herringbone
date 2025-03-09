@@ -1,1 +1,1 @@
-from .episode import Episode
+from .episode import Episode, Trajectory
