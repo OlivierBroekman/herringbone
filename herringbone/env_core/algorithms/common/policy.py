@@ -37,8 +37,32 @@ class Policy:
         m_actions = len(actions)
 
         policy = {state: {action: (1/m_actions) for action in actions} for state in states}
-
+    
         return policy
+
+    def update_policy_action(self, state: Piece, action: Action, probability: float):
+        """
+        Updates the probability of taking a specific action in a given state.
+        """
+        if state not in self._policy:
+            raise ValueError("State not found in policy.")
+        
+        if action not in self._policy[state]:
+            raise ValueError("Action not found in policy.")
+
+        # Update the action probability
+        self._policy[state][action] = probability
+
+        # Normalize
+        total_prob = sum(self._policy[state].values())
+        
+        if total_prob == 0:
+            raise ValueError("Total probability for state is zero, cannot normalize.")
+    
+        for a in self._policy[state]:
+            self._policy[state][a] /= total_prob
+  
+
     
     # Setters and getters
     def set_mdp(

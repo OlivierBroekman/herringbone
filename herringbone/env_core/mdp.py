@@ -50,7 +50,7 @@ class MDP:
     
     def get_states(
             self
-        ) -> list[list[Piece]]:
+        ) -> list[Piece]:
 
         return [piece for row in self._board.pieces for piece in row]
     
