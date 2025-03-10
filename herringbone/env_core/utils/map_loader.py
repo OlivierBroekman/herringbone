@@ -1,14 +1,13 @@
-import json, csv
-from pathlib import Path
+import csv, json
 from typing import Any
+from pathlib import Path
 
-from src.env_core.state_space.piece import Piece
+from herringbone.env_core.state_space.piece import Piece
 
 
 def load_config(
-        path_config: Path
-        ) -> dict:
-    
+    path_config: Path
+) -> dict:
     try:
         with open(path_config, 'r') as config:
             return json.load(config)
@@ -19,23 +18,21 @@ def load_config(
 
 
 def read_map(
-        path_map: Path
-        ) -> list[list[int]]:
-    
+    path_map: Path
+) -> list[list[int]]:
     try:
         with open(path_map, 'r') as map_:
             return [[int(cell) for cell in row] for row in csv.reader(map_)]
     except FileNotFoundError:
         raise FileNotFoundError(f"'{path_map}' not found.")
-    except ValueError as e:
+    except ValueError:
         raise ValueError(f"Cannot decode CSV '{path_map}'")
 
 
 def init_piece(
-        piece_vals: dict[str, Any], 
-        coordinates: list[int]
-        ) -> Piece:
-    
+    piece_vals: dict[str, Any],
+    coordinates: list[int]
+) -> Piece:
     try:
         return Piece(
             is_terminal=piece_vals["is_terminal"],
@@ -51,10 +48,9 @@ def init_piece(
 
 
 def load_map(
-        path_config: Path, 
-        path_map: Path
-        ) -> list[list[Piece]]:
-    
+    path_config: Path,
+    path_map: Path
+) -> list[list[Piece]]:
     config = load_config(Path(path_config))
     map_ = read_map(Path(path_map))
 
