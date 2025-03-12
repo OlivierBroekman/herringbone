@@ -85,11 +85,13 @@ class TransitionMatrix:
         return self._matrix
 
     def get_successor_state(
-            self,
-            piece: Piece
+        self,
+        state: Piece
     ) -> dict[Piece, float]:
-        return {k: v for k, v in self.get_matrix()[piece].items() if v != 0}
-        
+        return {
+            state_prime: prob_trans
+            for state_prime, prob_trans in self.get_matrix()[state].items() if prob_trans != 0
+            }
 
     def __str__(
         self
