@@ -26,7 +26,10 @@ class Sarsa(TDControl):
             action = self.policy.select_action(state, self.q_values)
 
             while not state.get_terminal():
-                state_prime = self.mdp.get_board().get_state_from_action(state, action)  # TODO via transition matrix
+                state_prime = max(
+                    self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),
+                    key=lambda state_prob_pair: state_prob_pair[1]
+                )[0]
                 reward = state_prime.get_reward()
                 action_prime = self.policy.select_action(state_prime, self.q_values)
 

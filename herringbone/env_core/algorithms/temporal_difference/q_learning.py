@@ -28,7 +28,10 @@ class QLearning(TDControl):
 
             while not state.get_terminal():
                 action = self.policy.select_action(state, self.q_values)
-                state_prime = self.mdp.get_board().get_state_from_action(state, action)  # TODO via trans matrix
+                state_prime = max(
+                    self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),
+                    key=lambda state_prob_pair: state_prob_pair[1]
+                )[0]
                 reward = state_prime.get_reward()
 
                 self.update_q_values(state, action, reward, state_prime)
