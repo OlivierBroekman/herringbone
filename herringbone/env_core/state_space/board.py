@@ -27,20 +27,6 @@ class Board:
     ):
         self.pieces = load_map(path_config, path_map)
 
-    def get_state_from_action(
-        self,
-        state: Piece,
-        action: Action
-    ) -> Piece:
-        if action.get_type() == "movement":
-            x, y = state.get_location()
-            dx, dy = action.get_directions()[0]
-            x_successor, y_successor = min(x + dx, len(self.pieces) - 1), min(y + dy, len(self.pieces[0]) - 1)
-
-            return self.pieces[x_successor][y_successor]
-
-        return state
-
     def observe_pieces(
         self
     ) -> dict:
