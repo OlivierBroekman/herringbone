@@ -2,7 +2,7 @@ import numpy as np
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.state_space import Piece
 from herringbone.env_core.episode import Trajectory, Episode
-from herringbone.env_core.algorithms.common import Policy
+from herringbone.env_core.algorithms.common import EpsilonGreedyPolicy, Policy
 from herringbone.env_core.mdp import MDP
 from typing import List, Dict, Tuple
 
@@ -12,9 +12,11 @@ class MonteCarloController:
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
+        self.rng = np.random.RandomState(seed)
+        
 
         # Arbitrary policy
-        self.policy = Policy(mdp)
+        self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
         # Arbitrary Q(s, a)
         self.q_values: Dict[Piece, Dict[Action, float]] = {
             s: {a: 0.0 for a in mdp.get_actions(s)} for s in mdp.get_states()
@@ -47,19 +49,12 @@ class MonteCarloController:
                         new_prob = self.epsilon / len(actions)
 
                     self.policy.update_policy_action(S[t], a, new_prob)
-                #   self.policy.update_policy_action(
-                #                         S[t],
-                #                         a,
-                #                         (
-                #                             1 - self.epsilon + (self.epsilon / len(actions))
-                #                             if a == best_action
-                #                             else self.epsilon / len(actions)
-                #                         ),
-                #                     ) # if statements or? # if similar smoothing is required for other alg pls let me know
+    
 
     def train(self, n_episodes):
         for _ in range(n_episodes):
-            ep = Episode(self.policy, self.mdp)
+            episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
+            ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed)
             ep.run()
             trajectory = ep.trajectory()
             self.update_q_values(trajectory)

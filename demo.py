@@ -21,9 +21,9 @@ with open(action_path, "r") as file: #TODO does action not have a build in reade
 actions = [hb.Action(config) for config in actions_config.values()]
 
 
-mdp = hb.MDP(actions=actions, board=board)
-random_policy = hb.EpsilonGreedyPolicy(mdp=mdp, epsilon=1)
-episode = hb.Episode(mdp=mdp, policy=random_policy, max_depth=1000)
+demo_mdp = hb.MDP(actions=actions, board=board)
+random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
+episode = hb.Episode(mdp=demo_mdp, policy=random_policy, max_depth=1000)
 episode.peek()
 
 episode.run()

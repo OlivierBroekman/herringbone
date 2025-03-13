@@ -8,7 +8,7 @@
   },
   "1": {
     "is_terminal": false,
-    "reward": 0,
+    "reward": -1,
     "is_visitable": true,
     "character": "=^.^=",
     "color": "red"

@@ -3,7 +3,7 @@ from herringbone.env_core.state_space import Board, Piece
 from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
 from dataclasses import dataclass
-
+import random
 
 @dataclass
 class Trajectory:
@@ -30,6 +30,8 @@ class Episode:
         # Settings
         self.max_depth = max_depth
         self.seed = seed
+        random.seed(self.seed)
+
      
         # Innitalisation
         self.agent_coordinates = start_agent_coordinates # another name? agent_coords does not really solve the length issue.
@@ -47,7 +49,7 @@ class Episode:
         action = None
         while not state.get_is_terminal() and depth < self.max_depth:
             #TODO: REMOVE DEBUG
-            print(f"t: {depth} | S{state}, R:{reward}, A:{action}" ) 
+            # print(f"t: {depth} | S{state}, R:{reward}, A:{action}" ) 
             if self.live_render:
                 pass
                # utils.render(board, coords)
@@ -59,7 +61,7 @@ class Episode:
             # Update trajectory
             self.trajectory.states.append(state)
             self.trajectory.actions.append(action)
-            self.trajectory.actions.append(reward)
+            self.trajectory.rewards.append(reward)
             
             # Get new state
             state_prime = max(
