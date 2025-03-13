@@ -1,5 +1,7 @@
 from typing import List
-from herringbone import MDP, Policy, Board
+from herringbone.env_core.state_space import Board
+from herringbone.env_core.algorithms.common import Policy
+from herringbone.env_core.mdp import MDP
 from dataclasses import dataclass
 
 

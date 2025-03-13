@@ -1,8 +1,7 @@
-from action_space.action import Action
-from env_core.action_space import action
-from env_core.state_space.piece import Piece
-from state_space.board import Board
-from transition_space.transition_matrix import TransitionMatrix
+
+from herringbone.env_core.action_space import Action
+from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.transition_space import TransitionMatrix
 
 class MDP:
     def __init__(

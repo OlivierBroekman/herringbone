@@ -1,6 +1,9 @@
 import numpy as np
 
-from herringbone import MDP, Algorithm, Policy, Board, Piece, Action
+from herringbone.env_core.action_space import Action
+from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.mdp import MDP
+from herringbone.env_core.algorithms import Algorithm, Policy
 
 class PolicyIteration(Algorithm):
     def __init__(

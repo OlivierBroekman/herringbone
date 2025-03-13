@@ -1,9 +1,8 @@
 from enum import Enum
 from pathlib import Path
 
-from herringbone.env_core.action_space.action import Action
 from herringbone.env_core.utils.map_loader import load_map
-from herringbone.env_core.state_space.piece import Piece
+
 
 
 class Color(Enum):

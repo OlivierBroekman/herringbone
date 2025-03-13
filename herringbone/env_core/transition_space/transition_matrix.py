@@ -1,16 +1,16 @@
 from copy import deepcopy
 import numpy as np
 
-from env_core.action_space.action import Action
-from env_core.state_space.board import Board
-from env_core.state_space.piece import Piece
-from env_core.mdp import MDP
+from herringbone.env_core.action_space.action import Action
+from herringbone.env_core.state_space.board import Board
+from herringbone.env_core.state_space.piece import Piece
+
 
 class TransitionMatrix:
     """This class represents a state transition matrix."""
     def __init__(
             self, 
-            mdp: MDP, 
+            mdp, 
             action: Action
             ):
         
@@ -50,13 +50,13 @@ class TransitionMatrix:
     # Setters and getters
     def set_mdp(
         self, 
-        new_mdp: MDP):
+        new_mdp):
 
         self._mdp = new_mdp
     
     def get_mdp(
         self
-        ) -> MDP:
+        ):
 
         return self._mdp
     

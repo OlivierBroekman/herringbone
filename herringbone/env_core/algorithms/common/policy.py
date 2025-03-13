@@ -1,4 +1,6 @@
-from herringbone import MDP, Piece, Board, Action
+from herringbone.env_core.action_space import Action
+from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.mdp import MDP
 
 
 class Policy:

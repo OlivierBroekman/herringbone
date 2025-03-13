@@ -1,10 +1,14 @@
 import numpy as np
-from herringbone import Action, Piece, Policy, Episode, Trajectory
+from herringbone.env_core.action_space import Action
+from herringbone.env_core.state_space import Piece
+from herringbone.env_core.episode import Trajectory, Episode
+from herringbone.env_core.algorithms.common import Policy
+from herringbone.env_core.mdp import MDP
 from typing import List, Dict, Tuple
 
 
 class MonteCarloController:
-    def __init__(self, mdp, discount=0.9, epsilon=0.1, seed=42):
+    def __init__(self, mdp: MDP, discount=0.9, epsilon=0.1, seed=42):
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon

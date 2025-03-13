@@ -1,5 +1,6 @@
-from typing import List
-from herringbone import MDP, Episode, Policy, Trajectory
+from herringbone.env_core.mdp import MDP
+from herringbone.env_core.episode import Trajectory, Episode
+from herringbone.env_core.algorithms.common import Policy
 import numpy as np
 
 

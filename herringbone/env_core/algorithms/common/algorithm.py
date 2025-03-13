@@ -1,4 +1,4 @@
-from herringbone import Policy
+from herringbone.env_core.algorithms.common import Policy
 from abc import ABC, abstractmethod
 
 class Algorithm(ABC):
