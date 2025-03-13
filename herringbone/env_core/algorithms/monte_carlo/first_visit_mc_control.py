@@ -19,11 +19,11 @@ class MonteCarloController:
         self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
         # Arbitrary Q(s, a)
         self.q_values: Dict[Piece, Dict[Action, float]] = {
-            s: {a: 0.0 for a in mdp.get_actions(s)} for s in mdp.get_states()
+            s: {a: 0.0 for a in mdp.get_actions()} for s in mdp.get_states()
         }
         # Initialize Returns for every (s, a) pair with empty lists
         self.returns: Dict[Tuple[Piece, Action], List[float]] = {
-            (s, a): [] for s in mdp.get_states() for a in mdp.get_actions(s)
+            (s, a): [] for s in mdp.get_states() for a in mdp.get_actions()
         }
 
     def update_q_values(self, trajectory: Trajectory):
@@ -42,7 +42,7 @@ class MonteCarloController:
                     self.q_values[S[t]], key=self.q_values[S[t]].get
                 )  # argmax_a Q(S_t,a)
 
-                for a in (actions := self.mdp.get_actions(S[t])):
+                for a in (actions := self.mdp.get_actions()):
                     if a == best_action:
                         new_prob = 1 - self.epsilon + (self.epsilon / len(actions))
                     else:
@@ -56,5 +56,4 @@ class MonteCarloController:
             episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
             ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed)
             ep.run()
-            trajectory = ep.trajectory()
-            self.update_q_values(trajectory)
+            self.update_q_values(ep.trajectory)
