@@ -1,60 +1,29 @@
-# %% 
-"""Since git does not have propper notebook support, I recommend using cell notation."""
-# %%
-"""I put the psuedo code from the docs below"""
+import herringbone as hb
+import json
 
-# %%
-# load paths 
-file_path = "maps/default.csv"
-actions_config = "actions/config.json"
- 
-# %%
-# Load in configs
-states = Board(file_path)
+
+#TODO 
+# I DONT LIKE  THIS? TO WHAT EXTEND ARE THESE JUST FIXED AS DEFAULTS? OTHERWISE WE CAN JUST MAKE THEM PYTHON DATA
+# E.g.  hb.config_defaults.map_config?
+# And when a "user" wants a custom config they can still add a path? but it seems weird to have these files in the package here.
+piece_path = "herringbone/env_core/config/piece_config.json"
+map_path = "herringbone/env_core/maps/example.csv"
+action_path = "herringbone/env_core/config/action_config.json"
+easy_path = "herringbone/env_core/maps/easy.csv"
+
+
+board = hb.Board(path_config=piece_path, path_map=map_path)
 
 # read out actions_config into a variable
-actions = [action() for action in actions_cfg]
-
-# %%
-# Set up a policy and algorithm
-policy = Policy(actions, states)
-
-PolicyIteration(Algorithm)
-
-algorithm = PolicyIteration(policy, threshold_theta, gamma) # INCL. OR PolicyIteration(policy)
-
-# %%
-# Train the agent
-for e in episodes:   
-    ep = Episode(algorithm: Algorithm, max_depth)
+with open(action_path, "r") as file: #TODO does action not have a build in reader?
+    actions_config = json.load(file)
+    
+actions = [hb.Action(config) for config in actions_config.values()]
 
 
-    if ep.run():
-        reward = ep.get_reward()
-        
-        algorithm.update_policy(policy, reward)
-        
-# %% 
-# animate final policy
-final_ep = Episode(algorithm, max_depth)
-final_ep.show = True
-final_ep.run()
+mdp = hb.MDP(actions=actions, board=board)
+random_policy = hb.EpsilonGreedyPolicy(mdp=mdp, epsilon=1)
+episode = hb.Episode(mdp=mdp, policy=random_policy, max_depth=1000)
+episode.peek()
 
-# %%
-import herringbone
-
-# Create a Piece instance
-hw = herringbone.Piece(
-    is_terminal=False,
-    location=[1, 2],
-    start_location=[0, 0],
-    reward=10.0,
-    is_visitable=True,
-    character="hello_world!",
-    color="red",
-    value=5.0
-)
-
-print(hw)
-
-# %%
+episode.run()

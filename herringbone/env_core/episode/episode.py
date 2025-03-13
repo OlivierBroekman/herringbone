@@ -33,21 +33,27 @@ class Episode:
      
         # Innitalisation
         self.agent_coordinates = start_agent_coordinates # another name? agent_coords does not really solve the length issue.
-        self.trajectory: Trajectory = ([], [], [])
+        self.trajectory: Trajectory = Trajectory([], [], [])
 
+    def peek(self):
+        print(self.mdp.get_board())
+        
     def run(self):
         """Runs an episode"""
         
         depth = 0
         state = self.mdp.get_board().pieces[self.agent_coordinates[0]][self.agent_coordinates[1]]
         reward = None
-        while not state.get_terminal() and t < self.max_depth:   
+        action = None
+        while not state.get_is_terminal() and depth < self.max_depth:
+            #TODO: REMOVE DEBUG
+            print(f"t: {depth} | S{state}, R:{reward}, A:{action}" ) 
             if self.live_render:
                 pass
                # utils.render(board, coords)
             
             # Select action
-            action = self.policy.select_action(state, self.q_values)
+            #action = self.policy.select_action(state, self.q_values)
             action = self.policy.select_action(state, self.policy.get_policy())
             
             # Update trajectory
@@ -62,8 +68,8 @@ class Episode:
             )[0]
             
             # Update state and reward
-            self.reward = state_prime.get_reward()
-            self.state = state_prime
+            reward = state_prime.get_reward()
+            state = state_prime
 
             depth += 1   
             

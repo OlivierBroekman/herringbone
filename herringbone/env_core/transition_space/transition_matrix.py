@@ -1,6 +1,8 @@
 from copy import deepcopy
 import numpy as np
 
+
+
 from herringbone.env_core.action_space.action import Action
 from herringbone.env_core.state_space.board import Board
 from herringbone.env_core.state_space.piece import Piece
@@ -19,7 +21,7 @@ class TransitionMatrix:
         self._matrix = self._build_transition_matrix(board=mdp.get_board(), action=action)
         
     
-    def _build_transition_matrix(
+    def _build_transition_matrix(self,
                 board: Board,
                 action: Action
                 ) -> dict[Piece, dict[Piece, float]]:
@@ -30,9 +32,11 @@ class TransitionMatrix:
 
             directions = action.get_directions()
             probabilities = action.get_probabilities()
+            # TODO: this only works if pieces are comparable based on coordinates! not just making them.
+            # inner = {piece: 0. for piece in states}
+            # outer = {piece: deepcopy(inner) for piece in states}
+            outer = {piece: {p: 0. for p in states} for piece in states}
 
-            inner = {piece: 0. for piece in states}
-            outer = {piece: deepcopy(inner) for piece in states}
 
             # 2D ASSUMPTION 
             # Assign transition probabilities

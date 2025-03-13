@@ -26,6 +26,7 @@ class Board:
     ):
         self.pieces = load_map(path_config, path_map)
 
+    #TODO: depricated? or?
     def observe_pieces(
         self
     ) -> dict:
