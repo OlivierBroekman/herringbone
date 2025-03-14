@@ -10,10 +10,12 @@ class Action:
         self._directions = config["directions"]
         self._probabilities = config["probabilities"]
         assert sum(config["probabilities"]) == 1
-        assert len(config["probabilities"] == config["directions"])
+        assert len(config["probabilities"]) == len(config["directions"])
         self._cost = config["cost"]
         self._value = 0
 
+    def __str__(self):
+        return f"{self.__id}"
     # Setters and getters
     def set_type(
             self, 

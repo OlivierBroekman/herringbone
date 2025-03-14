@@ -26,7 +26,7 @@ class QLearning(TDControl):
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().pieces[0][0]  # TODO hardcoded
 
-            while not state.get_terminal():
+            while not state.get_is_terminal():
                 action = self.policy.select_action(state, self.q_values)
                 state_prime = max(
                     self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),

@@ -8,7 +8,7 @@ class MDP:
             self, 
             actions: list[Action],
             board: Board,
-            transition_matrices: dict[Action, TransitionMatrix]
+            transition_matrices: dict[Action, TransitionMatrix] = None
             ):
         
         self._actions = actions

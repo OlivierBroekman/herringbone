@@ -8,7 +8,7 @@
   },
   "1": {
     "is_terminal": false,
-    "reward": 0,
+    "reward": -1,
     "is_visitable": true,
     "character": "=^.^=",
     "color": "red"
@@ -19,5 +19,19 @@
     "is_visitable": true,
     "character": "<x)))><",
     "color": "green"
+  },
+  "3": {
+    "is_terminal": true,
+    "reward": -10,
+    "is_visitable": true,
+    "character": "hole",
+    "color": "red"
+  },
+  "4": {
+    "is_terminal": true,
+    "reward": 100,
+    "is_visitable": true,
+    "character": "<✰))><",
+    "color": "blue"
   }
 }
