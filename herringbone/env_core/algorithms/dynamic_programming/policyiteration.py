@@ -106,24 +106,6 @@ class PolicyIteration(Algorithm):
         Reinforcement Learning: An Introduction by Sutton, R. & Barto, A.
         """
 
-        def expected_utility(
-                state: Piece,
-                action: Action, 
-                mdp: MDP
-                ) -> float: 
-            
-            """Get the expected utility of some state action pair"""
-            
-            # Get correct transition matrix for the given state/action pair. 
-            # This matrix has a probability assigned of moving to that state given the initial state and action
-            matrix = mdp.get_transition_matrices()[action][state]
-            
-            # Get the expected utility of the state by summing the product 
-            # of all probabilities with the value of each successor state
-            exp_utility = sum(probability * new_state.get_value()
-                              for new_state, probability in matrix.items())
-            return exp_utility
-
         def policy_evaluation(
                 policy: Policy,
                 mdp: MDP
