@@ -192,17 +192,21 @@ class PolicyIteration(Algorithm):
 
             for state in states:
                 # Get current chosen action, based on the policy
-                keys = list(policy[state].keys())
-                chosen_action_idx = np.argmax(policy[state].values())
-                chosen_action = keys[chosen_action_idx]
+                # keys = list(policy[state].keys())
+                # chosen_action_idx = np.argmax(policy[state].values())
+                # chosen_action = keys[chosen_action_idx]
+
+                chosen_action = max(policy[state], key=policy[state].get)
 
                 # Get the value of each action
                 action_values = action_evaluation(state=state, state_values=state_values)
 
                 # Use np.argmax to determine the best action, based on the values
-                keys = list(action_values.keys())
-                best_action_idx = np.argmax(action_values.values())
-                best_action = keys[best_action_idx]
+                # keys = list(action_values.keys())
+                # best_action_idx = np.argmax(action_values.values())
+                # best_action = keys[best_action_idx]
+
+                best_action = max(action_values, key=action_values.get)
 
                 if chosen_action != best_action:
                     policy_stable = False
