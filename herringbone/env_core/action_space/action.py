@@ -10,7 +10,7 @@ class Action:
         self._directions = config["directions"]
         self._probabilities = config["probabilities"]
         assert sum(config["probabilities"]) == 1
-        assert len(config["probabilities"] == config["directions"])
+        assert len(config["probabilities"]) == len(config["directions"])
         self._cost = config["cost"]
         self._value = 0
 

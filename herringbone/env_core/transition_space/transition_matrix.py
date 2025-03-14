@@ -20,6 +20,7 @@ class TransitionMatrix:
         
     
     def _build_transition_matrix(
+                self,
                 board: Board,
                 action: Action
                 ) -> dict[Piece, dict[Piece, float]]:

@@ -3,7 +3,7 @@ import json
 
 # quick config
 
-map_names = ["example", "easy", "daner_holes", "double_fish", "wall_of_death"]
+map_names = ["example", "easy", "danger_holes", "double_fish", "wall_of_death"]
 
 #TODO 
 # I DONT LIKE  THIS? TO WHAT EXTEND ARE THESE JUST FIXED AS DEFAULTS? OTHERWISE WE CAN JUST MAKE THEM PYTHON DATA
@@ -23,9 +23,9 @@ actions = [hb.Action(config) for config in actions_config.values()]
 
 
 demo_mdp = hb.MDP(actions=actions, board=board)
-random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
-episode = hb.Episode(mdp=demo_mdp, policy=random_policy, max_depth=1000)
-episode.peek()
+# random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
+# episode = hb.Episode(mdp=demo_mdp, policy=random_policy, max_depth=1000)
+# episode.peek()
 
-episode.run()
+# episode.run()
 
