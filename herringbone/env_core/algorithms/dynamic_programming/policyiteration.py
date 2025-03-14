@@ -15,7 +15,7 @@ class PolicyIteration(Algorithm):
         
         assert 0 <= theta_threshold <= 1 and 0 <= gamma <= 1
         self._mdp = mdp
-        self._policy = Policy(mdp=self.get_mdp).get_policy()
+        self._policy = Policy(mdp=self.get_mdp()).get_policy()
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
@@ -36,14 +36,14 @@ class PolicyIteration(Algorithm):
         return self._mdp
 
     def set_policy(
-        self, new_policy: Policy
+        self, new_policy: dict[Piece, dict[Action, float]]
         ):
 
         self._policy = new_policy
     
     def get_policy(
         self
-        ) -> Policy:
+        ) -> dict[Piece, dict[Action, float]]:
 
         return self._policy
 
@@ -99,7 +99,7 @@ class PolicyIteration(Algorithm):
     
     def run(
             self
-            ) -> Policy:
+            ) -> tuple[Policy, dict[Piece, float]]:
         
         """
         Policy Iteration algorithm based on pseudocode by: 
