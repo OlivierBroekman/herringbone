@@ -14,6 +14,8 @@ class Action:
         self._cost = config["cost"]
         self._value = 0
 
+    def __str__(self):
+        return f"{self.__id}"
     # Setters and getters
     def set_type(
             self, 

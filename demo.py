@@ -3,7 +3,7 @@ import json
 
 # quick config
 
-map_names = ["example", "easy", "danger_holes", "double_fish", "wall_of_death"]
+map_names = ["example", "easy", "daner_holes", "double_fish", "wall_of_death"]
 
 #TODO 
 # I DONT LIKE  THIS? TO WHAT EXTEND ARE THESE JUST FIXED AS DEFAULTS? OTHERWISE WE CAN JUST MAKE THEM PYTHON DATA

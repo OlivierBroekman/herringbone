@@ -35,7 +35,7 @@ class Policy:
             dict[Piece, dict[Action, float]]: A nested dictionary mapping states and actions to probabilities
         """
         
-        states = [state for row in board for state in row]
+        states = [state for row in board.pieces for state in row]
         m_actions = len(actions)
 
         policy = {state: {action: (1/m_actions) for action in actions} for state in states}
