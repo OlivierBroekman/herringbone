@@ -126,7 +126,7 @@ class PolicyIteration(Algorithm):
                     # Loop over all of the possible actions given by the policy
                     for action, action_probability in policy[state].items():
                         # Get all possible new states for each action, given by the transition matrix
-                        for new_state, transition_probability in mdp.get_transition_matrices()[action][state].items():
+                        for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                             # Calculate the expected value of the state
                             new_value += (action_probability 
                                           * transition_probability 
@@ -138,7 +138,7 @@ class PolicyIteration(Algorithm):
                     state_values[state] = new_value
                     
                     # Stopping criterion
-                    delta = max(delta, abs(old_value - state.value))
+                    delta = max(delta, abs(old_value - state_values[state]))
 
                     return state_values
         
@@ -155,7 +155,7 @@ class PolicyIteration(Algorithm):
 
             # Add the value of each action to the dict
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action][state].items():
+                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability 
                                               * (state.get_reward() 
                                                  + self.get_gamma() 
