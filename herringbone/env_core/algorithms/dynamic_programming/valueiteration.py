@@ -107,7 +107,7 @@ class ValueIteration(Algorithm):
             action_values = {action: 0 for action in actions}
 
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix[state].items():
+                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability
                                               * (state.get_reward()
                                                  + self.get_gamma()
