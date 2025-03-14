@@ -8,7 +8,8 @@ from typing import List, Dict, Tuple
 
 
 class MonteCarloController:
-    def __init__(self, mdp: MDP, discount=0.9, epsilon=0.1, seed=42):
+    def __init__(self, mdp: MDP, discount=0.9, epsilon=0.1, seed=42, start_coords=(0,0)):
+        self.start_coords = start_coords
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
@@ -53,7 +54,7 @@ class MonteCarloController:
 
     def train(self, n_episodes):
         for _ in range(n_episodes):
-            episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
-            ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed)
+            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
+            ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed,start_agent_coordinates=self.start_coords)
             ep.run()
             self.update_q_values(ep.trajectory)

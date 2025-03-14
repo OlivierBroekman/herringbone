@@ -9,11 +9,12 @@ class MonteCarloPredictor:
     # V(s) for all s in States
     # Returns(S) <- an empty list for all s in S(t)
 
-    def __init__(self, mdp: MDP, discount: float, seed=42):
+    def __init__(self, mdp: MDP, discount: float, seed=42, start_coords=(0,0)):
         self.mdp = mdp
         self.discount = discount
         self.returns = {}
         self.value_functions = {}
+        self.start_coords = start_coords
         self.rng = np.random.RandomState(seed)
         for s in mdp.get_states():
             self.value_functions[s] = 0
@@ -23,8 +24,8 @@ class MonteCarloPredictor:
     def evaluate_policy(self, policy: Policy, n_samples=1000):
         """Runs policy evaluation using Monte Carlo simulation."""
         for n in range(n_samples):
-            episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
-            ep = Episode(policy=policy, mdp=self.mdp, seed=episode_seed)
+            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
+            ep = Episode(policy=policy, mdp=self.mdp, seed=episode_seed, start_agent_coordinates=self.start_coords)
             ep.run()
             self.update_value_function(ep.trajectory)
 
