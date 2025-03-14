@@ -100,7 +100,7 @@ class ValueIteration(Algorithm):
                 state: Piece,
                 state_values: dict[Piece, float]
         ) -> dict[Action, float]:
-            """Evaluate the action"""
+            """Evaluate all actions at a state"""
 
             actions = mdp.get_actions()
 
@@ -122,20 +122,26 @@ class ValueIteration(Algorithm):
 
         delta = 0
 
+        # Value Iteration
         while delta <= self.get_theta_threshold():
             for state in states:
-                # Find best action
+                # Find the maximum value of all actions at the current state
                 action_values = action_evaluation(state=state, state_values=state_values)
-                
                 best_action_value = max(action_values.values())
 
+                # Update stopping condition
                 delta = max(delta, abs(best_action_value - state_values[state]))
 
+                # Updat value function
+                state_values[state] = best_action_value
+
+        # Get the policy
         for state in states:
+            # Get best action
             action_values = action_evaluation(state=state, state_values=state_values)
-        
             best_action = max(action_values, key=action_values.get)
 
+            # Greedily take the best action at the current state
             policy[state][best_action] = 1
         
         return policy, state_values
