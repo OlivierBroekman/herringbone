@@ -23,7 +23,7 @@ class MonteCarloPredictor:
     def evaluate_policy(self, policy: Policy, n_samples=1000):
         """Runs policy evaluation using Monte Carlo simulation."""
         for n in range(n_samples):
-            episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
+            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
             ep = Episode(policy=policy, mdp=self.mdp, seed=episode_seed)
             ep.run()
             self.update_value_function(ep.trajectory)
