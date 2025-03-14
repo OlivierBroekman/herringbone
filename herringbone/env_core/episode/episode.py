@@ -58,19 +58,22 @@ class Episode:
             #action = self.policy.select_action(state, self.q_values)
             action = self.policy.select_action(state, self.policy.get_policy())
             
-            # Update trajectory
-            self.trajectory.states.append(state)
-            self.trajectory.actions.append(action)
-            self.trajectory.rewards.append(reward)
-            
+        
             # Get new state
             state_prime = max(
                 self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),
                 key=lambda state_prob_pair: state_prob_pair[1]
             )[0]
             
-            # Update state and reward
+            # Update reward
             reward = state_prime.get_reward()
+            
+             # Update trajectory
+            self.trajectory.states.append(state)
+            self.trajectory.actions.append(action)
+            self.trajectory.rewards.append(reward)
+            
+            # Update state
             state = state_prime
 
             depth += 1   
