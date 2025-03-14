@@ -53,7 +53,7 @@ class MonteCarloController:
 
     def train(self, n_episodes):
         for _ in range(n_episodes):
-            episode_seed = self.rng.randint(0, 2**32 - 1)  # Generate a new seed
+            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
             ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed)
             ep.run()
             self.update_q_values(ep.trajectory)
