@@ -24,7 +24,12 @@ class Piece:
             self
             ):
         return self._character
-
+    
+    def __repr__(
+            self
+            ):
+        return str(self._start_location)
+    
     # Setters and getters
     def set_is_terminal(
             self, 

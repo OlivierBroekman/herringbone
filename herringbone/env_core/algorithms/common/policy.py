@@ -64,6 +64,27 @@ class Policy:
         for a in self._policy[state]:
             self._policy[state][a] /= total_prob
   
+    def __str__(self): 
+        best_actions = [[max(self._policy[state], key=self._policy[state].get) for state in row]for row in self._board.pieces]
+    
+    
+        
+        len_char = max(len(a.get_character() or '') for row in best_actions for a in row)  # TODO !!!
+        num_cols = len(best_actions[0]) if best_actions else 0
+
+        grid = f"╔{('═' * (len_char + 2) + '╦') * (num_cols - 1)}{'═' * (len_char + 1)}═╗\n"
+
+        for i_row, row in enumerate(best_actions):
+            grid += f"║ {" ║ ".join(
+                f"{a.get_character()}"
+                for a in row)} ║\n"
+
+            if i_row < len(best_actions) - 1:
+                grid += "╠" + ('═' * (len_char + 2) + '╬') * (num_cols - 1) + '═' * (len_char + 1) + "═╣\n"
+
+        grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
+        return grid
+
 
     
     # Setters and getters

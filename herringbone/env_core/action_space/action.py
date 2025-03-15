@@ -13,8 +13,12 @@ class Action:
         assert len(config["probabilities"]) == len(config["directions"])
         self._cost = config["cost"]
         self._value = 0
+        self._character = config["char"]
 
     def __str__(self):
+        return f"{self.__id}"
+    
+    def __repr__(self):
         return f"{self.__id}"
     # Setters and getters
     def set_type(
@@ -81,3 +85,9 @@ class Action:
             ) -> float:
         
         return self._value
+
+    def get_character(
+            self
+            ) -> float:
+        
+        return self._character
