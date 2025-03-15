@@ -19,7 +19,7 @@ class Action:
         return f"{self.__id}"
     
     def __repr__(self):
-        return f"{self.__id}"
+        return f"{self._character}"
     # Setters and getters
     def set_type(
             self, 
