@@ -23,10 +23,9 @@ def preview_V(mdp, learned_V):
 
 
 mdp = demo_mdp
-policy_iteration = hb.ValueIteration(mdp=mdp, theta_threshold=theta_threshold, gamma=gamma)
-policy, state_values, count = policy_iteration.run()
+policy_iteration = hb.PolicyIteration(mdp=mdp, theta_threshold=theta_threshold, gamma=gamma)
+policy, state_values = policy_iteration.run()
 
 print(f'Succesfully created a policy!')
 
 preview_V(mdp=mdp, learned_V=state_values)
-print(count)
