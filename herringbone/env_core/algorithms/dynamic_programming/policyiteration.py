@@ -120,6 +120,7 @@ class PolicyIteration(Algorithm):
             state_values = {state: 0 for state in states}
 
             while delta <= self.get_theta_threshold():
+                delta = 0
                 for state in states:
                     old_value = state.get_value()
                     new_value = 0
@@ -132,15 +133,14 @@ class PolicyIteration(Algorithm):
                                           * transition_probability 
                                           * (state.get_reward() 
                                              + self.get_gamma() 
-                                             * new_state.get_value()))
+                                             * state_values[new_state]))
                     
-                    state.set_value(new_value)
                     state_values[state] = new_value
                     
                     # Stopping criterion
                     delta = max(delta, abs(old_value - state_values[state]))
 
-                    return state_values
+            return state_values
         
         def action_evaluation(
                 state: Piece, 
@@ -174,28 +174,20 @@ class PolicyIteration(Algorithm):
 
             for state in states:
                 # Get current chosen action, based on the policy
-                # keys = list(policy[state].keys())
-                # chosen_action_idx = np.argmax(policy[state].values())
-                # chosen_action = keys[chosen_action_idx]
-
                 chosen_action = max(policy[state], key=policy[state].get)
 
                 # Get the value of each action
                 action_values = action_evaluation(state=state, state_values=state_values)
 
-                # Use np.argmax to determine the best action, based on the values
-                # keys = list(action_values.keys())
-                # best_action_idx = np.argmax(action_values.values())
-                # best_action = keys[best_action_idx]
-
+                # Find the best action out of the action values
                 best_action = max(action_values, key=action_values.get)
+
+                # Update the policy
+                policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
 
                 if chosen_action != best_action:
                     policy_stable = False
-                
-                # Update the policy
-                policy[state] = {k: (1 if v == best_action else 0) for k, v in policy[state].items()}
 
-                # If we have converged, stop the algorithm and return the policy with its evaluation
-                if policy_stable:
-                    return policy, state_values
+            # If we have converged, stop the algorithm and return the policy with its evaluation
+            if policy_stable:
+                return policy, state_values
