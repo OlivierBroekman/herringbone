@@ -14,8 +14,8 @@ def preview_V(mdp, learned_V):
     x = len(states_2d)
     y = len(states_2d[0])
 
-    for s,v in learned_V.items():
-        print(f"state: {s} | value: {v}")
+    # for s,v in learned_V.items():
+    #     print(f"state: {s} | value: {v}")
 
     v_values =  ['%.2f' % v for v in list(learned_V.values())]
 
@@ -27,22 +27,26 @@ def preview_V(mdp, learned_V):
 
 # Prediction Demo
 mdp = demo_mdp
-policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)  # defaults to uniform
-mc_predictor = hb.MonteCarloPredictor(mdp, discount=discount, seed=seed)
-mc_predictor.evaluate_policy(policy, n_samples=1000)
-learned_V = mc_predictor.value_functions
-preview_V(mdp, learned_V)
+# policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)  # defaults to uniform
+# mc_predictor = hb.MonteCarloPredictor(mdp, discount=discount, seed=seed)
+# mc_predictor.evaluate_policy(policy, n_samples=10000)
+# learned_V = mc_predictor.value_functions
+# preview_V(mdp, learned_V)
 
 
 # Control Demo
-mc_control = hb.MonteCarloController(mdp, discount=discount, epsilon=0.9, seed=seed, start_coords=(2,0))
+mc_control = hb.MonteCarloController(mdp, discount=discount, epsilon=0.1, seed=seed, start_coords=(0,0))
 mc_control.train(n_episodes=1000)
 trained_policy = mc_control.policy
 
 print("policy trained!, now evaluating...")
 
-mc_predictor = hb.MonteCarloPredictor(mdp, discount=discount, seed=seed, start_coords=(2,0))
-mc_predictor.evaluate_policy(trained_policy, n_samples=1000)
+print(trained_policy.get_policy())
+print(trained_policy)
+
+mc_predictor = hb.MonteCarloPredictor(mdp, discount=discount, seed=seed, start_coords=(0,0))
+mc_predictor.evaluate_policy(trained_policy, n_samples=10000)
 learned_V = mc_predictor.value_functions
 
 preview_V(mdp, learned_V)
+
