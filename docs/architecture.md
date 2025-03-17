@@ -159,39 +159,59 @@
 
 ## Directory Tree
 ```
-.
-├── __init__.py
-├── env_core
-│   ├── __init__.py
-│   ├── action_space
-│   │   ├── __init__.py
-│   │   └── action.py
-│   ├── config
-│   │   ├── action_config.json
-│   │   └── piece_config.json
-│   ├── episode
-│   │   ├── __init__.py
-│   │   ├── episode.py
-│   │   └── policy
-│   │       ├── algorithm.py
-│   │       ├── policy.py
-│   │       ├── policyiteration.py
-│   │       └── random_policy.py
-│   ├── maps
-│   │   └── example.csv
-│   ├── mdp.py
-│   ├── state_space
-│   │   ├── __init__.py
-│   │   ├── board.py
-│   │   └── piece.py
-│   └── utils
-│       ├── __init__.py
-│       ├── map_loader.py
-│       └── render.py
-├── tests
-│   └── __init__.py
-└── transition_space
-    └── transition_matrix.py
+│   __init__.py
+├───env_core
+│   │   mdp.py
+│   │   __init__.py
+│   ├───action_space
+│   │       action.py
+│   │       __init__.py
+│   ├───algorithms
+│   │   │   __init__.py
+│   │   ├───common
+│   │   │       algorithm.py
+│   │   │       epsilon_greedy_policy.py
+│   │   │       policy.py
+│   │   │       __init__.py
+│   │   ├───dynamic_programming
+│   │   │       policyiteration.py
+│   │   │       valueiteration.py
+│   │   │       __init__.py
+│   │   ├───monte_carlo
+│   │   │       first_visit_mc_control.py
+│   │   │       first_visit_mc_prediction.py
+│   │   │       __init__.py
+│   │   │
+│   │   └───temporal_difference
+│   │           q_learning.py
+│   │           sarsa.py
+│   │           td_control.py
+│   │           __init__.py
+│   ├───config
+│   │       action_config.json
+│   │       piece_config.json
+│   ├───episode
+│   │       episode.py
+│   │       __init__.py
+│   ├───maps
+│   │       danger_holes.csv
+│   │       double_fish.csv
+│   │       easy.csv
+│   │       example.csv
+│   │       wall_of_death.csv
+│   ├───state_space
+│   │       board.py
+│   │       piece.py
+│   │       __init__.py
+│   ├───transition_space
+│   │       transition_matrix.py
+│   │       __init__.py
+│   └───utils
+│           map_loader.py
+│           render.py
+│           __init__.py
+└───tests
+        __init__.py
 ```
 
 
