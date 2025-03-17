@@ -7,7 +7,8 @@ from herringbone.env_core.state_space.piece import Piece
 
 
 class EpsilonGreedyPolicy(Policy):
-    def __init__(self,
+    def __init__(
+        self,
         mdp: MDP,
         epsilon: float,
         policy: dict[Piece, dict[Action, float]] = None
@@ -15,7 +16,8 @@ class EpsilonGreedyPolicy(Policy):
         super().__init__(mdp, policy)
         self.epsilon = epsilon
 
-    def select_action(self,
+    def select_action(
+        self,
         state: Piece,
         q_values: dict[Piece, dict[Action, float]]
     ) -> Action:

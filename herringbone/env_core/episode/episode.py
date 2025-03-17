@@ -1,15 +1,15 @@
-from typing import List
 from herringbone.env_core.state_space import Board, Piece
 from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
+from herringbone.env_core.action_space import Action
 from dataclasses import dataclass
 import random
 
 @dataclass
 class Trajectory:
-    states: List[Piece]
-    actions: List[int]
-    rewards: List[float]
+    states: list[Piece]
+    actions: list[Action]
+    rewards: list[float]
 
 
 class Episode:
@@ -18,9 +18,9 @@ class Episode:
         policy: Policy,
         mdp: MDP,
         seed: int = 42,
-        max_depth=1000,
-        start_agent_coordinates=[0, 0],
-        live_render: bool= False
+        max_depth: int = 1000,
+        start_agent_coordinates: list[int] = [0, 0],
+        live_render: bool = False
     ):
         # Problem Space
         self.policy = policy
@@ -37,10 +37,14 @@ class Episode:
         self.agent_coordinates = start_agent_coordinates # another name? agent_coords does not really solve the length issue.
         self.trajectory: Trajectory = Trajectory([], [], [])
 
-    def peek(self):
+    def peek(
+            self
+    ):
         print(self.mdp.get_board())
         
-    def run(self):
+    def run(
+            self
+    ):
         """Runs an episode"""
         
         depth = 0

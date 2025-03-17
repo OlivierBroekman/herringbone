@@ -6,15 +6,15 @@ import numpy as np
 from herringbone.env_core.action_space.action import Action
 from herringbone.env_core.state_space.board import Board
 from herringbone.env_core.state_space.piece import Piece
-
+from herringbone.env_core.mdp import MDP
 
 class TransitionMatrix:
     """This class represents a state transition matrix."""
     def __init__(
             self, 
-            mdp, 
+            mdp: MDP, 
             action: Action
-            ):
+    ):
         
         self._mdp = mdp
         self._action = action
@@ -22,10 +22,10 @@ class TransitionMatrix:
         
     
     def _build_transition_matrix(
-                self,
-                board: Board,
-                action: Action
-                ) -> dict[Piece, dict[Piece, float]]:
+            self,
+            board: Board,
+            action: Action
+    ) -> dict[Piece, dict[Piece, float]]:
             """Build the transition matrix based on the given board and action."""
             states = [piece for row in board.pieces for piece in row]
 
@@ -52,46 +52,31 @@ class TransitionMatrix:
             return outer
 
 
-    # Setters and getters
-    def set_mdp(
-        self, 
-        new_mdp):
-
-        self._mdp = new_mdp
-    
+    # Setters and getters    
     def get_mdp(
-        self
-        ):
-
+            self
+    ):
         return self._mdp
     
-    def set_action(
-        self, 
-        new_action: Action):
-
-        self._action = new_action
-    
     def get_action(
-        self
-        ) -> Action:
-
+            self
+    ) -> Action:
         return self._action
     
     def set_matrix(
-        self, 
-        new_matrix: dict[Piece, dict[Piece, float]]):
-
+            self, 
+            new_matrix: dict[Piece, dict[Piece, float]]
+    ):
         self._matrix = new_matrix
     
     def get_matrix(
-        self
-        ) -> dict[Piece, dict[Piece, float]]:
-
+            self
+    ) -> dict[Piece, dict[Piece, float]]:
         return self._matrix
 
     def get_successor_state(
-        self,
-        state: Piece
+            self,
+            state: Piece
     ) -> dict[Piece, float]:
         return {
             state_prime: prob_trans
@@ -99,7 +84,6 @@ class TransitionMatrix:
             }
 
     def __str__(
-        self
-        ):
-
+            self
+    ):
         pass
