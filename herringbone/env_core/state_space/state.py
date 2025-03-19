@@ -18,13 +18,20 @@ class State:
 
     def __str__(
             self
-            ):
+    ):
         return self._character
     
     def __repr__(
             self
-            ):
+    ):
         return str(self._location)
+    
+    def __eq__(
+            self,
+            other
+    ):
+        assert type(self) == type(other)
+        return self.get_location() == other.get_location()
     
     # Setters and getters    
     def get_is_terminal(
@@ -36,49 +43,50 @@ class State:
     def set_location(
             self, 
             new_loc: list[int]
-            ):
+    ):
         
         self._location = new_loc
 
     def get_location(
             self
-            ) -> list[int]:
+    ) -> list[int]:
         
         return self._location
     
     def get_reward(
             self
-            ) -> float:
+    ) -> float:
         
         return self._reward
 
     def get_is_visitable(
             self
-            ) -> bool:
+    ) -> bool:
         
         return self._is_visitable
     
     def set_character(
             self, 
-            new_char: str):
+            new_char: str
+    ):
         
         self._character = new_char
     
     def get_character(
             self
-            ) -> str:
+    ) -> str:
         
         return self._character
 
     def set_color(
             self, 
             new_color: str
-            ):
+    ):
         
         self._color = new_color
     
     def get_color(
             self
-            ) -> str:
+    ) -> str:
         
         return self._color
