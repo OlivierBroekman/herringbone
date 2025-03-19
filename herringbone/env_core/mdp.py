@@ -1,48 +1,38 @@
+from pathlib import Path
 
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.state_space import State, Board
 from herringbone.env_core.transition_space import TransitionMatrix
+from herringbone.env_core.utils.actions_loader import load_actions
+
 
 class MDP:
     def __init__(
-            self, 
-            actions: list[Action],
-            board: Board,
-            transition_matrices: dict[Action, TransitionMatrix] = None
+        self,
+        state_config: Path,
+        map: Path,
+        action_config: Path,
+        transition_matrices: dict[Action, TransitionMatrix] = None,
     ):
-        self._actions = actions
-        self._board = board
-        if transition_matrices != None: self._transition_matrices = transition_matrices
-        else: self._transition_matrices = {
-            action: 
-            TransitionMatrix(mdp=self, action=action)
+        self._board = Board(state_config, map)
+        self._actions = load_actions(action_config)
+        self._transition_matrices = transition_matrices or {
+            action: TransitionMatrix(mdp=self, action=action)
             for action in self.get_actions()
-            }
-    
+        }
+
     # Setters and getters
-    def get_actions(
-            self
-    ) -> list[Action]:
+    def get_actions(self) -> list[Action]:
         return self._actions
 
-    def get_board(
-            self
-    ) -> Board:
+    def get_board(self) -> Board:
         return self._board
-    
-    def get_states(
-            self
-    ) -> list[State]:
+
+    def get_states(self) -> list[State]:
         return [state for row in self._board.states for state in row]
-    
-    def set_transition_matrices(
-            self, 
-            new_matrices: dict[Action, TransitionMatrix]
-    ):
+
+    def set_transition_matrices(self, new_matrices: dict[Action, TransitionMatrix]):
         self._transition_matrices = new_matrices
 
-    def get_transition_matrices(
-            self
-    ) -> dict[Action, TransitionMatrix]:
+    def get_transition_matrices(self) -> dict[Action, TransitionMatrix]:
         return self._transition_matrices
-
