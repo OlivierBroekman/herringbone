@@ -10,7 +10,7 @@ seed = 42
 
 def preview_V(mdp, learned_V):
     
-    states_2d = mdp.get_board().pieces
+    states_2d = mdp.get_board().states
     x = len(states_2d)
     y = len(states_2d[0])
 

@@ -1,4 +1,4 @@
-class Piece:
+class State:
     def __init__(
             self,
             is_terminal: bool,

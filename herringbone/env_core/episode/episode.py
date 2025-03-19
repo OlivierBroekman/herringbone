@@ -1,4 +1,4 @@
-from herringbone.env_core.state_space import Board, Piece
+from herringbone.env_core.state_space import Board, State
 from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.action_space import Action
@@ -7,7 +7,7 @@ import random
 
 @dataclass
 class Trajectory:
-    states: list[Piece]
+    states: list[State]
     actions: list[Action]
     rewards: list[float]
 
@@ -48,7 +48,7 @@ class Episode:
         """Runs an episode"""
         
         depth = 0
-        state = self.mdp.get_board().pieces[self.agent_coordinates[0]][self.agent_coordinates[1]]
+        state = self.mdp.get_board().states[self.agent_coordinates[0]][self.agent_coordinates[1]]
         reward = None
         action = None
         while not state.get_is_terminal() and depth < self.max_depth:

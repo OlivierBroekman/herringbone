@@ -1,5 +1,5 @@
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.state_space import State, Board
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.algorithms import Algorithm, Policy
 
@@ -27,14 +27,14 @@ class ValueIteration(Algorithm):
         return self._mdp
 
     def set_policy(
-            self, new_policy: dict[Piece, dict[Action, float]]
+            self, new_policy: dict[State, dict[Action, float]]
     ):
 
         self._policy = new_policy
     
     def get_policy(
             self
-    ) -> dict[Piece, dict[Action, float]]:
+    ) -> dict[State, dict[Action, float]]:
 
         return self._policy
     
@@ -65,11 +65,11 @@ class ValueIteration(Algorithm):
 
     def run(
             self
-    ) -> tuple[Policy, dict[Piece, float]]:
+    ) -> tuple[Policy, dict[State, float]]:
         
         def action_evaluation(
-                state: Piece,
-                state_values: dict[Piece, float]
+                state: State,
+                state_values: dict[State, float]
         ) -> dict[Action, float]:
             """Evaluate all actions at a state"""
 

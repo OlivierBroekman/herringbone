@@ -1,14 +1,14 @@
 ## Terminology  
-- piece: an object on the board (e.g., agent, predator, wall, empty square).  
-- board: a 2D array of pieces.
+- state: an object on the board (e.g., agent, predator, wall, empty square).  
+- board: a 2D array of states.
 - reward: positive values indicate a reward, while negative values indicate a cost. Rewards are cumulative.  
 
 ## Remarks 
 > [!NOTE] 
-> "Colliding" with a piece grants a reward; collisions are piece-based, not cell-based. This allows for dynamic objects.  
+> "Colliding" with a state grants a reward; collisions are state-based, not cell-based. This allows for dynamic objects.  
 
-- A trap is a static piece that acts as a terminal state.  
-- A wall is a "non-visitable" piece. 
+- A trap is a static state that acts as a terminal state.  
+- A wall is a "non-visitable" state. 
 
 - The Policy Iteration algorithm combines both the policy evaluation and policy improvement algorithms, for simplicity's sake we will make one class algorithm (policy iteration) encapsulating both policy evaluation and policy improvement.
 
@@ -31,39 +31,39 @@
 - [x] Algorithm(ABC) (policy: Policy)
   * self.policy: Policy
   * run() -> Policy
-- [x] EpsilonGreedyPolicy(Policy) (mdp: MDP, epsilon: float, policy: dict[Piece, dict[Action, float]])
+- [x] EpsilonGreedyPolicy(Policy) (mdp: MDP, epsilon: float, policy: dict[State, dict[Action, float]])
   * self.mdp: MDP
-  * self.policy: dict[Piece, dict[Action, float]]
+  * self.policy: dict[State, dict[Action, float]]
   * self.epsilon: float
-  * select_action(state: Piece, q_values: dict[Piece, dict[Action, float]]) -> Action
-- [x] Policy (mdp: MDP, policy: dict[Piece, dict[Action, float]] = None)
+  * select_action(state: State, q_values: dict[State, dict[Action, float]]) -> Action
+- [x] Policy (mdp: MDP, policy: dict[State, dict[Action, float]] = None)
   * self.mdp: MDP
   * self.actions: list[Actions]
   * self.board: Board
-  * self.policy: dict[Piece, dict[Action, float]]
-  * create_default_policy(actions: list[Action], board: Board) -> dict[Piece, dict[Action, float]]
-  * update_policy_action(state: Piece, action: Action, probability: float)
+  * self.policy: dict[State, dict[Action, float]]
+  * create_default_policy(actions: list[Action], board: Board) -> dict[State, dict[Action, float]]
+  * update_policy_action(state: State, action: Action, probability: float)
 
 ### algorithms/dynamic_programming
 - [x] PolicyIteration(Algorithm) (mdp: MDP, theta_threshold: float, gamma: float)
   * self.mdp: MDP
-  * self.policy: dict[Piece, dict[Action, float]]
+  * self.policy: dict[State, dict[Action, float]]
   * self.board: Board
   * self.actions: list[Action]
   * self.theta_threshold: float
   * self.gamma: float
-  * run() -> tuple[Policy, dict[Piece, float]]
-    * policy_evaluation(policy: Policy, mdp: MDP) -> dict[Piece, float]
-    * action_evaluation(state: Piece, state_values: dict[Piece, float]) -> dict[Action, float]
+  * run() -> tuple[Policy, dict[State, float]]
+    * policy_evaluation(policy: Policy, mdp: MDP) -> dict[State, float]
+    * action_evaluation(state: State, state_values: dict[State, float]) -> dict[Action, float]
 - [ ] ValueIteration(Algorithm) (mdp: MDP, theta_threshold: float, gamma: float)
   * self.mdp: MDP
-  * self.policy: dict[Piece, dict[Action, float]]
+  * self.policy: dict[State, dict[Action, float]]
   * self.board: Board
   * self.actions: list[Action]
   * self.theta_threshold: float
   * self.gamma: float
-  * run() -> tuple[Policy, dict[Piece, float]]
-    * action_evaluation(state: Piece, state_values: dict[Piece, float]) -> dict[Action, float]
+  * run() -> tuple[Policy, dict[State, float]]
+    * action_evaluation(state: State, state_values: dict[State, float]) -> dict[Action, float]
   
 ### algorithms/monte_carlo
 - [x] MonteCarloController (mdp: MDP, discount: float = 0.9, epsilon: float = 0.1, seed: int = 42, start_coords: tuple[int, int] = (0,0))
@@ -73,15 +73,15 @@
   * self.epsilon: float
   * self.rng: np.RandomState
   * self.policy: EpsilonGreedyPolicy
-  * self.q_values: dict[Piece, dict[Action, float]]
-  * self.returns: dict[tuple[Piece, Action], list[float]]
+  * self.q_values: dict[State, dict[Action, float]]
+  * self.returns: dict[tuple[State, Action], list[float]]
   * update_q_values(trajectory: Trajectory)
   * train(n_episodes: int)
 - [x] MonteCarloPredictor (mdp: MDP, discount: float, seed: int = 42, start_coords: tuple[int, int] = (0,0))
   * self.mdp: MDP
   * self.discount: float
-  * self.returns: dict[Piece, list[]] <!--Correct this, I have no idea what to typehint here tbh-->
-  * self.value_functions: dict[Piece, int] <!--Correct this, I have no idea what to typehint here tbh-->
+  * self.returns: dict[State, list[]] <!--Correct this, I have no idea what to typehint here tbh-->
+  * self.value_functions: dict[State, int] <!--Correct this, I have no idea what to typehint here tbh-->
   * self.start_coords: tuple[int, int]
   * self.rng: np.RandomState
   * evaluate_policy(policy: Policy, n_samples: int = 1_000)
@@ -89,26 +89,26 @@
   
 ### algorithms/temporal_difference
 - [ ] QLearning(TDControl)
-  * update_q_values(state: Piece, action: Action, reward: float, state_prime: Piece, _: None = None) -> None
-  * run() -> dict[Piece, dict[Action, float]]
+  * update_q_values(state: State, action: Action, reward: float, state_prime: State, _: None = None) -> None
+  * run() -> dict[State, dict[Action, float]]
 - [ ] Sarsa(TDControl)
-  * update_q_values(state: Piece, action: Action, reward: float, state_prime: Piece, action_prime: Action) -> None
-  * run() -> dict[Piece, dict[Action, float]]
+  * update_q_values(state: State, action: Action, reward: float, state_prime: State, action_prime: Action) -> None
+  * run() -> dict[State, dict[Action, float]]
 - [ ] TDControl(ABC) (num_episodes: int, mdp: MDP, alpha: float = 0.5, epsilon: float = 0.1, gamma: float = 0.9)
   * self.num_episodes: int
   * self.mdp: MDP
   * self.alpha: float
   * self.epsilon: float
   * self.gamma: float
-  * self.q_values: dict[Piece, dict[Action, float]]
+  * self.q_values: dict[State, dict[Action, float]]
   * self.policy: EpsilonGreedyPolicy
-  * init_q_values() -> dict[Piece, dict[Action, float]]
-  * update_q_values(state: Piece, action: Action, reward: float, state_prime: Piece, action_prime: Action|None = None) -> None
-  * run() -> dict[Piece, dict[Action, float]]
+  * init_q_values() -> dict[State, dict[Action, float]]
+  * update_q_values(state: State, action: Action, reward: float, state_prime: State, action_prime: Action|None = None) -> None
+  * run() -> dict[State, dict[Action, float]]
 
 ### episode
 - [x] Trajectory(dataclass)
-  * states: list[Piece]
+  * states: list[State]
   * actions: list[Action]
   * rewards: list[float]
 - [ ] Episode (policy: Policy, mdp: MDP, seed: int = 42, max_depth: int = 1000, start_agent_coordinates: list[int] = [0,0], live_render: bool = False)
@@ -126,12 +126,11 @@
 - [x] Color(Enum)
   * parse_color(color: str)
 - [x] Board (path_config: Path, path_map: Path)
-  * self.pieces: list[list[Piece]]
-  * observe_pieces(): dict <!--Deprecated?-->
-- [x] Piece (is_terminal: bool, location: list[int], start_location: list[int], reward: float, is_visitable: bool, character: str, color: str)
+  * self.states: list[list[State]]
+  * observe_states(): dict <!--Deprecated?-->
+- [x] State (is_terminal: bool, location: list[int], start_location: list[int], reward: float, is_visitable: bool, character: str, color: str)
   * self.is_terminal: bool
   * self.location: list[int]
-  * self.start_location: list[int]
   * self.reward: float
   * self.is_visitable: bool <!--Deprecated?-->
   * self.color: str
@@ -140,16 +139,16 @@
 - [x] TransitionMatrix (mdp: MDP, action: Action)
   * self.mdp: MDP
   * self.action: Action
-  * self.matrix: dict[Piece, dict[Piece, float]]
-  * build_transition_matrix(board: Board, action: Action) -> dict[Piece, dict[Piece, float]]
-  * get_successor_state(state: Piece) -> dict[Piece, float]
+  * self.matrix: dict[State, dict[State, float]]
+  * build_transition_matrix(board: Board, action: Action) -> dict[State, dict[State, float]]
+  * get_successor_state(state: State) -> dict[State, float]
 
 ### utils
 - [x] map_loader
   * load_config(path_config: Path) -> dict
   * read_map(path_map) -> list[list[int]]
-  * init_piece(piece_vals: dict[str, Any], coordinates: list[int]) -> Piece
-  * load_map(path_config: Path, path_map: Path) -> list[list[Piece]]
+  * init_state(state_vals: dict[str, Any], coordinates: list[int]) -> State
+  * load_map(path_config: Path, path_map: Path) -> list[list[State]]
 
 - [x] MDP (actions: list[Action], board: Board, transition_matrices: dict[Action, TransitionMatrix] = None)
   * self.actions: list[Actions]
@@ -189,7 +188,7 @@
 │   │           __init__.py
 │   ├───config
 │   │       action_config.json
-│   │       piece_config.json
+│   │       state_config.json
 │   ├───episode
 │   │       episode.py
 │   │       __init__.py
@@ -201,7 +200,7 @@
 │   │       wall_of_death.csv
 │   ├───state_space
 │   │       board.py
-│   │       piece.py
+│   │       state.py
 │   │       __init__.py
 │   ├───transition_space
 │   │       transition_matrix.py

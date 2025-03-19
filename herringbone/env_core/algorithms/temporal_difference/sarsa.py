@@ -2,17 +2,17 @@ from typing import override
 
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.algorithms.temporal_difference.td_control import TDControl
-from herringbone.env_core.state_space.piece import Piece
+from herringbone.env_core.state_space.state import State
 
 
 class Sarsa(TDControl):
     @override
     def update_q_values(
             self,
-            state: Piece, 
+            state: State, 
             action: Action,
             reward: float,
-            state_prime: Piece, 
+            state_prime: State, 
             action_prime: Action,
     ) -> None:
         """Sarsa update rule."""
@@ -23,10 +23,10 @@ class Sarsa(TDControl):
     @override
     def run(
             self
-    ) -> dict[Piece, dict[Action, float]]:
+    ) -> dict[State, dict[Action, float]]:
         """Run Sarsa (on-policy-TD) to estimate Q-values."""
         for _ in range(self.num_episodes):
-            state = self.mdp.get_board().pieces[0][0]  # TODO hardcoded
+            state = self.mdp.get_board().states[0][0]  # TODO hardcoded
             action = self.policy.select_action(state, self.q_values)
 
             while not state.get_is_terminal():

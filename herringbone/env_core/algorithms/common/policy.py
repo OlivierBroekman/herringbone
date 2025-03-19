@@ -1,5 +1,5 @@
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.state_space import State, Board
 from herringbone.env_core.mdp import MDP
 
 
@@ -8,7 +8,7 @@ class Policy:
     def __init__(
             self,
             mdp: MDP,
-            policy: dict[Piece, dict[Action, float]] = None
+            policy: dict[State, dict[Action, float]] = None
     ):        
         self._mdp = mdp
         self._actions = mdp.get_actions()
@@ -20,7 +20,7 @@ class Policy:
             self, 
             actions: list[Action], 
             board: Board
-            ) -> dict[Piece, dict[Action, float]]:
+            ) -> dict[State, dict[Action, float]]:
         
         """
         Creates a default, uniform policy,
@@ -28,20 +28,20 @@ class Policy:
 
         Arguments:
             actions: list[Action]: List of actions retrieved from action_config.json
-            board: Board: Board retrieved from piece_config.json
+            board: Board: Board retrieved from state_config.json
 
         Returns:
-            dict[Piece, dict[Action, float]]: A nested dictionary mapping states and actions to probabilities
+            dict[State, dict[Action, float]]: A nested dictionary mapping states and actions to probabilities
         """
         
-        states = [state for row in board.pieces for state in row]
+        states = [state for row in board.states for state in row]
         m_actions = len(actions)
 
         policy = {state: {action: (1/m_actions) for action in actions} for state in states}
     
         return policy
 
-    def update_policy_action(self, state: Piece, action: Action, probability: float):
+    def update_policy_action(self, state: State, action: Action, probability: float):
         """
         Updates the probability of taking a specific action in a given state.
         """
@@ -64,7 +64,7 @@ class Policy:
             self._policy[state][a] /= total_prob
   
     def __str__(self): 
-        best_actions = [[max(self._policy[state], key=self._policy[state].get) for state in row]for row in self._board.pieces]
+        best_actions = [[max(self._policy[state], key=self._policy[state].get) for state in row]for row in self._board.states]
     
     
         
@@ -107,13 +107,13 @@ class Policy:
 
     def set_policy(
             self,
-            new_policy: dict[Piece, dict[Action, float]]
+            new_policy: dict[State, dict[Action, float]]
     ):
         
         self._policy = new_policy
 
     def get_policy(
             self
-    ) -> dict[Piece, dict[Action, float]]:
+    ) -> dict[State, dict[Action, float]]:
         
         return self._policy
