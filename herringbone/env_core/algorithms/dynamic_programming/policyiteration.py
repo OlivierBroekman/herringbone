@@ -92,7 +92,7 @@ class PolicyIteration(Algorithm):
             while delta <= self.get_theta_threshold():
                 delta = 0
                 for state in states:
-                    old_value = state.get_value()
+                    old_value = state_values[state]
                     new_value = 0
                     # Loop over all of the possible actions given by the policy
                     for action, action_probability in policy[state].items():
