@@ -1,7 +1,7 @@
 import numpy as np
 
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.state_space import State, Board
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.algorithms import Algorithm, Policy
 
@@ -31,14 +31,14 @@ class PolicyIteration(Algorithm):
 
     def set_policy(
             self,
-            new_policy: dict[Piece, dict[Action, float]]
+            new_policy: dict[State, dict[Action, float]]
     ):
 
         self._policy = new_policy
     
     def get_policy(
             self
-    ) -> dict[Piece, dict[Action, float]]:
+    ) -> dict[State, dict[Action, float]]:
 
         return self._policy
     
@@ -69,7 +69,7 @@ class PolicyIteration(Algorithm):
     
     def run(
             self
-    ) -> tuple[Policy, dict[Piece, float]]:
+    ) -> tuple[Policy, dict[State, float]]:
         
         """
         Policy Iteration algorithm based on pseudocode by: 
@@ -79,7 +79,7 @@ class PolicyIteration(Algorithm):
         def policy_evaluation(
                 policy: Policy,
                 mdp: MDP
-        ) -> dict[Piece, float]:
+        ) -> dict[State, float]:
             """
             Policy Evaluation algorithm, based on 
             Reinforcement Learning: An Introduction by Sutton, R. & Barto, A.
@@ -113,8 +113,8 @@ class PolicyIteration(Algorithm):
             return state_values
         
         def action_evaluation(
-                state: Piece, 
-                state_values: dict[Piece, float]
+                state: State, 
+                state_values: dict[State, float]
         ) -> dict[Action, float]:
             """Action evaluation"""
 

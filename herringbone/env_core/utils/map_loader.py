@@ -2,7 +2,7 @@ import csv, json
 from typing import Any
 from pathlib import Path
 
-from herringbone.env_core.state_space.piece import Piece
+from herringbone.env_core.state_space.state import State
 
 
 def load_config(
@@ -29,33 +29,32 @@ def read_map(
         raise ValueError(f"Cannot decode CSV '{path_map}'")
 
 
-def init_piece(
-        piece_vals: dict[str, Any],
+def init_state(
+        state_vals: dict[str, Any],
         coordinates: list[int]
-) -> Piece:
+) -> State:
     try:
-        return Piece(
-            is_terminal=piece_vals["is_terminal"],
+        return State(
+            is_terminal=state_vals["is_terminal"],
             location=coordinates,
-            start_location=coordinates,
-            reward=piece_vals["reward"],
-            is_visitable=piece_vals["is_visitable"],
-            character=piece_vals["character"],
-            color=piece_vals["color"],
+            reward=state_vals["reward"],
+            is_visitable=state_vals["is_visitable"],
+            character=state_vals["character"],
+            color=state_vals["color"],
         )
     except KeyError as e:
-        raise KeyError(f"Piece has no attribute: {e}") from e
+        raise KeyError(f"State has no attribute: {e}") from e
 
 
 def load_map(
         path_config: Path,
         path_map: Path
-) -> list[list[Piece]]:
+) -> list[list[State]]:
     config = load_config(Path(path_config))
     map_ = read_map(Path(path_map))
 
     return [
         # TODO no default specified for config.get()
-        [init_piece(config.get(str(piece_id)), [x, y]) for y, piece_id in enumerate(row)]
+        [init_state(config.get(str(state_id)), [x, y]) for y, state_id in enumerate(row)]
         for x, row in enumerate(map_)
     ]

@@ -4,7 +4,7 @@
 
 The package can be customized/configured in the following ways:
 1. Custom maps
-2. Custom pieces
+2. Custom states
 3. Custom actions.
 
 ### Custom Maps
@@ -18,13 +18,13 @@ A map is a `.csv` file of IDs.
 0,0,0,0,0
 0,0,0,0,2
 ```
-IDs can be tweaked in the pieces config.
+IDs can be tweaked in the states config.
 
-### Custom Pieces
-A piece contains the properties of a field on the board (note that this contains the empty field/piece). The pieces config maps the ID of a piece to its properties, and is essential for loading maps.
+### Custom States
+A state contains the properties of a field on the board (note that this contains the empty field/state). The states config maps the ID of a states to its properties, and is essential for loading maps.
 
 > [!WARNING]
-> **IMPORTANT**: A pieces config should ALWAYS contain a 0 for empty field and 1 for agent!
+> **IMPORTANT**: A states config should ALWAYS contain a 0 for empty field and 1 for agent!
 
 *Default:*
 ```json
@@ -59,47 +59,50 @@ A piece contains the properties of a field on the board (note that this contains
     "up": {
         "id": 0,
         "type": "movement",
-        "direction": [
-            0,
+        "directions": [
+            [-1,0]
+        ],
+        "probabilities": [
             1
         ],
-        "cost": 0
+        "cost": 0,
+        "char": "←"
     },
     "down": {
         "id": 1,
         "type": "movement",
-        "direction": [
-            0,
-            -1
+        "directions": [
+            [1,0]
         ],
-        "cost": 0
+        "probabilities": [
+            1
+        ],
+        "cost": 0,
+        "char": "→"
     },
     "left": {
         "id": 2,
         "type": "movement",
-        "direction": [
-            -1,
-            0
+        "directions": [
+            [0,-1]
         ],
-        "cost": 0
+        "probabilities": [
+            1
+        ],
+        "cost": 0,
+        "char": "↑"
     },
     "right": {
         "id": 3,
         "type": "movement",
-        "direction": [
-            1,
-            0
+        "directions": [
+            [0,1]
         ],
-        "cost": 0
-    },
-    "observe": {
-        "id": 4,
-        "type": "observation",
-        "direction": [
-            0,
-            0
+        "probabilities": [
+            1
         ],
-        "cost": 1
+        "cost": 0,
+        "char": "↓"
     }
 }
 ```

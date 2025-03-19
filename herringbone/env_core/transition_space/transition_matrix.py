@@ -1,12 +1,11 @@
 from copy import deepcopy
 import numpy as np
 
-
-
 from herringbone.env_core.action_space.action import Action
 from herringbone.env_core.state_space.board import Board
-from herringbone.env_core.state_space.piece import Piece
+from herringbone.env_core.state_space.state import State
 # from herringbone.env_core.mdp import MDP
+
 
 class TransitionMatrix:
     """This class represents a state transition matrix."""
@@ -25,30 +24,27 @@ class TransitionMatrix:
             self,
             board: Board,
             action: Action
-    ) -> dict[Piece, dict[Piece, float]]:
+    ) -> dict[State, dict[State, float]]:
             """Build the transition matrix based on the given board and action."""
-            states = [piece for row in board.pieces for piece in row]
+            states = [state for row in board.states for state in row]
 
-            board_shape = (len(board.pieces), len(board.pieces[0]))
+            board_shape = (len(board.states), len(board.states[0]))
 
             directions = action.get_directions()
             probabilities = action.get_probabilities()
-            # TODO: this only works if pieces are comparable based on coordinates! not just making them.
-            # inner = {piece: 0. for piece in states}
-            # outer = {piece: deepcopy(inner) for piece in states}
-            outer = {piece: {p: 0. for p in states} for piece in states}
+            outer = {state: {p: 0. for p in states} for state in states}
 
 
             # 2D ASSUMPTION 
             # Assign transition probabilities
-            for piece in states:
-                idx = piece.get_location()
+            for state in states:
+                idx = state.get_location()
                 for direction, probability in zip(directions, probabilities):
                     # Make sure probabilities are only added for locations inside of bounds
                     new_idx = [np.clip(idx[0] + direction[0], a_min=0, a_max=board_shape[0] - 1),
                                 np.clip(idx[1] + direction[1], a_min=0, a_max=board_shape[1] - 1)]
-                    new_piece = board.pieces[new_idx[0]][new_idx[1]]
-                    outer[piece][new_piece] += probability
+                    new_state = board.states[new_idx[0]][new_idx[1]]
+                    outer[state][new_state] += probability
             return outer
 
 
@@ -65,19 +61,19 @@ class TransitionMatrix:
     
     def set_matrix(
             self, 
-            new_matrix: dict[Piece, dict[Piece, float]]
+            new_matrix: dict[State, dict[State, float]]
     ):
         self._matrix = new_matrix
     
     def get_matrix(
             self
-    ) -> dict[Piece, dict[Piece, float]]:
+    ) -> dict[State, dict[State, float]]:
         return self._matrix
 
     def get_successor_state(
             self,
-            state: Piece
-    ) -> dict[Piece, float]:
+            state: State
+    ) -> dict[State, float]:
         return {
             state_prime: prob_trans
             for state_prime, prob_trans in self.get_matrix()[state].items() if prob_trans != 0

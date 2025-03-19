@@ -1,6 +1,6 @@
 
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.state_space import Piece, Board
+from herringbone.env_core.state_space import State, Board
 from herringbone.env_core.transition_space import TransitionMatrix
 
 class MDP:
@@ -32,8 +32,8 @@ class MDP:
     
     def get_states(
             self
-    ) -> list[Piece]:
-        return [piece for row in self._board.pieces for piece in row]
+    ) -> list[State]:
+        return [state for row in self._board.states for state in row]
     
     def set_transition_matrices(
             self, 

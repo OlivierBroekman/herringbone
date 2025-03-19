@@ -1,19 +1,16 @@
-class Piece:
+class State:
     def __init__(
             self,
             is_terminal: bool,
             location: list[int],
-            start_location: list[int],
             reward: float,
             is_visitable: bool,
             character: str,
             color: str,
-            value: float = 0
     ):
         
         self._is_terminal = is_terminal
         self._location = location
-        self._start_location = start_location
         self._reward = reward
         self._is_visitable = is_visitable
         self._character = character
@@ -21,13 +18,20 @@ class Piece:
 
     def __str__(
             self
-            ):
+    ):
         return self._character
     
     def __repr__(
             self
-            ):
-        return str(self._start_location)
+    ):
+        return str(self._location)
+    
+    def __eq__(
+            self,
+            other
+    ):
+        assert type(self) == type(other)
+        return self.get_location() == other.get_location()
     
     # Setters and getters    
     def get_is_terminal(
@@ -39,55 +43,50 @@ class Piece:
     def set_location(
             self, 
             new_loc: list[int]
-            ):
+    ):
         
         self._location = new_loc
 
     def get_location(
             self
-            ) -> list[int]:
+    ) -> list[int]:
         
         return self._location
     
-    def get_start_location(
-            self
-            ) -> list[int]:
-        
-        return self._start_location
-    
     def get_reward(
             self
-            ) -> float:
+    ) -> float:
         
         return self._reward
 
     def get_is_visitable(
             self
-            ) -> bool:
+    ) -> bool:
         
         return self._is_visitable
     
     def set_character(
             self, 
-            new_char: str):
+            new_char: str
+    ):
         
         self._character = new_char
     
     def get_character(
             self
-            ) -> str:
+    ) -> str:
         
         return self._character
 
     def set_color(
             self, 
             new_color: str
-            ):
+    ):
         
         self._color = new_color
     
     def get_color(
             self
-            ) -> str:
+    ) -> str:
         
         return self._color

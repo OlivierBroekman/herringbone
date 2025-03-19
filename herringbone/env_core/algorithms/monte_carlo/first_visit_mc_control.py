@@ -1,6 +1,6 @@
 import numpy as np
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.state_space import Piece
+from herringbone.env_core.state_space import State
 from herringbone.env_core.episode import Trajectory, Episode
 from herringbone.env_core.algorithms.common import EpsilonGreedyPolicy, Policy
 from herringbone.env_core.mdp import MDP
@@ -25,11 +25,11 @@ class MonteCarloController:
         # Arbitrary policy
         self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
         # Arbitrary Q(s, a)
-        self.q_values: dict[Piece, dict[Action, float]] = {
+        self.q_values: dict[State, dict[Action, float]] = {
             s: {a: 0.0 for a in mdp.get_actions()} for s in mdp.get_states()
         }
         # Initialize Returns for every (s, a) pair with empty lists
-        self.returns: dict[tuple[Piece, Action], list[float]] = {
+        self.returns: dict[tuple[State, Action], list[float]] = {
             (s, a): [] for s in mdp.get_states() for a in mdp.get_actions()
         }
 
