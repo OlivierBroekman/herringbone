@@ -1,28 +1,17 @@
-import csv, json
+from csv import reader
 from typing import Any
 from pathlib import Path
 
+from herringbone.env_core.utils.config_loader import load_config
 from herringbone.env_core.state_space.state import State
 
 
-def load_config(
-        path_config: Path
-) -> dict:
-    try:
-        with open(path_config, 'r') as config:
-            return json.load(config)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"'{path_config}' not found")
-    except json.decoder.JSONDecodeError as e:
-        raise ValueError(f"Cannot decode JSON '{path_config}'") from e
-
-
 def read_map(
-        path_map: Path
+    path_map: Path
 ) -> list[list[int]]:
     try:
-        with open(path_map, 'r') as map_:
-            return [[int(cell) for cell in row] for row in csv.reader(map_)]
+        with open(path_map, 'r', encoding='utf-8') as map_:
+            return [[int(cell) for cell in row] for row in reader(map_)]
     except FileNotFoundError:
         raise FileNotFoundError(f"'{path_map}' not found.")
     except ValueError:
@@ -30,8 +19,8 @@ def read_map(
 
 
 def init_state(
-        state_vals: dict[str, Any],
-        coordinates: list[int]
+    state_vals: dict[str, Any],
+    coordinates: list[int]
 ) -> State:
     try:
         return State(
@@ -47,8 +36,8 @@ def init_state(
 
 
 def load_map(
-        path_config: Path,
-        path_map: Path
+    path_config: Path,
+    path_map: Path
 ) -> list[list[State]]:
     config = load_config(Path(path_config))
     map_ = read_map(Path(path_map))
