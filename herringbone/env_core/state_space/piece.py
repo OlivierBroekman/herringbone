@@ -18,21 +18,18 @@ class Piece:
         self._is_visitable = is_visitable
         self._character = character
         self._color = color
-        self._value = value
 
     def __str__(
             self
             ):
         return self._character
-
-    # Setters and getters
-    def set_is_terminal(
-            self, 
-            new_terminal: bool
-            ):
-        
-        self._is_terminal = new_terminal
     
+    def __repr__(
+            self
+            ):
+        return str(self._start_location)
+    
+    # Setters and getters    
     def get_is_terminal(
             self
             ) -> bool: 
@@ -51,13 +48,6 @@ class Piece:
             ) -> list[int]:
         
         return self._location
-
-    def set_start_location(
-            self, 
-            new_start_loc: list[int]
-            ):
-        
-        self._start_location = new_start_loc
     
     def get_start_location(
             self
@@ -65,23 +55,11 @@ class Piece:
         
         return self._start_location
     
-    def set_reward(
-            self, 
-            new_reward: float):
-        
-        self._reward = new_reward
-    
     def get_reward(
             self
             ) -> float:
         
         return self._reward
-    
-    def set_is_visitable(
-            self, new_visitable: bool
-            ):
-        
-        self._is_visitable = new_visitable
 
     def get_is_visitable(
             self
@@ -113,16 +91,3 @@ class Piece:
             ) -> str:
         
         return self._color
-    
-    def set_value(
-            self, 
-            new_val: float
-            ):
-        
-        self._value = new_val
-
-    def get_value(
-            self
-            ) -> float:
-        
-        return self._value

@@ -8,7 +8,8 @@
         "probabilities": [
             1
         ],
-        "cost": 0
+        "cost": 0,
+        "char": "←"
     },
     "down": {
         "id": 1,
@@ -19,7 +20,8 @@
         "probabilities": [
             1
         ],
-        "cost": 0
+        "cost": 0,
+        "char": "→"
     },
     "left": {
         "id": 2,
@@ -30,7 +32,8 @@
         "probabilities": [
             1
         ],
-        "cost": 0
+        "cost": 0,
+        "char": "↑"
     },
     "right": {
         "id": 3,
@@ -41,17 +44,7 @@
         "probabilities": [
             1
         ],
-        "cost": 0
-    },
-    "observe": {
-        "id": 4,
-        "type": "observation",
-        "directions": [
-            [0,0]
-        ],
-        "probabilities": [
-            1
-        ],
-        "cost": 1
+        "cost": 0,
+        "char": "↓"
     }
 }

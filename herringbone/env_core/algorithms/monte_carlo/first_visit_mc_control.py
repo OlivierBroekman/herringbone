@@ -4,11 +4,17 @@ from herringbone.env_core.state_space import Piece
 from herringbone.env_core.episode import Trajectory, Episode
 from herringbone.env_core.algorithms.common import EpsilonGreedyPolicy, Policy
 from herringbone.env_core.mdp import MDP
-from typing import List, Dict, Tuple
 
 
 class MonteCarloController:
-    def __init__(self, mdp: MDP, discount=0.9, epsilon=0.1, seed=42, start_coords=(0,0)):
+    def __init__(
+            self, 
+            mdp: MDP, 
+            discount: float = 0.9, 
+            epsilon: float = 0.1,
+            seed: int = 42,
+            start_coords: tuple[int, int] = (0,0)
+    ):
         self.start_coords = start_coords
         self.mdp = mdp
         self.discount = discount
@@ -19,15 +25,18 @@ class MonteCarloController:
         # Arbitrary policy
         self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
         # Arbitrary Q(s, a)
-        self.q_values: Dict[Piece, Dict[Action, float]] = {
+        self.q_values: dict[Piece, dict[Action, float]] = {
             s: {a: 0.0 for a in mdp.get_actions()} for s in mdp.get_states()
         }
         # Initialize Returns for every (s, a) pair with empty lists
-        self.returns: Dict[Tuple[Piece, Action], List[float]] = {
+        self.returns: dict[tuple[Piece, Action], list[float]] = {
             (s, a): [] for s in mdp.get_states() for a in mdp.get_actions()
         }
 
-    def update_q_values(self, trajectory: Trajectory):
+    def update_q_values(
+            self, 
+            trajectory: Trajectory
+    ):
         """First-visit Monte Carlo update for Q(s, a)."""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)
@@ -52,7 +61,10 @@ class MonteCarloController:
                     self.policy.update_policy_action(S[t], a, new_prob)
     
 
-    def train(self, n_episodes):
+    def train(
+            self, 
+            n_episodes: int
+    ):
         for _ in range(n_episodes):
             episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
             ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed,start_agent_coordinates=self.start_coords)

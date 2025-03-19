@@ -8,10 +8,12 @@ from herringbone.env_core.state_space.piece import Piece
 class Sarsa(TDControl):
     @override
     def update_q_values(
-        self,
-        state: Piece, action: Action,
-        reward: float,
-        state_prime: Piece, action_prime: Action,
+            self,
+            state: Piece, 
+            action: Action,
+            reward: float,
+            state_prime: Piece, 
+            action_prime: Action,
     ) -> None:
         """Sarsa update rule."""
         self.q_values[state][action] += self.alpha * (
@@ -19,7 +21,9 @@ class Sarsa(TDControl):
         )
 
     @override
-    def run(self) -> dict[Piece, dict[Action, float]]:
+    def run(
+            self
+    ) -> dict[Piece, dict[Action, float]]:
         """Run Sarsa (on-policy-TD) to estimate Q-values."""
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().pieces[0][0]  # TODO hardcoded

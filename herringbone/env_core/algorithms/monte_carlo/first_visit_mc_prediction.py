@@ -9,7 +9,13 @@ class MonteCarloPredictor:
     # V(s) for all s in States
     # Returns(S) <- an empty list for all s in S(t)
 
-    def __init__(self, mdp: MDP, discount: float, seed=42, start_coords=(0,0)):
+    def __init__(
+            self, 
+            mdp: MDP, 
+            discount: float, 
+            seed: int = 42, 
+            start_coords: tuple[int, int] = (0,0)
+    ):
         self.mdp = mdp
         self.discount = discount
         self.returns = {}
@@ -21,7 +27,11 @@ class MonteCarloPredictor:
             self.returns[s] = []
 
     # input: policy
-    def evaluate_policy(self, policy: Policy, n_samples=1000):
+    def evaluate_policy(
+            self, 
+            policy: Policy, 
+            n_samples: int = 1000
+    ):
         """Runs policy evaluation using Monte Carlo simulation."""
         for n in range(n_samples):
             episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
@@ -29,7 +39,10 @@ class MonteCarloPredictor:
             ep.run()
             self.update_value_function(ep.trajectory)
 
-    def update_value_function(self, trajectory: Trajectory):
+    def update_value_function(
+            self, 
+            trajectory: Trajectory
+    ):
         """First-visit Monte Carlo update for V"""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)

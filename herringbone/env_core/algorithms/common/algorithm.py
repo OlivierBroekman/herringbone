@@ -3,30 +3,29 @@ from abc import ABC, abstractmethod
 
 class Algorithm(ABC):
     def __init__(
-            self, 
+            self,
             policy: Policy
-            ):
+    ):
         
         self._policy = policy
     
     # Setter and getter
     def set_policy(
-            self, 
+            self,
             new_policy: Policy
-            ):
+    ):
         
         self._policy = new_policy
     
     def get_policy(
             self
-            ) -> Policy:
+    ) -> Policy:
         
         return self._policy
-
 
     @abstractmethod
     def run(
         self
-        ) -> Policy:
+    ) -> Policy:
         
         pass

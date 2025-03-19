@@ -8,10 +8,12 @@ from herringbone.env_core.state_space.piece import Piece
 class QLearning(TDControl):
     @override
     def update_q_values(
-        self,
-        state: Piece, action: Action,
-        reward: float,
-        state_prime: Piece, _: None=None
+            self,
+            state: Piece, 
+            action: Action,
+            reward: float,
+            state_prime: Piece, 
+            _: None = None
     ) -> None:
         """Q-learning update rule."""
         action_max = max(self.q_values[state_prime], key=self.q_values[state_prime].get)
@@ -21,7 +23,9 @@ class QLearning(TDControl):
         )
 
     @override
-    def run(self) -> dict[Piece, dict[Action, float]]:
+    def run(
+            self
+    ) -> dict[Piece, dict[Action, float]]:
         """Run Q-learning (off-policy TD) to estimate Q-values."""
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().pieces[0][0]  # TODO hardcoded
