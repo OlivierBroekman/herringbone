@@ -3,17 +3,14 @@ class Piece:
             self,
             is_terminal: bool,
             location: list[int],
-            start_location: list[int],
             reward: float,
             is_visitable: bool,
             character: str,
             color: str,
-            value: float = 0
     ):
         
         self._is_terminal = is_terminal
         self._location = location
-        self._start_location = start_location
         self._reward = reward
         self._is_visitable = is_visitable
         self._character = character
@@ -27,7 +24,7 @@ class Piece:
     def __repr__(
             self
             ):
-        return str(self._start_location)
+        return str(self._location)
     
     # Setters and getters    
     def get_is_terminal(
@@ -48,12 +45,6 @@ class Piece:
             ) -> list[int]:
         
         return self._location
-    
-    def get_start_location(
-            self
-            ) -> list[int]:
-        
-        return self._start_location
     
     def get_reward(
             self

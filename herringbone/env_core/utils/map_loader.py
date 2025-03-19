@@ -37,7 +37,6 @@ def init_piece(
         return Piece(
             is_terminal=piece_vals["is_terminal"],
             location=coordinates,
-            start_location=coordinates,
             reward=piece_vals["reward"],
             is_visitable=piece_vals["is_visitable"],
             character=piece_vals["character"],
