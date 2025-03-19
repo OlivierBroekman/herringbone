@@ -4,5 +4,5 @@ from .episode import Episode, Trajectory
 from .state_space import Piece
 from .state_space import Board
 from .transition_space import TransitionMatrix
-from .utils import load_map
+from .utils import load_map, Color
 from .mdp import MDP

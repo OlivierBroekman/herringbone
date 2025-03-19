@@ -1,22 +1,7 @@
-from enum import Enum
 from pathlib import Path
 
 from herringbone.env_core.utils.map_loader import load_map
-
-
-
-class Color(Enum):
-    RED = "\033[31m"
-    GREEN = "\033[32m"
-    BLUE = "\033[34m"
-    RESET = "\033[0m"
-
-    @staticmethod
-    def parse_color(
-            color: str
-    ):
-        return Color.__members__.get(color.upper(), Color.RESET)
-
+from herringbone.env_core.utils.color import Color
 
 class Board:
     def __init__(
