@@ -8,9 +8,12 @@ from herringbone.env_core.state_space.piece import Piece
 
 class TDControl(ABC):
     def __init__(
-        self,
-        num_episodes: int, mdp: MDP,
-        alpha: float = 0.5, epsilon: float = 0.1, gamma: float = 0.9,
+            self,
+            num_episodes: int, 
+            mdp: MDP,
+            alpha: float = 0.5, 
+            epsilon: float = 0.1, 
+            gamma: float = 0.9,
     ):
         self.num_episodes = num_episodes
         self.mdp = mdp
@@ -31,15 +34,19 @@ class TDControl(ABC):
 
     @abstractmethod
     def update_q_values(
-        self,
-        state: Piece, action: Action,
-        reward: float,
-        state_prime: Piece, action_prime: Action|None=None
+            self,
+            state: Piece, 
+            action: Action,
+            reward: float,
+            state_prime: Piece, 
+            action_prime: Action|None = None
     ) -> None:
         """Update rule to be specified by each subclass."""
         pass
 
     @abstractmethod
-    def run(self) -> dict[Piece, dict[Action, float]]:
+    def run(
+            self
+    ) -> dict[Piece, dict[Action, float]]:
         """Q-value estimation logic to be specified by each subclass."""
         pass

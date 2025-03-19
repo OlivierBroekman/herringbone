@@ -13,27 +13,27 @@ class Color(Enum):
 
     @staticmethod
     def parse_color(
-        color: str
+            color: str
     ):
         return Color.__members__.get(color.upper(), Color.RESET)
 
 
 class Board:
     def __init__(
-        self,
-        path_config: Path,
-        path_map: Path
+            self,
+            path_config: Path,
+            path_map: Path
     ):
         self.pieces = load_map(path_config, path_map)
 
     #TODO: depricated? or?
     def observe_pieces(
-        self
+            self
     ) -> dict:
         pass
 
     def __str__(
-        self
+            self
     ):
         len_char = max(len(p.get_character() or '') for row in self.pieces for p in row)  # TODO print state values rather than chars
         num_cols = len(self.pieces[0]) if self.pieces else 0

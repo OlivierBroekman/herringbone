@@ -6,11 +6,10 @@ from herringbone.env_core.mdp import MDP
 class Policy:
     """This class represents a policy."""
     def __init__(
-            self, 
-            mdp: MDP, 
+            self,
+            mdp: MDP,
             policy: dict[Piece, dict[Action, float]] = None
-            ):
-        
+    ):        
         self._mdp = mdp
         self._actions = mdp.get_actions()
         self._board = mdp.get_board()
@@ -88,54 +87,33 @@ class Policy:
 
     
     # Setters and getters
-    def set_mdp(
-            self, 
-            new_mdp: MDP
-            ):
-        
-        self._mdp = new_mdp
-
     def get_mdp(
             self
-            ) -> MDP:
+    ) -> MDP:
         
         return self._mdp
 
-    def set_actions(
-            self, 
-            new_actions: list[Action]
-            ):
-        
-        self._actions = new_actions
-
     def get_actions(
             self
-            ) -> list[Action]:
+    ) -> list[Action]:
         
         return self._actions
 
-    def set_board(
-            self, 
-            new_board: Board
-            ): 
-        
-        self._board = new_board
-
     def get_board(
             self
-            ) -> Board:
+    ) -> Board:
         
         return self._board
 
     def set_policy(
-            self, 
+            self,
             new_policy: dict[Piece, dict[Action, float]]
-            ):
+    ):
         
         self._policy = new_policy
 
     def get_policy(
             self
-            ) -> dict[Piece, dict[Action, float]]:
+    ) -> dict[Piece, dict[Action, float]]:
         
         return self._policy

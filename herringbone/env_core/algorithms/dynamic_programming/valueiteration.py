@@ -19,79 +19,50 @@ class ValueIteration(Algorithm):
         self._theta_threshold = theta_threshold
         self._gamma = gamma
 
-        # Setters and getters
-    def set_mdp(
-        self, new_mdp: MDP
-        ):
-
-        self._mdp = new_mdp
-    
+    # Setters and getters
     def get_mdp(
-        self
-        ) -> MDP:
+            self
+    ) -> MDP:
 
         return self._mdp
 
     def set_policy(
-        self, new_policy: dict[Piece, dict[Action, float]]
-        ):
+            self, new_policy: dict[Piece, dict[Action, float]]
+    ):
 
         self._policy = new_policy
     
     def get_policy(
-        self
-        ) -> dict[Piece, dict[Action, float]]:
+            self
+    ) -> dict[Piece, dict[Action, float]]:
 
         return self._policy
-
-    def set_board(
-        self, new_board: Board
-        ):
-
-        self._board = new_board
     
     def get_board(
-        self
-        ) -> Board:
+            self
+    ) -> Board:
 
         return self._board
-
-    def set_actions(
-        self, new_actions: list[Action]
-        ):
-
-        self._actions = new_actions
     
     def get_actions(
-        self
-        ) -> list[Action]:
+            self
+    ) -> list[Action]:
 
         return self._actions
-
-    def set_theta_threshold(
-        self, new_theta_threshold: float
-        ):
-
-        self._theta_threshold = new_theta_threshold
     
     def get_theta_threshold(
-        self
-        ) -> float:
+            self
+    ) -> float:
 
         return self._theta_threshold
-
-    def set_gamma(
-        self, new_gamma: float
-        ):
-
-        self._gamma = new_gamma
     
     def get_gamma(
-        self
-        ) -> float:
+            self
+    ) -> float:
 
         return self._gamma
     
+
     def run(
             self
     ) -> tuple[Policy, dict[Piece, float]]:

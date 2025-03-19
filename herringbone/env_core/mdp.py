@@ -9,8 +9,7 @@ class MDP:
             actions: list[Action],
             board: Board,
             transition_matrices: dict[Action, TransitionMatrix] = None
-            ):
-        
+    ):
         self._actions = actions
         self._board = board
         if transition_matrices != None: self._transition_matrices = transition_matrices
@@ -21,47 +20,29 @@ class MDP:
             }
     
     # Setters and getters
-    def set_actions(
-            self, 
-            new_actions: list[Action]
-            ):
-        
-        self._actions = new_actions
-    
     def get_actions(
             self
-            ) -> list[Action]:
-        
+    ) -> list[Action]:
         return self._actions
-    
-    def set_board(
-            self, 
-            new_board: Board
-            ):
-        
-        self._board = new_board
 
     def get_board(
             self
-            ) -> Board:
-        
+    ) -> Board:
         return self._board
     
     def get_states(
             self
-        ) -> list[Piece]:
-
+    ) -> list[Piece]:
         return [piece for row in self._board.pieces for piece in row]
     
-    def set_transition_matrices(self, 
-                                new_matrices: dict[Action, TransitionMatrix]
-                                ):
-        
+    def set_transition_matrices(
+            self, 
+            new_matrices: dict[Action, TransitionMatrix]
+    ):
         self._transition_matrices = new_matrices
 
     def get_transition_matrices(
             self
-            ) -> dict[Action, TransitionMatrix]:
-        
+    ) -> dict[Action, TransitionMatrix]:
         return self._transition_matrices
 

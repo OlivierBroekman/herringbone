@@ -6,7 +6,7 @@ from herringbone.env_core.state_space.piece import Piece
 
 
 def load_config(
-    path_config: Path
+        path_config: Path
 ) -> dict:
     try:
         with open(path_config, 'r') as config:
@@ -18,7 +18,7 @@ def load_config(
 
 
 def read_map(
-    path_map: Path
+        path_map: Path
 ) -> list[list[int]]:
     try:
         with open(path_map, 'r') as map_:
@@ -30,8 +30,8 @@ def read_map(
 
 
 def init_piece(
-    piece_vals: dict[str, Any],
-    coordinates: list[int]
+        piece_vals: dict[str, Any],
+        coordinates: list[int]
 ) -> Piece:
     try:
         return Piece(
@@ -48,8 +48,8 @@ def init_piece(
 
 
 def load_map(
-    path_config: Path,
-    path_map: Path
+        path_config: Path,
+        path_map: Path
 ) -> list[list[Piece]]:
     config = load_config(Path(path_config))
     map_ = read_map(Path(path_map))
