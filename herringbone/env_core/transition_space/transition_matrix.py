@@ -6,13 +6,13 @@ import numpy as np
 from herringbone.env_core.action_space.action import Action
 from herringbone.env_core.state_space.board import Board
 from herringbone.env_core.state_space.piece import Piece
-from herringbone.env_core.mdp import MDP
+# from herringbone.env_core.mdp import MDP
 
 class TransitionMatrix:
     """This class represents a state transition matrix."""
     def __init__(
             self, 
-            mdp: MDP, 
+            mdp, 
             action: Action
     ):
         
