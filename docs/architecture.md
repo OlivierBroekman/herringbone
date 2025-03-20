@@ -12,10 +12,6 @@
 
 - The Policy Iteration algorithm combines both the policy evaluation and policy improvement algorithms, for simplicity's sake we will make one class algorithm (policy iteration) encapsulating both policy evaluation and policy improvement.
 
-
-> [!WARNING]
-> //FIXME: Running into a lot of cross-references between classes
-
 ## Classes
 
 ### action_space  
@@ -55,7 +51,7 @@
   * run() -> tuple[Policy, dict[State, float]]
     * policy_evaluation(policy: Policy, mdp: MDP) -> dict[State, float]
     * action_evaluation(state: State, state_values: dict[State, float]) -> dict[Action, float]
-- [ ] ValueIteration(Algorithm) (mdp: MDP, theta_threshold: float, gamma: float)
+- [x] ValueIteration(Algorithm) (mdp: MDP, theta_threshold: float, gamma: float)
   * self.mdp: MDP
   * self.policy: dict[State, dict[Action, float]]
   * self.board: Board
@@ -88,13 +84,13 @@
   * update_value_function(trajectory: Trajectory)
   
 ### algorithms/temporal_difference
-- [ ] QLearning(TDControl)
+- [x] QLearning(TDControl)
   * update_q_values(state: State, action: Action, reward: float, state_prime: State, _: None = None) -> None
   * run() -> dict[State, dict[Action, float]]
-- [ ] Sarsa(TDControl)
+- [x] Sarsa(TDControl)
   * update_q_values(state: State, action: Action, reward: float, state_prime: State, action_prime: Action) -> None
   * run() -> dict[State, dict[Action, float]]
-- [ ] TDControl(ABC) (num_episodes: int, mdp: MDP, alpha: float = 0.5, epsilon: float = 0.1, gamma: float = 0.9)
+- [x] TDControl(ABC) (num_episodes: int, mdp: MDP, alpha: float = 0.5, epsilon: float = 0.1, gamma: float = 0.9)
   * self.num_episodes: int
   * self.mdp: MDP
   * self.alpha: float
@@ -111,7 +107,7 @@
   * states: list[State]
   * actions: list[Action]
   * rewards: list[float]
-- [ ] Episode (policy: Policy, mdp: MDP, seed: int = 42, max_depth: int = 1000, start_agent_coordinates: list[int] = [0,0], live_render: bool = False)
+- [x] Episode (policy: Policy, mdp: MDP, seed: int = 42, max_depth: int = 1000, start_agent_coordinates: list[int] = [0,0], live_render: bool = False)
   * self.policy: Policy
   * self.mdp: MDP
   * self.live_render: bool
