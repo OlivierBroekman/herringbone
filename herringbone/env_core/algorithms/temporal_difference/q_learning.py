@@ -8,24 +8,19 @@ from herringbone.env_core.state_space.state import State
 class QLearning(TDControl):
     @override
     def update_q_values(
-            self,
-            state: State, 
-            action: Action,
-            reward: float,
-            state_prime: State, 
-            _: None = None
+        self, state: State, action: Action, state_prime: State, _: None = None
     ) -> None:
         """Q-learning update rule."""
         action_max = max(self.q_values[state_prime], key=self.q_values[state_prime].get)
 
         self.q_values[state][action] += self.alpha * (
-            reward + self.gamma * self.q_values[state_prime][action_max]- self.q_values[state][action]
+            self.reward_last
+            + self.gamma * self.q_values[state_prime][action_max]
+            - self.q_values[state][action]
         )
 
     @override
-    def run(
-            self
-    ) -> dict[State, dict[Action, float]]:
+    def run(self) -> dict[State, dict[Action, float]]:
         """Run Q-learning (off-policy TD) to estimate Q-values."""
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().states[0][0]  # TODO hardcoded
@@ -33,13 +28,17 @@ class QLearning(TDControl):
             while not state.get_is_terminal():
                 action = self.policy.select_action(state, self.q_values)
                 state_prime = max(
-                    self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),
-                    key=lambda state_prob_pair: state_prob_pair[1]
+                    self.mdp.get_transition_matrices()[action]
+                    .get_matrix()[state]
+                    .items(),
+                    key=lambda state_prob_pair: state_prob_pair[1],
                 )[0]
-                reward = state_prime.get_reward()
+                self.reward_last = state_prime.get_reward()
 
-                self.update_q_values(state, action, reward, state_prime)
+                self.update_q_values(state, action, state_prime)
 
                 state = state_prime
+
+            self.decay_epsilon()
 
         return self.q_values
