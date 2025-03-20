@@ -44,7 +44,7 @@ class MonteCarloPredictor:
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)
         G = 0
-        for t in reversed(range(T - 1)):
+        for t in reversed(range(T)):
             G = self.discount * G + R[t + 1]
             if S[t] not in S[:t]:  # check if it is first time visiting the state
                 self.returns[S[t]].append(G)
