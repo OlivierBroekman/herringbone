@@ -11,16 +11,10 @@ class Board:
     ):
         self.states = load_map(path_config, path_map)
 
-    #TODO: depricated? or?
-    def observe_states(
-            self
-    ) -> dict:
-        pass
-
     def __str__(
             self
     ):
-        len_char = max(len(p.get_character() or '') for row in self.states for p in row)  # TODO print state values rather than chars
+        len_char = max(len(p.get_character() or '') for row in self.states for p in row)
         num_cols = len(self.states[0]) if self.states else 0
 
         grid = f"╔{('═' * (len_char + 2) + '╦') * (num_cols - 1)}{'═' * (len_char + 1)}═╗\n"
