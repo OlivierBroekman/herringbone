@@ -81,7 +81,7 @@ class Policy:
 
         for i_row, row in enumerate(best_actions):
             grid += f"║ {" ║ ".join(
-                f"{'/'.join(a.get_character() for a in actions)}" if actions else " "
+                f"{'/'.join(a.get_character() for a in actions).center(len_char)}" if actions else " "
                 for actions in row
             )} ║\n"
 

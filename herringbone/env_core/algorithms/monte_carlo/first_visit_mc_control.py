@@ -12,14 +12,13 @@ class MonteCarloController:
             mdp: MDP, 
             discount: float = 0.9, 
             epsilon: float = 0.1,
-            seed: int = 42,
             start_coords: tuple[int, int] = (0,0)
     ):
         self.start_coords = start_coords
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
-        self.rng = np.random.RandomState(seed)
+
         
 
         # Arbitrary policy
@@ -66,7 +65,6 @@ class MonteCarloController:
             n_episodes: int
     ):
         for _ in range(n_episodes):
-            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
-            ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed,start_agent_coordinates=self.start_coords)
+            ep = Episode(policy=self.policy, mdp=self.mdp, start_agent_coordinates=self.start_coords)
             ep.run()
             self.update_q_values(ep.trajectory)

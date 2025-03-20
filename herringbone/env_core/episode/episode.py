@@ -17,8 +17,7 @@ class Episode:
         self,
         policy: Policy,
         mdp: MDP,
-        seed: int = 42,
-        max_depth: int = 1000,
+        max_depth: int = 10000,
         start_agent_coordinates: list[int] = [0, 0],
         live_render: bool = False
     ):
@@ -29,8 +28,7 @@ class Episode:
         
         # Settings
         self.max_depth = max_depth
-        self.seed = seed
-        random.seed(self.seed)
+    
 
      
         # Innitalisation
