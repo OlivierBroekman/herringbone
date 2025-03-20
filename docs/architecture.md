@@ -80,8 +80,8 @@
 - [x] MonteCarloPredictor (mdp: MDP, discount: float, seed: int = 42, start_coords: tuple[int, int] = (0,0))
   * self.mdp: MDP
   * self.discount: float
-  * self.returns: dict[State, list[]] <!--Correct this, I have no idea what to typehint here tbh-->
-  * self.value_functions: dict[State, int] <!--Correct this, I have no idea what to typehint here tbh-->
+  * self.returns: dict[State, list[float]] 
+  * self.value_functions: dict[State, float] 
   * self.start_coords: tuple[int, int]
   * self.rng: np.RandomState
   * evaluate_policy(policy: Policy, n_samples: int = 1_000)
