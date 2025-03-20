@@ -1,4 +1,5 @@
 from pathlib import Path
+import random
 
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.state_space import State, Board
@@ -13,6 +14,7 @@ class MDP:
         map: Path,
         action_config: Path,
         transition_matrices: dict[Action, TransitionMatrix] = None,
+        seed: int = 42
     ):
         self._board = Board(state_config, map)
         self._actions = load_actions(action_config)
@@ -20,6 +22,7 @@ class MDP:
             action: TransitionMatrix(mdp=self, action=action)
             for action in self.get_actions()
         }
+        random.seed(seed)
 
     # Setters and getters
     def get_actions(self) -> list[Action]:

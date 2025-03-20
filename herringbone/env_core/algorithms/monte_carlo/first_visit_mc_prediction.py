@@ -13,7 +13,6 @@ class MonteCarloPredictor:
             self, 
             mdp: MDP, 
             discount: float, 
-            seed: int = 42, 
             start_coords: tuple[int, int] = (0,0)
     ):
         self.mdp = mdp
@@ -21,9 +20,8 @@ class MonteCarloPredictor:
         self.returns = {}
         self.value_functions = {}
         self.start_coords = start_coords
-        self.rng = np.random.RandomState(seed)
         for s in mdp.get_states():
-            self.value_functions[s] = 0
+            self.value_functions[s] = 0.0
             self.returns[s] = []
 
     # input: policy
@@ -31,18 +29,17 @@ class MonteCarloPredictor:
             self, 
             policy: Policy, 
             n_samples: int = 1000
-    ):
+    )-> None:
         """Runs policy evaluation using Monte Carlo simulation."""
         for n in range(n_samples):
-            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
-            ep = Episode(policy=policy, mdp=self.mdp, seed=episode_seed, start_agent_coordinates=self.start_coords)
+            ep = Episode(policy=policy, mdp=self.mdp, start_agent_coordinates=self.start_coords)
             ep.run()
             self.update_value_function(ep.trajectory)
 
     def update_value_function(
             self, 
             trajectory: Trajectory
-    ):
+    )-> None:
         """First-visit Monte Carlo update for V"""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)

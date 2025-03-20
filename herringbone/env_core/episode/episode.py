@@ -17,8 +17,7 @@ class Episode:
         self,
         policy: Policy,
         mdp: MDP,
-        seed: int = 42,
-        max_depth: int = 1000,
+        max_depth: int = 10000,
         start_agent_coordinates: list[int] = [0, 0],
         live_render: bool = False
     ):
@@ -29,8 +28,7 @@ class Episode:
         
         # Settings
         self.max_depth = max_depth
-        self.seed = seed
-        random.seed(self.seed)
+    
 
      
         # Innitalisation
@@ -43,7 +41,7 @@ class Episode:
         print(self.mdp.get_board())
         
     def run(
-            self
+            self, live_render = None
     ):
         """Runs an episode"""
         
@@ -54,9 +52,8 @@ class Episode:
         while not state.get_is_terminal() and depth < self.max_depth:
             #TODO: REMOVE DEBUG
             # print(f"t: {depth} | S{state}, R:{reward}, A:{action}" ) 
-            if self.live_render:
-                pass
-               # utils.render(board, coords)
+            if live_render:
+                print(f"t: {depth} | S: {state}, R: {reward}, A: {action}" ) 
             
             # Select action
             #action = self.policy.select_action(state, self.q_values)

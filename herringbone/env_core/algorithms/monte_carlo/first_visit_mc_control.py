@@ -1,4 +1,5 @@
 import numpy as np
+from random import choice
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.state_space import State
 from herringbone.env_core.episode import Trajectory, Episode
@@ -12,14 +13,13 @@ class MonteCarloController:
             mdp: MDP, 
             discount: float = 0.9, 
             epsilon: float = 0.1,
-            seed: int = 42,
             start_coords: tuple[int, int] = (0,0)
     ):
         self.start_coords = start_coords
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
-        self.rng = np.random.RandomState(seed)
+
         
 
         # Arbitrary policy
@@ -32,7 +32,18 @@ class MonteCarloController:
         self.returns: dict[tuple[State, Action], list[float]] = {
             (s, a): [] for s in mdp.get_states() for a in mdp.get_actions()
         }
+    
+    def argmax_Q(self, state: State) -> Action:
+        """Returns the best action with a random tie-break."""
+        q_values_state = self.q_values[state]
+        max_q = max(q_values_state.values())  
+        
 
+        best_actions = [a for a, q in q_values_state.items() if q == max_q]
+        
+ 
+        return choice(best_actions)
+    
     def update_q_values(
             self, 
             trajectory: Trajectory
@@ -48,9 +59,7 @@ class MonteCarloController:
                 self.returns[(S[t], A[t])].append(G)
                 self.q_values[S[t]][A[t]] = np.mean(self.returns[(S[t], A[t])])  #
 
-                best_action = max(
-                    self.q_values[S[t]], key=self.q_values[S[t]].get
-                )  # argmax_a Q(S_t,a)
+                best_action = self.argmax_Q(S[t])
 
                 for a in (actions := self.mdp.get_actions()):
                     if a == best_action:
@@ -66,7 +75,6 @@ class MonteCarloController:
             n_episodes: int
     ):
         for _ in range(n_episodes):
-            episode_seed = self.rng.randint(0, 2**31 - 1)  # Generate a new seed
-            ep = Episode(policy=self.policy, mdp=self.mdp, seed=episode_seed,start_agent_coordinates=self.start_coords)
+            ep = Episode(policy=self.policy, mdp=self.mdp, start_agent_coordinates=self.start_coords)
             ep.run()
             self.update_q_values(ep.trajectory)

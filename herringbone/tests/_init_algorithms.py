@@ -33,7 +33,7 @@ except Exception as e:
 # Init an MC predictor
 try:
     N = 5
-    mc_predictor = MonteCarloPredictor(demo_mdp, discount=0.9, seed=42)
+    mc_predictor = MonteCarloPredictor(demo_mdp, discount=0.9 )
     mc_predictor.evaluate_policy(policy, n_samples=N)
 except Exception as e:
     print(f"MonteCarloPredictor initialization failed: {e}", file=sys.stderr)
@@ -41,7 +41,7 @@ except Exception as e:
  
 # Init an MC Controller
 try:
-    mc_control = MonteCarloController(demo_mdp, discount=0.9, epsilon=0.1, seed=42, start_coords=(0,0))
+    mc_control = MonteCarloController(demo_mdp, discount=0.9, epsilon=0.1, start_coords=(0,0))
     mc_control.train(n_episodes=N)
 except Exception as e:
     print(f"MonteCarloController initialization failed: {e}", file=sys.stderr)
