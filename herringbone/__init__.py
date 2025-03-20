@@ -19,4 +19,6 @@ from .env_core import (
     Sarsa,
 )
 
+from .tests import _init_algorithms
+
 print("imported herringbone without any errors :)")
