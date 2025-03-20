@@ -1,4 +1,5 @@
 from herringbone.env_core.mdp import MDP
+from herringbone.env_core.episode import Episode
 from herringbone.env_core.algorithms.monte_carlo.first_visit_mc_prediction import MonteCarloPredictor
 from herringbone.env_core.algorithms.monte_carlo.first_visit_mc_control import MonteCarloController
 from herringbone.env_core.algorithms.common.epsilon_greedy_policy import EpsilonGreedyPolicy
@@ -20,6 +21,14 @@ try:
 except Exception as e:
     print(f"Policy initialization failed: {e}", file=sys.stderr)
     raise RuntimeError("Policy initialization failed.") from e
+
+# Init an Episode
+try:
+    episode = Episode(mdp=demo_mdp, policy=policy, max_depth=3)
+except Exception as e:
+    print(f"Episode initialization failed: {e}", file=sys.stderr)
+    raise RuntimeError("Episode initialization failed.") from e
+
 
 # Init an MC predictor
 try:

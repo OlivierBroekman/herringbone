@@ -1,4 +1,4 @@
-# import herringbone as hb
+import herringbone as hb
 # from demo import demo_mdp
 # discount = 0.9
 # epsilon = 0.1
