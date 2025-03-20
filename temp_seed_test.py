@@ -12,7 +12,7 @@ action_path = "herringbone/env_core/config/action_config.json"
 demo_mdp = hb.MDP(state_path, map_path, action_path, seed=42)
 
 
-random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
+random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=0)
 episode = hb.Episode(mdp=demo_mdp, policy=random_policy, max_depth=1000)
 
 episode.run("sar")

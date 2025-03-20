@@ -22,4 +22,11 @@ class EpsilonGreedyPolicy(Policy):
         q_values: dict[State, dict[Action, float]]
     ) -> Action:
         actions = list(q_values[state].keys())
-        return choice(actions) if random() < self.epsilon else max(actions, key=lambda action: q_values[state][action])
+        if random() < self.epsilon:
+            return choice(actions)  
+        else:
+            max_q_value = max(q_values[state].values())
+            best_actions = [a for a in actions if q_values[state][a] == max_q_value]
+            
+            # Randomly choose one of the best actions if there's a tie
+            return choice(best_actions)
