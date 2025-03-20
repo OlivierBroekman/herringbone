@@ -16,7 +16,7 @@ class State:
         self._color = color
 
     def __str__(self):
-        return self._character
+        return str(self._location)
 
     def __repr__(self):
         return str(self._location)
