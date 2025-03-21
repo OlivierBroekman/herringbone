@@ -21,7 +21,13 @@ demo_mdp = hb.MDP(state_path, map_path, action_path)
 random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
 episode = hb.Episode(mdp=demo_mdp, policy=random_policy, max_depth=1000)
 
-hb.Render.preview_frame(demo_mdp.get_board(),None,"rewards")
+hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"rewards")
+
+hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"ascii")
+
+hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"sar")
+
+print(demo_mdp.get_board().agent)
 
 # episode.peek()
 # episode.run("sar")

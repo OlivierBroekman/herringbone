@@ -35,17 +35,22 @@ class Render:
     @staticmethod
     def fancy_board(board: Board, agent_state: State, property_func=lambda s: s.get_character(), t: int = 0) -> str:
         
-        len_char = max(len(str(property_func(s)) or '') for row in board.states for s in row)
-        num_cols = len(board.states[0]) if board.states else 0
+        if agent_state:
+            rendering_states = [[board.agent if s == agent_state else s for s in row] for row in board.states]
+        else:
+            rendering_states = board.states
+        
+        len_char = max(len(str(property_func(s)) or '') for row in rendering_states for s in row)
+        num_cols = len(rendering_states[0]) if rendering_states else 0
 
         grid = f"╔{('═' * (len_char + 2) + '╦') * (num_cols - 1)}{'═' * (len_char + 1)}═╗\n"
 
-        for i_row, row in enumerate(board.states):
+        for i_row, row in enumerate(rendering_states):
             grid += f"║ {" ║ ".join(
                 f"{Color.parse_color(s.get_color()).value}{(str(property_func(s)) or '?').center(len_char)}{Color.RESET.value}"
                 for s in row)} ║\n"
 
-            if i_row < len(board.states) - 1:
+            if i_row < len(rendering_states) - 1:
                 grid += "╠" + ('═' * (len_char + 2) + '╬') * (num_cols - 1) + '═' * (len_char + 1) + "═╣\n"
 
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
