@@ -60,7 +60,7 @@ class Render:
         return grid + f"[{t}]"
     
     @staticmethod
-    def animate(mdp: MDP, trajectory: Trajectory, render_mode:str, pause: int = 0):
+    def animate(mdp: MDP, trajectory: Trajectory, render_mode:str, pause: int = 0)-> None:
         #TODO: do we want to add clear to this?
         """Animates a trajectory"""
         board = mdp.get_board()
@@ -70,4 +70,28 @@ class Render:
             Render.preview_frame(board, trajectory.states[t], render_mode, action, t)
             time.sleep(pause)
             
+    
+    @staticmethod 
+    def preview_V(mdp: MDP, learned_V):
+        """Renders a Value Function"""
+
+        states_2d = mdp.get_board().states
+        x, num_cols = len(states_2d), len(states_2d[0])
+        V_values = [ [f'{v:.2f}' for v in learned_V.values()][i * num_cols:(i + 1) * num_cols] for i in range(x)]
+    
+        len_char = len(max([str(v) for row in V_values for v in row], key=len))
+        
+        grid = f"╔{('═' * (len_char + 2) + '╦') * (num_cols - 1)}{'═' * (len_char + 1)}═╗\n"
+
+        for i_row, row in enumerate(V_values):
+            grid += f"║ {" ║ ".join(
+                f"{(v).center(len_char)}" for v in row
+            )} ║\n"
+
+            if i_row < len(V_values) - 1:
+                grid += "╠" + ('═' * (len_char + 2) + '╬') * (num_cols - 1) + '═' * (len_char + 1) + "═╣\n"
+
+        grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
+        print(grid)
+
     
