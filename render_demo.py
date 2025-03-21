@@ -36,4 +36,10 @@ episode.run("sar")
 print("Final animation:")
 hb.Render.animate(demo_mdp, episode.trajectory, "ascii",pause=0.5)
 
+# Preview Value function
+print("Value Function:")
+N = 1000
+mc_predictor = hb.MonteCarloPredictor(demo_mdp, discount=1)
+mc_predictor.evaluate_policy(random_policy, n_samples=N)
+hb.Render.preview_V(demo_mdp, mc_predictor.value_functions)
 
