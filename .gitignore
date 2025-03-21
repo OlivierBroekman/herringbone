@@ -33,3 +33,4 @@ __pycache__
 ## Oliviers shitty test files
 ##############################
 test.ipynb
+**/.ipynb_checkpoints/
