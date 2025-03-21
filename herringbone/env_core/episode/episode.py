@@ -32,16 +32,14 @@ class Episode:
         # Settings
         self.max_depth = max_depth
     
-
-     
         # Innitalisation
         self.agent_coordinates = start_agent_coordinates # another name? agent_coords does not really solve the length issue.
         self.trajectory: Trajectory = Trajectory([], [], [])
 
     def peek(
-            self
+            self, render_mode: str = "rewards"
     ):
-        print(self.mdp.get_board())
+        Render.preview_frame(board=self.mdp.get_board(), agent_state=None, render_mode=render_mode)
         
     def run(
             self, live_render = None

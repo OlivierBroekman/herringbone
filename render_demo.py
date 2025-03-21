@@ -29,7 +29,8 @@ hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"sar")
 
 hb.Render.preview_frame(demo_mdp.get_board(),None,"rewards")
 
-episode.peek()
-episode.run("ascii")
+print("!")
+episode.peek(render_mode="rewards")
+# episode.run(live_render="ascii")
 
 
