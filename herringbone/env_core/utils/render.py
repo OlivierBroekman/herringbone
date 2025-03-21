@@ -5,8 +5,11 @@ if TYPE_CHECKING:
     from herringbone.env_core.state_space.state import State
     from herringbone.env_core.action_space.action import Action
     from herringbone.env_core.episode.episode import Trajectory
+    from herringbone.env_core.mdp import MDP
 
 from herringbone.env_core.utils.color import Color
+
+import time
 
 # Issues with circular imports??? i HATE this 
 # TODO read this: https://www.reddit.com/r/learnpython/comments/zzgkxj/how_to_avoid_circular_imports_when_using_static/
@@ -18,6 +21,7 @@ class Render:
 
     @staticmethod
     def preview_frame(board: Board, agent_state: State, render_mode: str, action: Action = None, t: int = 0) -> None:
+        """Renders a single frame, which is a board with agent"""
         if render_mode.lower() not in Render.valid_render_modes:
             error_msg = f"Render error: {render_mode} is not a valid mode, please choose from: {', '.join(Render.valid_render_modes)}."
             raise RuntimeError(error_msg)
@@ -34,8 +38,9 @@ class Render:
 
     @staticmethod
     def fancy_board(board: Board, agent_state: State, property_func=lambda s: s.get_character(), t: int = 0) -> str:
-        
+        """Builds an ascii board based on a property"""
 
+        # Add agent as rendered state
         rendering_states = [[board.agent if s == agent_state else s for s in row] for row in board.states] if agent_state else board.states
         
         len_char = max(max(len(str(property_func(s)) or '') for row in board.states for s in row), len(board.agent.get_character()))
@@ -53,3 +58,16 @@ class Render:
 
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
         return grid + f"[{t}]"
+    
+    @staticmethod
+    def animate(mdp: MDP, trajectory: Trajectory, render_mode:str, pause: int = 0):
+        #TODO: do we want to add clear to this?
+        """Animates a trajectory"""
+        board = mdp.get_board()
+        T = len(trajectory.states)
+        for t in range(T):
+            action = None if t == T - 1 else trajectory.actions[t]
+            Render.preview_frame(board, trajectory.states[t], render_mode, action, t)
+            time.sleep(pause)
+            
+    
