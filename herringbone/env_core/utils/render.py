@@ -30,24 +30,22 @@ class Render:
 
 
         if render_mode == "ascii":
-            print(Render.fancy_board(board, agent_state, lambda s: s.get_character()))
+            print(Render.fancy_board(board, agent_state, lambda s: s.get_character(), t))
 
     @staticmethod
     def fancy_board(board: Board, agent_state: State, property_func=lambda s: s.get_character(), t: int = 0) -> str:
         
-        if agent_state:
-            rendering_states = [[board.agent if s == agent_state else s for s in row] for row in board.states]
-        else:
-            rendering_states = board.states
+
+        rendering_states = [[board.agent if s == agent_state else s for s in row] for row in board.states] if agent_state else board.states
         
-        len_char = max(len(str(property_func(s)) or '') for row in rendering_states for s in row)
+        len_char = max(max(len(str(property_func(s)) or '') for row in board.states for s in row), len(board.agent.get_character()))
         num_cols = len(rendering_states[0]) if rendering_states else 0
 
         grid = f"╔{('═' * (len_char + 2) + '╦') * (num_cols - 1)}{'═' * (len_char + 1)}═╗\n"
 
         for i_row, row in enumerate(rendering_states):
             grid += f"║ {" ║ ".join(
-                f"{Color.parse_color(s.get_color()).value}{(str(property_func(s)) or '?').center(len_char)}{Color.RESET.value}"
+                f"{Color.parse_color(s.get_color()).value}{(s.get_character() if s == board.agent else str(property_func(s)) or '?').center(len_char)}{Color.RESET.value}"
                 for s in row)} ║\n"
 
             if i_row < len(rendering_states) - 1:

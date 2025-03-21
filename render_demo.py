@@ -12,10 +12,10 @@ map_names = ["example", "easy", "danger_holes", "double_fish", "wall_of_death"]
 # E.g.  hb.config_defaults.map_config?
 # And when a "user" wants a custom config they can still add a path? but it seems weird to have these files in the package here.
 state_path = "herringbone/env_core/config/state_config.json"
-map_path = f"herringbone/env_core/maps/{map_names[0]}.csv"
+map_path = f"herringbone/env_core/maps/{map_names[1]}.csv"
 action_path = "herringbone/env_core/config/action_config.json"
 
-demo_mdp = hb.MDP(state_path, map_path, action_path)
+demo_mdp = hb.MDP(state_path, map_path, action_path, seed=10)
 
 
 random_policy = hb.EpsilonGreedyPolicy(mdp=demo_mdp, epsilon=1)
@@ -27,9 +27,9 @@ hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"ascii")
 
 hb.Render.preview_frame(demo_mdp.get_board(),demo_mdp.get_states()[2],"sar")
 
-print(demo_mdp.get_board().agent)
+hb.Render.preview_frame(demo_mdp.get_board(),None,"rewards")
 
-# episode.peek()
-# episode.run("sar")
+episode.peek()
+episode.run("ascii")
 
 

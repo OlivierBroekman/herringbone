@@ -2,6 +2,7 @@ from herringbone.env_core.state_space import Board, State
 from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.action_space import Action
+from herringbone.env_core.utils import Render
 from dataclasses import dataclass
 import random
 
@@ -59,7 +60,7 @@ class Episode:
             self.trajectory.actions.append(action)
                      
             if live_render:
-                print(f"t: {depth} | S: {state}, R: {reward}, A: {action}" ) 
+                Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=action,t=depth)
         
             
             # Get new state
@@ -77,6 +78,7 @@ class Episode:
             self.trajectory.rewards.append(reward)
             
             depth += 1   
-
+        if live_render:
+                Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=None,t=depth)
  
     
