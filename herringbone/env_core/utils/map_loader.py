@@ -16,7 +16,7 @@ def read_map(path_map: Path) -> list[list[int]]:
         raise ValueError(f"Cannot decode CSV '{path_map}'")
 
 
-def init_state(state_vals: dict[str, Any], coordinates: list[int]) -> State:
+def init_state(state_vals: dict[str, Any], coordinates: list[int, int]) -> State:
     try:
         return State(
             is_terminal=state_vals["is_terminal"],
@@ -34,7 +34,7 @@ def load_map(path_config: Path, path_map: Path) -> list[list[State]]:
     config = load_config(Path(path_config))
     map_ = read_map(Path(path_map))
 
-    def get_state(state_id: int, coordinates: list[int]):
+    def get_state(state_id: int, coordinates: list[int, int]):
         try:
             return init_state(config[str(state_id)], coordinates)
         except KeyError:
