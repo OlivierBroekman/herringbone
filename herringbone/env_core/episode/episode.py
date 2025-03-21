@@ -51,6 +51,7 @@ class Episode:
         state = self.mdp.get_board().states[self.agent_coordinates[0]][self.agent_coordinates[1]]
         reward = float('nan') # No reward in initial state
         self.trajectory.rewards.append(reward)
+        self.trajectory.states.append(state)
         while not state.get_is_terminal() and depth < self.max_depth:
             
             # Select action
@@ -67,11 +68,9 @@ class Episode:
                 key=lambda state_prob_pair: state_prob_pair[1]
             )[0]
             
-            # add old state to trajectory
-            self.trajectory.states.append(state)
-
             # Update state
             state = state_prime
+            self.trajectory.states.append(state_prime)
             
             # Update reward
             reward = state_prime.get_reward()
