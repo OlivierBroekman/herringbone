@@ -16,7 +16,7 @@ class EpsilonGreedyPolicy(Policy):
         super().__init__(mdp, policy)
         self.epsilon = epsilon
 
-    def select_action(
+    def get_next_action(
         self,
         state: State,
         q_values: dict[State, dict[Action, float]]

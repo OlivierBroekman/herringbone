@@ -93,7 +93,7 @@ class Policy:
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
         return grid
     
-    def select_action(
+    def get_next_action(
         self,
         state: State,
         q_values: dict[State, dict[Action, float]]
