@@ -54,7 +54,7 @@ class Episode:
         while not state.get_is_terminal() and depth < self.max_depth:
             
             # Select action
-            action = self.policy.select_action(state, self.policy.get_policy())
+            action = self.policy.get_next_action(state, self.policy.get_policy())
             self.trajectory.actions.append(action)
                      
             if live_render:

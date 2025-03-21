@@ -26,7 +26,7 @@ class Sarsa(TDControl):
         """Run Sarsa (on-policy-TD) to estimate Q-values."""
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().states[0][0]  # TODO hardcoded
-            action = self.policy.select_action(state, self.q_values)
+            action = self.policy.get_next_action(state, self.q_values)
 
             while not state.get_is_terminal():
                 state_prime = max(
@@ -36,7 +36,7 @@ class Sarsa(TDControl):
                     key=lambda state_prob_pair: state_prob_pair[1],
                 )[0]
                 self.reward_last = state_prime.get_reward()
-                action_prime = self.policy.select_action(state_prime, self.q_values)
+                action_prime = self.policy.get_next_action(state_prime, self.q_values)
 
                 self.update_q_values(state, action, state_prime, action_prime)
 
