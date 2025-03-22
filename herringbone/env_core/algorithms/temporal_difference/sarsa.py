@@ -14,7 +14,7 @@ class Sarsa(TDControl):
         state_prime: State,
         action_prime: Action,
     ) -> None:
-        """Sarsa update rule."""
+        """Use Sarsa update rule."""
         self.q_values[state][action] += self.alpha * (
             self.reward_last
             + self.gamma * self.q_values[state_prime][action_prime]

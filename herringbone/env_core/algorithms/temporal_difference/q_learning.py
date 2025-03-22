@@ -10,7 +10,7 @@ class QLearning(TDControl):
     def update_q_values(
         self, state: State, action: Action, state_prime: State, _: None = None
     ) -> None:
-        """Q-learning update rule."""
+        """Use Q-learning update rule."""
         action_max = max(self.q_values[state_prime], key=self.q_values[state_prime].get)
 
         self.q_values[state][action] += self.alpha * (
@@ -21,7 +21,7 @@ class QLearning(TDControl):
 
     @override
     def run(self) -> dict[State, dict[Action, float]]:
-        """Run Q-learning (off-policy TD) to estimate Q-values."""
+        """Run Q-learning (off-policy TD) to estimate Q*-values."""
         for _ in range(self.num_episodes):
             state = self.mdp.get_board().states[0][0]  # TODO hardcoded
 
