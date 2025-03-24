@@ -14,7 +14,11 @@ class Sarsa(TDControl):
         state_prime: State,
         action_prime: Action,
     ) -> None:
-        """Use Sarsa update rule."""
+        """
+        Update the Q-value function for a certain state-action pair using the Sarsa update rule.
+
+        Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
+        """
         self.q_values[state][action] += self.alpha * (
             self.reward_last
             + self.gamma * self.q_values[state_prime][action_prime]
@@ -23,7 +27,11 @@ class Sarsa(TDControl):
 
     @override
     def run(self) -> dict[State, dict[Action, float]]:
-        """Run Sarsa (on-policy-TD) to estimate Q-values."""
+        """
+        Estimate the value function for a given policy using Sarsa.
+
+        Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
+        """
         for _ in range(self.num_episodes):
             state = self.mdp.start_state
             action = self.policy.get_next_action(state, self.q_values)

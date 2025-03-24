@@ -29,7 +29,7 @@ class TDZero:
 
     def run(self):
         """
-        Estimate the value function of a policy using Tabular TD(0).
+        Estimate the value function for a given policy using Tabular TD(0).
 
         Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
         """
