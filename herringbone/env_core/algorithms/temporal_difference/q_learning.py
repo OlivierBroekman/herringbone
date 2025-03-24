@@ -23,7 +23,7 @@ class QLearning(TDControl):
     def run(self) -> dict[State, dict[Action, float]]:
         """Run Q-learning (off-policy TD) to estimate Q*-values."""
         for _ in range(self.num_episodes):
-            state = self.mdp.get_board().states[0][0]  # TODO hardcoded
+            state = self.mdp.start_state
 
             while not state.get_is_terminal():
                 action = self.policy.get_next_action(state, self.q_values)
