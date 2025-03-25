@@ -28,7 +28,7 @@ class Sarsa(TDControl):
     @override
     def run(self) -> dict[State, dict[Action, float]]:
         """
-        Estimate the value function for a given policy using Sarsa.
+        Estimate the Q-value function for a given policy using Sarsa.
 
         Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
         """
