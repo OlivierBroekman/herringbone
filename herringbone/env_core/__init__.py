@@ -12,8 +12,7 @@ from .algorithms import (
     TDZero
 )
 from .episode import Episode, Trajectory
-from .state_space import State
-from .state_space import Board
+from .state_space import State, Board
 from .transition_space import TransitionMatrix
-from .utils import load_map, Color
+from .utils import load_map, Color, Render
 from .mdp import MDP

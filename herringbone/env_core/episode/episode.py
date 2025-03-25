@@ -2,6 +2,7 @@ from herringbone.env_core.state_space import Board, State
 from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.action_space import Action
+from herringbone.env_core.utils import Render
 from dataclasses import dataclass
 import random
 
@@ -30,15 +31,13 @@ class Episode:
         # Settings
         self.max_depth = max_depth
     
-
-     
         # Innitalisation
         self.trajectory: Trajectory = Trajectory([], [], [])
 
     def peek(
-            self
+            self, render_mode: str = "rewards"
     ):
-        print(self.mdp.get_board())
+        Render.preview_frame(board=self.mdp.get_board(), agent_state=None, render_mode=render_mode)
         
     def run(
             self, live_render = None
@@ -49,6 +48,7 @@ class Episode:
         state = self.mdp.start_state
         reward = float('nan') # No reward in initial state
         self.trajectory.rewards.append(reward)
+        self.trajectory.states.append(state)
         while not state.get_is_terminal() and depth < self.max_depth:
             
             # Select action
@@ -56,7 +56,7 @@ class Episode:
             self.trajectory.actions.append(action)
                      
             if live_render:
-                print(f"t: {depth} | S: {state}, R: {reward}, A: {action}" ) 
+                Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=action,t=depth)
         
             
             # Get new state
@@ -65,17 +65,16 @@ class Episode:
                 key=lambda state_prob_pair: state_prob_pair[1]
             )[0]
             
-            # add old state to trajectory
-            self.trajectory.states.append(state)
-
             # Update state
             state = state_prime
+            self.trajectory.states.append(state_prime)
             
             # Update reward
             reward = state_prime.get_reward()
             self.trajectory.rewards.append(reward)
             
             depth += 1   
-
+        if live_render:
+                Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=None,t=depth)
  
     

@@ -38,10 +38,10 @@ class MonteCarloPredictor:
     )-> None:
         """First-visit Monte Carlo update for V"""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
-        T = len(S)
+        T = len(S) - 1 # Drop terminal state
         G = 0
         for t in reversed(range(T)):
-            G = self.mdp.get_gamma() * G + R[t + 1]
+            G = self.mdp.get_gamma() * G + R[t + 1]  # Compute return
             if S[t] not in S[:t]:  # check if it is first time visiting the state
                 self.returns[S[t]].append(G)
                 self.value_functions[S[t]] = np.mean(self.returns[S[t]])
