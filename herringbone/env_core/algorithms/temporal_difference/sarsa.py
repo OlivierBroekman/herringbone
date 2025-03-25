@@ -33,7 +33,7 @@ class Sarsa(TDControl):
         Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
         """
         for _ in range(self.num_episodes):
-            state = self.mdp.start_state
+            state = self.mdp.get_start_state()
             action = self.policy.get_next_action(state, self.q_values)
 
             while not state.get_is_terminal():
