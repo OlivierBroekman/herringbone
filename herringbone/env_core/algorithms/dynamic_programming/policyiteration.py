@@ -77,10 +77,10 @@ class PolicyIteration(Algorithm):
             """
             
             # We only need to initialise delt and state values
-            delta = 0
+            delta = 1
             state_values = {state: 0 for state in states}
 
-            while delta <= self.get_theta_threshold():
+            while delta >= self.get_theta_threshold():
                 delta = 0
                 for state in states:
                     old_value = state_values[state]
