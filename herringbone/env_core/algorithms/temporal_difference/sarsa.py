@@ -21,7 +21,7 @@ class Sarsa(TDControl):
         """
         self.q_values[state][action] += self.alpha * (
             self.reward_last
-            + self.gamma * self.q_values[state_prime][action_prime]
+            + self.mdp.get_gamma() * self.q_values[state_prime][action_prime]
             - self.q_values[state][action]
         )
 

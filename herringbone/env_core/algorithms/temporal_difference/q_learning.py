@@ -19,7 +19,7 @@ class QLearning(TDControl):
 
         self.q_values[state][action] += self.alpha * (
             self.reward_last
-            + self.gamma * self.q_values[state_prime][action_max]
+            + self.mdp.get_gamma() * self.q_values[state_prime][action_max]
             - self.q_values[state][action]
         )
 

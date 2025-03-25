@@ -12,10 +12,8 @@ class MonteCarloPredictor:
     def __init__(
             self, 
             mdp: MDP, 
-            discount: float, 
     ):
         self.mdp = mdp
-        self.discount = discount
         self.returns = {}
         self.value_functions = {}
         for s in mdp.get_states():
@@ -43,7 +41,7 @@ class MonteCarloPredictor:
         T = len(S)
         G = 0
         for t in reversed(range(T)):
-            G = self.discount * G + R[t + 1]
+            G = self.mdp.get_gamma() * G + R[t + 1]
             if S[t] not in S[:t]:  # check if it is first time visiting the state
                 self.returns[S[t]].append(G)
                 self.value_functions[S[t]] = np.mean(self.returns[S[t]])
