@@ -3,7 +3,7 @@ from random import choice
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.state_space import State
 from herringbone.env_core.episode import Trajectory, Episode
-from herringbone.env_core.algorithms.common import EpsilonGreedyPolicy, Policy
+from herringbone.env_core.algorithms.common import Policy
 from herringbone.env_core.mdp import MDP
 
 
@@ -17,7 +17,7 @@ class MonteCarloController:
         self.epsilon = epsilon
 
         # Arbitrary policy
-        self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
+        self.policy = Policy(self.mdp)
         # Arbitrary Q(s, a)
         self.q_values: dict[State, dict[Action, float]] = {
             s: {a: 0.0 for a in mdp.get_actions()} for s in mdp.get_states()
@@ -32,9 +32,8 @@ class MonteCarloController:
         q_values_state = self.q_values[state]
         max_q = max(q_values_state.values())  
         
-
         best_actions = [a for a, q in q_values_state.items() if q == max_q]
-        
+
  
         return choice(best_actions)
     
