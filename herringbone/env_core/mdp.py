@@ -16,7 +16,9 @@ class MDP:
         transition_matrices: dict[Action, TransitionMatrix] | None = None,
         start_coords: tuple[int, int] | None = None,
         seed: int = 42,
+        gamma: float = 0.9
     ):
+        assert 0 <= gamma <= 1
         self._board = Board(state_config, map)
         self._actions = load_actions(action_config)
         self._transition_matrices = transition_matrices or {
@@ -46,3 +48,6 @@ class MDP:
 
     def get_transition_matrices(self) -> dict[Action, TransitionMatrix]:
         return self._transition_matrices
+    
+    def get_gamma(self) -> float:
+        return self.gamma
