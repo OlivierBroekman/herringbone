@@ -10,7 +10,11 @@ class QLearning(TDControl):
     def update_q_values(
         self, state: State, action: Action, state_prime: State, _: None = None
     ) -> None:
-        """Q-learning update rule."""
+        """
+        Update the Q-value function for a certain state-action pair using the Q-learning update rule.
+
+        Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
+        """
         action_max = max(self.q_values[state_prime], key=self.q_values[state_prime].get)
 
         self.q_values[state][action] += self.alpha * (
@@ -21,12 +25,17 @@ class QLearning(TDControl):
 
     @override
     def run(self) -> dict[State, dict[Action, float]]:
-        """Run Q-learning (off-policy TD) to estimate Q-values."""
+        """
+        Estimate the optimal Q-value function using Q-learning.
+
+        Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
+        """
         for _ in range(self.num_episodes):
-            state = self.mdp.get_board().states[0][0]  # TODO hardcoded
+            state = self.mdp.start_state
 
             while not state.get_is_terminal():
-                action = self.policy.select_action(state, self.q_values)
+                action = self.policy.get_next_action(state, self.q_values)
+    
                 state_prime = max(
                     self.mdp.get_transition_matrices()[action]
                     .get_matrix()[state]
@@ -36,7 +45,6 @@ class QLearning(TDControl):
                 self.reward_last = state_prime.get_reward()
 
                 self.update_q_values(state, action, state_prime)
-
                 state = state_prime
 
             self.decay_epsilon()

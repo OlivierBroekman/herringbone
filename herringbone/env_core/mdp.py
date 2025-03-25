@@ -13,8 +13,9 @@ class MDP:
         state_config: Path,
         map: Path,
         action_config: Path,
-        transition_matrices: dict[Action, TransitionMatrix] = None,
-        seed: int = 42
+        transition_matrices: dict[Action, TransitionMatrix] | None = None,
+        start_coords: tuple[int, int] | None = None,
+        seed: int = 42,
     ):
         self._board = Board(state_config, map)
         self._actions = load_actions(action_config)
@@ -22,6 +23,12 @@ class MDP:
             action: TransitionMatrix(mdp=self, action=action)
             for action in self.get_actions()
         }
+        if start_coords:
+            self.start_state = self.get_board().states[start_coords[0]][start_coords[1]]
+        else:
+            self.start_state = self.get_board().states[
+                random.randint(0, len(self.get_board().states) - 1)
+            ][random.randint(0, len(self.get_board().states[0]) - 1)]  # Arbitrary S_0
         random.seed(seed)
 
     # Setters and getters

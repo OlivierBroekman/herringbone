@@ -2,7 +2,9 @@ from abc import ABC, abstractmethod
 import sys
 
 from herringbone.env_core.action_space import Action
-from herringbone.env_core.algorithms.common.epsilon_greedy_policy import EpsilonGreedyPolicy
+from herringbone.env_core.algorithms.common.epsilon_greedy_policy import (
+    EpsilonGreedyPolicy,
+)
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.state_space.state import State
 
@@ -60,7 +62,11 @@ class TDControl(ABC):
         pass
 
     def decay_epsilon(self):
-        """Reward-Based Epsilon Decay."""
+        """
+        Decay epsilon using Reward-Based Epsilon Decay.
+
+        Pseudocode adapted from: Maroti, A. (2019). Reward Based Epsilon Decay: An exploration strategy based on agent's learning abilities. https://aakash94.github.io/Reward-Based-Epsilon-Decay/
+        """
         if (
             self.epsilon > self.epsilon_min
             and self.reward_last >= self.reward_threshold

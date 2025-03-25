@@ -13,9 +13,7 @@ class MonteCarloController:
             mdp: MDP, 
             discount: float = 0.9, 
             epsilon: float = 0.1,
-            start_coords: tuple[int, int] = (0,0)
     ):
-        self.start_coords = start_coords
         self.mdp = mdp
         self.discount = discount
         self.epsilon = epsilon
@@ -75,6 +73,6 @@ class MonteCarloController:
             n_episodes: int
     ):
         for _ in range(n_episodes):
-            ep = Episode(policy=self.policy, mdp=self.mdp, start_agent_coordinates=self.start_coords)
+            ep = Episode(policy=self.policy, mdp=self.mdp)
             ep.run()
             self.update_q_values(ep.trajectory)

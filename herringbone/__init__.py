@@ -17,7 +17,8 @@ from .env_core import (
     EpsilonGreedyPolicy,
     QLearning,
     Sarsa,
-    Render
+    Render,
+    TDZero
 )
 
 from .tests import _init_algorithms

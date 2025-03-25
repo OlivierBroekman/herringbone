@@ -21,7 +21,6 @@ class Episode:
         policy: Policy,
         mdp: MDP,
         max_depth: int = 10000,
-        start_agent_coordinates: list[int] = [0, 0],
         live_render: bool = False
     ):
         # Problem Space
@@ -33,7 +32,6 @@ class Episode:
         self.max_depth = max_depth
     
         # Innitalisation
-        self.agent_coordinates = start_agent_coordinates # another name? agent_coords does not really solve the length issue.
         self.trajectory: Trajectory = Trajectory([], [], [])
 
     def peek(
@@ -47,14 +45,14 @@ class Episode:
         """Runs an episode"""
         
         depth = 0
-        state = self.mdp.get_board().states[self.agent_coordinates[0]][self.agent_coordinates[1]]
+        state = self.mdp.start_state
         reward = float('nan') # No reward in initial state
         self.trajectory.rewards.append(reward)
         self.trajectory.states.append(state)
         while not state.get_is_terminal() and depth < self.max_depth:
             
             # Select action
-            action = self.policy.select_action(state, self.policy.get_policy())
+            action = self.policy.get_next_action(state, self.policy.get_policy())
             self.trajectory.actions.append(action)
                      
             if live_render:

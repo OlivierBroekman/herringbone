@@ -41,7 +41,7 @@ except Exception as e:
  
 # Init an MC Controller
 try:
-    mc_control = MonteCarloController(demo_mdp, discount=0.9, epsilon=0.1, start_coords=(0,0))
+    mc_control = MonteCarloController(demo_mdp, discount=0.9, epsilon=0.1)
     mc_control.train(n_episodes=N)
 except Exception as e:
     print(f"MonteCarloController initialization failed: {e}", file=sys.stderr)

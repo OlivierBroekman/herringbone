@@ -13,13 +13,11 @@ class MonteCarloPredictor:
             self, 
             mdp: MDP, 
             discount: float, 
-            start_coords: tuple[int, int] = (0,0)
     ):
         self.mdp = mdp
         self.discount = discount
         self.returns = {}
         self.value_functions = {}
-        self.start_coords = start_coords
         for s in mdp.get_states():
             self.value_functions[s] = 0.0
             self.returns[s] = []
@@ -32,7 +30,7 @@ class MonteCarloPredictor:
     )-> None:
         """Runs policy evaluation using Monte Carlo simulation."""
         for n in range(n_samples):
-            ep = Episode(policy=policy, mdp=self.mdp, start_agent_coordinates=self.start_coords)
+            ep = Episode(policy=policy, mdp=self.mdp)
             ep.run()
             self.update_value_function(ep.trajectory)
 
