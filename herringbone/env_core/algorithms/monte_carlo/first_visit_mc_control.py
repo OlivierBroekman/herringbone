@@ -23,8 +23,8 @@ class MonteCarloController:
             s: {a: 0.0 for a in mdp.get_actions()} for s in mdp.get_states()
         }
         # Initialize Returns for every (s, a) pair with empty lists
-        self.returns: dict[tuple[State, Action], list[float]] = {
-            (s, a): [] for s in mdp.get_states() for a in mdp.get_actions()
+        self.N_visits: dict[tuple[State, Action], int] = {
+            (s, a): 0 for s in mdp.get_states() if not s.get_is_terminal() for a in mdp.get_actions()
         }
     
     def argmax_Q(self, state: State) -> Action:
@@ -51,9 +51,9 @@ class MonteCarloController:
 
             if (S[t], A[t]) not in list(zip(S[:t], A[:t])):  # First-visit MC
 
-                self.returns[(S[t], A[t])].append(G)
-                self.q_values[S[t]][A[t]] = np.mean(self.returns[(S[t], A[t])])  #
-
+                self.N_visits[S[t], A[t]] += 1
+                self.q_values[S[t]][A[t]] += (1/self.N_visits[S[t], A[t]]) * (G - self.q_values[S[t]][A[t]])
+                
                 best_action = self.argmax_Q(S[t])
 
                 for a in (actions := self.mdp.get_actions()):
@@ -63,7 +63,7 @@ class MonteCarloController:
                         new_prob = self.epsilon / len(actions)
 
                     self.policy.update_policy_action(S[t], a, new_prob)
-    
+                    
 
     def train(
             self, 

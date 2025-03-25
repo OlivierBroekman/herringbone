@@ -14,11 +14,11 @@ class MonteCarloPredictor:
             mdp: MDP, 
     ):
         self.mdp = mdp
-        self.N = {}
+        self.N_visits = {}
         self.value_functions = {}
         for s in mdp.get_states():
             self.value_functions[s] = 0.0
-            self.N[s] = 0
+            self.N_visits[s] = 0
 
     # input: policy
     def evaluate_policy(
@@ -43,5 +43,5 @@ class MonteCarloPredictor:
         for t in reversed(range(T)):
             G = self.mdp.get_gamma() * G + R[t + 1]  # Compute return
             if S[t] not in S[:t]:  # check if it is first time visiting the state
-                self.N[S[t]] += 1
-                self.value_functions[S[t]] = self.value_functions[S[t]] + (1/self.N[S[t]]) * (G - self.value_functions[S[t]])
+                self.N_visits[S[t]] += 1
+                self.value_functions[S[t]] += (1/self.N_visits[S[t]]) * (G - self.value_functions[S[t]])
