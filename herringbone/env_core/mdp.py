@@ -30,10 +30,16 @@ class MDP:
         if start_coords:
             self.start_state = self.get_board().states[start_coords[0]][start_coords[1]]
         else:
-            non_terminal_states = [s for s in self.get_states() if not s.get_is_terminal()] # make sure the agent does not start in a terminal state
-            self.start_state = random.choice(non_terminal_states)
-
+            self.start_state = None
+    
     # Setters and getters
+    def get_start_state(self) -> State:
+        # check if a random state needs to be generated
+        if self.start_state:
+            return self.start_state
+        non_terminal_states = [s for s in self.get_states() if not s.get_is_terminal()] # make sure the agent does not start in a terminal state
+        return random.choice(non_terminal_states)
+        
     def get_actions(self) -> list[Action]:
         return self._actions
 
