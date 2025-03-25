@@ -20,7 +20,6 @@ class TDControl(ABC):
         epsilon_delta: float = 0.01,
         reward_threshold: float = 1.0,
         reward_increment: float = 1.0,
-        gamma: float = 0.9,
     ):
         self.num_episodes = num_episodes
         self.mdp = mdp
@@ -33,7 +32,6 @@ class TDControl(ABC):
         self.reward_threshold = reward_threshold
         self.reward_increment = reward_increment
 
-        self.gamma = gamma
 
         self.q_values = self.init_q_values()
         self.policy = EpsilonGreedyPolicy(self.mdp, epsilon, self.q_values)

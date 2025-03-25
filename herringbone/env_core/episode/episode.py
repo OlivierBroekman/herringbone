@@ -45,7 +45,7 @@ class Episode:
         """Runs an episode"""
         
         depth = 0
-        state = self.mdp.start_state
+        state = self.mdp.get_start_state()
         reward = float('nan') # No reward in initial state
         self.trajectory.rewards.append(reward)
         self.trajectory.states.append(state)

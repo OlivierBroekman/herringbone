@@ -19,7 +19,7 @@ class QLearning(TDControl):
 
         self.q_values[state][action] += self.alpha * (
             self.reward_last
-            + self.gamma * self.q_values[state_prime][action_max]
+            + self.mdp.get_gamma() * self.q_values[state_prime][action_max]
             - self.q_values[state][action]
         )
 
@@ -31,7 +31,7 @@ class QLearning(TDControl):
         Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
         """
         for _ in range(self.num_episodes):
-            state = self.mdp.start_state
+            state = self.mdp.get_start_state()
 
             while not state.get_is_terminal():
                 action = self.policy.get_next_action(state, self.q_values)

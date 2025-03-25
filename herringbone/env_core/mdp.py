@@ -16,7 +16,11 @@ class MDP:
         transition_matrices: dict[Action, TransitionMatrix] | None = None,
         start_coords: tuple[int, int] | None = None,
         seed: int = 42,
+        gamma: float = 0.9
     ):
+        random.seed(seed)
+        assert 0 <= gamma <= 1
+        self.gamma = gamma
         self._board = Board(state_config, map)
         self._actions = load_actions(action_config)
         self._transition_matrices = transition_matrices or {
@@ -26,12 +30,16 @@ class MDP:
         if start_coords:
             self.start_state = self.get_board().states[start_coords[0]][start_coords[1]]
         else:
-            self.start_state = self.get_board().states[
-                random.randint(0, len(self.get_board().states) - 1)
-            ][random.randint(0, len(self.get_board().states[0]) - 1)]  # Arbitrary S_0
-        random.seed(seed)
-
+            self.start_state = None
+    
     # Setters and getters
+    def get_start_state(self) -> State:
+        # check if a random state needs to be generated
+        if self.start_state:
+            return self.start_state
+        non_terminal_states = [s for s in self.get_states() if not s.get_is_terminal()] # make sure the agent does not start in a terminal state
+        return random.choice(non_terminal_states)
+        
     def get_actions(self) -> list[Action]:
         return self._actions
 
@@ -46,3 +54,6 @@ class MDP:
 
     def get_transition_matrices(self) -> dict[Action, TransitionMatrix]:
         return self._transition_matrices
+    
+    def get_gamma(self) -> float:
+        return self.gamma

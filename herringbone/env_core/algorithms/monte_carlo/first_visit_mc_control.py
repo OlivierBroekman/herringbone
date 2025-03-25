@@ -11,14 +11,10 @@ class MonteCarloController:
     def __init__(
             self, 
             mdp: MDP, 
-            discount: float = 0.9, 
             epsilon: float = 0.1,
     ):
         self.mdp = mdp
-        self.discount = discount
         self.epsilon = epsilon
-
-        
 
         # Arbitrary policy
         self.policy = EpsilonGreedyPolicy(self.mdp, epsilon=self.epsilon)
@@ -48,10 +44,12 @@ class MonteCarloController:
     ):
         """First-visit Monte Carlo update for Q(s, a)."""
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
-        T = len(S)
+        T = len(S) - 1 # Drop terminal state
         G = 0
-        for t in reversed(range(T-1)):
-            G = self.discount * G + R[t + 1]  # Compute return
+        
+        for t in reversed(range(T)):
+            G = self.mdp.get_gamma() * G + R[t + 1]  # Compute return
+
             if (S[t], A[t]) not in list(zip(S[:t], A[:t])):  # First-visit MC
 
                 self.returns[(S[t], A[t])].append(G)

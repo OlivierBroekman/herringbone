@@ -10,16 +10,14 @@ class PolicyIteration(Algorithm):
         self, 
         mdp: MDP, 
         theta_threshold: float, 
-        gamma: float
     ):
         
-        assert 0 <= theta_threshold <= 1 and 0 <= gamma <= 1
+        assert 0 <= theta_threshold <= 1
         self._mdp = mdp
         self._policy = Policy(mdp=self.get_mdp()).get_policy()
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
-        self._gamma = gamma
 
     
     # Setters and getters    
@@ -60,13 +58,6 @@ class PolicyIteration(Algorithm):
 
         return self._theta_threshold
     
-    def get_gamma(
-            self
-    ) -> float:
-
-        return self._gamma
-
-    
     def run(
             self
     ) -> tuple[Policy, dict[State, float]]:
@@ -102,7 +93,7 @@ class PolicyIteration(Algorithm):
                             new_value += (action_probability 
                                           * transition_probability 
                                           * (state.get_reward() 
-                                             + self.get_gamma() 
+                                             + gamma
                                              * state_values[new_state]))
                     
                     state_values[state] = new_value
@@ -128,13 +119,14 @@ class PolicyIteration(Algorithm):
                 for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability 
                                               * (state.get_reward() 
-                                                 + self.get_gamma() 
+                                                 + gamma 
                                                  * state_values[new_state]))
             return action_values
         
         states = self.get_mdp().get_states()
         policy = self.get_policy()
         mdp = self.get_mdp()
+        gamma = mdp.get_gamma()
 
         # Policy Improvement
         while True:

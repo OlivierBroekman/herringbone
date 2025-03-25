@@ -1,6 +1,5 @@
 import herringbone as hb
 from demo import demo_mdp
-gamma = 1.0
 theta_threshold = 0.01
 # seed = 42
 
@@ -23,7 +22,7 @@ def preview_V(mdp, learned_V):
 
 
 mdp = demo_mdp
-policy_iteration = hb.PolicyIteration(mdp=mdp, theta_threshold=theta_threshold, gamma=gamma)
+policy_iteration = hb.PolicyIteration(mdp=mdp, theta_threshold=theta_threshold)
 policy, state_values = policy_iteration.run()
 
 print(f'Succesfully created a policy!')
