@@ -12,7 +12,7 @@ class ValueIteration(Algorithm):
     ):
         assert 0 <= theta_threshold <= 1
         self._mdp = mdp
-        self._policy = Policy(mdp=self.get_mdp()).get_policy()
+        self._policy = Policy(mdp=self.get_mdp())
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
@@ -25,14 +25,14 @@ class ValueIteration(Algorithm):
         return self._mdp
 
     def set_policy(
-            self, new_policy: dict[State, dict[Action, float]]
+            self, new_policy: Policy
     ):
 
         self._policy = new_policy
     
     def get_policy(
             self
-    ) -> dict[State, dict[Action, float]]:
+    ) -> Policy:
 
         return self._policy
     
@@ -77,7 +77,7 @@ class ValueIteration(Algorithm):
             return action_values
         
         states = self.get_mdp().get_states()
-        policy = self.get_policy()
+        policy = self.get_policy().get_policy()
         mdp = self.get_mdp()
         gamma = mdp.get_gamma()
 
@@ -106,6 +106,6 @@ class ValueIteration(Algorithm):
 
             # Greedily take the best action at the current state
             policy[state][best_action] = 1
-        
-        return policy, state_values
+
+        return Policy(mdp=mdp, policy=policy), state_values
 
