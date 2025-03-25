@@ -2,6 +2,7 @@ from pathlib import Path
 
 from herringbone.env_core.utils.map_loader import load_map
 from herringbone.env_core.utils.color import Color
+from herringbone.env_core.state_space.state import State
 
 class Board:
     def __init__(
@@ -9,6 +10,8 @@ class Board:
             path_config: Path,
             path_map: Path
     ):
+        self.agent = State(None, None, None, None, "=^.^=", "red")
+ 
         self.states = load_map(path_config, path_map)
 
     def __str__(

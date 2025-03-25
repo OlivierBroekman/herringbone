@@ -50,7 +50,7 @@ class MonteCarloController:
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
         T = len(S)
         G = 0
-        for t in reversed(range(T)):
+        for t in reversed(range(T-1)):
             G = self.discount * G + R[t + 1]  # Compute return
             if (S[t], A[t]) not in list(zip(S[:t], A[:t])):  # First-visit MC
 
