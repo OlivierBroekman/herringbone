@@ -18,6 +18,7 @@ class MDP:
         seed: int = 42,
         gamma: float = 0.9
     ):
+        random.seed(seed)
         assert 0 <= gamma <= 1
         self.gamma = gamma
         self._board = Board(state_config, map)
@@ -32,7 +33,7 @@ class MDP:
             self.start_state = self.get_board().states[
                 random.randint(0, len(self.get_board().states) - 1)
             ][random.randint(0, len(self.get_board().states[0]) - 1)]  # Arbitrary S_0
-        random.seed(seed)
+     
 
     # Setters and getters
     def get_actions(self) -> list[Action]:
