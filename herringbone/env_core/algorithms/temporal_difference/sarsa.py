@@ -37,17 +37,10 @@ class Sarsa(TDControl):
             action = self.policy.get_next_action(state, self.q_values)
 
             while not state.get_is_terminal():
-                state_prime = max(
-                    self.mdp.get_transition_matrices()[action]
-                    .get_matrix()[state]
-                    .items(),
-                    key=lambda state_prob_pair: state_prob_pair[1],
-                )[0]
+                state_prime = self.mdp.get_next_state(state, action)
                 self.reward_last = state_prime.get_reward()
                 action_prime = self.policy.get_next_action(state_prime, self.q_values)
-
                 self.update_q_values(state, action, state_prime, action_prime)
-
                 state, action = state_prime, action_prime
 
             self.decay_epsilon()

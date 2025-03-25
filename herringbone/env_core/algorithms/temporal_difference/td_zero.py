@@ -37,15 +37,7 @@ class TDZero:
 
             while not state.get_is_terminal():
                 action = self.policy.get_next_action(state, self.policy.get_policy())
-
-                state_prime = max(  # TODO duplicate (3) code
-                    self.mdp
-                    .get_transition_matrices()[action]
-                    .get_matrix()[state]
-                    .items(),
-                    key=lambda state_prob_pair: state_prob_pair[1],
-                )[0]
-
+                state_prime = self.mdp.get_next_state(state, action)
                 reward = state_prime.get_reward()
                 self.update_value_function(state, reward, state_prime)
                 state = state_prime
