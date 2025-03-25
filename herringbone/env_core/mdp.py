@@ -19,6 +19,7 @@ class MDP:
         gamma: float = 0.9
     ):
         assert 0 <= gamma <= 1
+        self.gamma = gamma
         self._board = Board(state_config, map)
         self._actions = load_actions(action_config)
         self._transition_matrices = transition_matrices or {
