@@ -32,14 +32,17 @@ class QLearning(TDControl):
         """
         for _ in range(self.num_episodes):
             state = self.mdp.get_start_state()
+            self.reward_ep = 0.0  # For analysis
 
             while not state.get_is_terminal():
                 action = self.policy.get_next_action(state, self.q_values)
                 state_prime = self.mdp.get_next_state(state, action)
                 self.reward_last = state_prime.get_reward()
+                self.reward_ep += self.reward_last  # For analysis
                 self.update_q_values(state, action, state_prime)
                 state = state_prime
 
+            self.reward_total += self.reward_ep  # For analysis
             self.decay_epsilon()
 
         return self.q_values

@@ -29,6 +29,8 @@ class TDControl(ABC):
         self.epsilon_min = epsilon_min
         self.epsilon_delta = epsilon_delta
         self.reward_last = 0.0
+        self.reward_ep = 0.0  # For analysis
+        self.reward_total = 0.0  # For analysis
         self.reward_threshold = reward_threshold
         self.reward_increment = reward_increment
 
