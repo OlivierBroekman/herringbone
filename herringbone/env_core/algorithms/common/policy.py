@@ -42,7 +42,7 @@ class Policy:
     
         return policy
 
-    def update_policy_action(self, state: State, action: Action, probability: float):
+    def update_policy_action(self, state: State, action: Action, probability: float, auto_normalization: bool = False):
         """
         Updates the probability of taking a specific action in a given state.
         """
@@ -63,7 +63,17 @@ class Policy:
     
         for a in self._policy[state]:
             self._policy[state][a] /= total_prob
-  
+            
+    def hard_max(self):
+        for state, actions in self._policy.items():
+            if not state._is_terminal:
+                max_action = max(actions, key=actions.get)
+                for action in actions:
+                        actions[action] = 1.0 if action == max_action else 0.0
+        
+
+        
+        
     def __str__(self): 
 
         
