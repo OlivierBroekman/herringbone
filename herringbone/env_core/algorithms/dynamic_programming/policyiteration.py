@@ -83,6 +83,8 @@ class PolicyIteration(Algorithm):
             while delta >= self.get_theta_threshold():
                 delta = 0
                 for state in states:
+                    if state.get_is_terminal():
+                        continue
                     old_value = state_values[state]
                     new_value = 0
                     # Loop over all of the possible actions given by the policy

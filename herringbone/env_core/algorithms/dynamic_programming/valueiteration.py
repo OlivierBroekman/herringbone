@@ -89,6 +89,8 @@ class ValueIteration(Algorithm):
         while delta >= self.get_theta_threshold():
             delta = 0
             for state in states:
+                if state.get_is_terminal():
+                    continue
                 # Find the maximum value of all actions at the current state
                 action_values = action_evaluation(state=state, state_values=state_values)
                 best_action_value = max(action_values.values())
