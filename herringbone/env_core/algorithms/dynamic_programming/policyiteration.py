@@ -147,12 +147,13 @@ class PolicyIteration(Algorithm):
                 action_values = action_evaluation(state=state, state_values=state_values)
 
                 # Find the best action out of the action values
-                best_action = max(action_values, key=action_values.get)
+                best_action_value = max(action_values.values())
+                best_actions = [a for a, v in action_values.items() if v == best_action_value]
 
                 # Update the policy
-                policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
+                policy[state] = {act: (1/len(best_actions) if act in best_actions else 0) for act in policy[state].keys()}
 
-                if chosen_action != best_action:
+                if chosen_action not in best_actions:
                     policy_stable = False
 
             # If we have converged, stop the algorithm and return the policy with its evaluation

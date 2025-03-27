@@ -107,10 +107,11 @@ class ValueIteration(Algorithm):
         for state in states:
             # Get best action
             action_values = action_evaluation(state=state, state_values=state_values)
-            best_action = max(action_values, key=action_values.get)
+            best_action_value = max(action_values.values())
+            best_actions = [a for a, v in action_values.items() if v == best_action_value]
 
             # Greedily take the best action at the current state
-            policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
+            policy[state] = {act: (1/len(best_actions) if act in best_actions else 0) for act in policy[state].keys()}
 
         q_values = {state: 
                     action_evaluation(state=state, state_values=state_values) 
