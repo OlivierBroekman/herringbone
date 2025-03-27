@@ -76,9 +76,9 @@ class ValueIteration(Algorithm):
                                                  * state_values[new_state]))
             return action_values
         
-        states = self.get_mdp().get_states()
-        policy = self.get_policy().get_policy()
         mdp = self.get_mdp()
+        states = mdp.get_states()
+        policy = self.get_policy().get_policy()
         gamma = mdp.get_gamma()
 
         state_values = {state: 0 for state in states}
@@ -108,7 +108,7 @@ class ValueIteration(Algorithm):
             best_action = max(action_values, key=action_values.get)
 
             # Greedily take the best action at the current state
-            policy[state][best_action] = 1
+            policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
 
         return Policy(mdp=mdp, policy=policy), state_values
 
