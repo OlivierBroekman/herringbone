@@ -9,6 +9,7 @@ from .env_core import (
     Algorithm,
     PolicyIteration,
     ValueIteration,
+    QIteration,
     load_map,
     Color,
     Trajectory,

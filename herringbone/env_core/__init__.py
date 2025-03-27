@@ -5,6 +5,7 @@ from .algorithms import (
     Algorithm,
     PolicyIteration,
     ValueIteration,
+    QIteration,
     MonteCarloController,
     MonteCarloPredictor,
     QLearning,
