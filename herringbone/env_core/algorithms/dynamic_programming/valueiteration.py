@@ -64,20 +64,22 @@ class ValueIteration(Algorithm):
         ) -> dict[Action, float]:
             """Evaluate all actions at a state"""
 
-            actions = mdp.get_actions()
-
             action_values = {action: 0 for action in actions}
 
+            if state.get_is_terminal():
+                return action_values
+
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability
-                                              * (state.get_reward()
+                                              * (state_prime.get_reward()
                                                  + gamma
-                                                 * state_values[new_state]))
+                                                 * state_values[state_prime]))
             return action_values
         
         mdp = self.get_mdp()
         states = mdp.get_states()
+        actions = mdp.get_actions()
         policy = self.get_policy().get_policy()
         gamma = mdp.get_gamma()
 
@@ -110,5 +112,8 @@ class ValueIteration(Algorithm):
             # Greedily take the best action at the current state
             policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
 
-        return Policy(mdp=mdp, policy=policy), state_values
+        q_values = {state: 
+                    action_evaluation(state=state, state_values=state_values) 
+                    for state in states}
+        return Policy(mdp=mdp, policy=policy), state_values, q_values
 

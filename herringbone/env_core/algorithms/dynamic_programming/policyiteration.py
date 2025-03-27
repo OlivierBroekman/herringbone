@@ -90,13 +90,13 @@ class PolicyIteration(Algorithm):
                     # Loop over all of the possible actions given by the policy
                     for action, action_probability in policy[state].items():
                         # Get all possible new states for each action, given by the transition matrix
-                        for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                        for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                             # Calculate the expected value of the state
                             new_value += (action_probability 
                                           * transition_probability 
-                                          * (state.get_reward() 
+                                          * (state_prime.get_reward() 
                                              + gamma
-                                             * state_values[new_state]))
+                                             * state_values[state_prime]))
                     
                     state_values[state] = new_value
                     
@@ -116,13 +116,16 @@ class PolicyIteration(Algorithm):
             # Set initial action values to zero
             action_values = {action: 0 for action in actions}
 
+            if state.get_is_terminal():
+                return action_values
+
             # Add the value of each action to the dict
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability 
-                                              * (state.get_reward() 
+                                              * (state_prime.get_reward() 
                                                  + gamma 
-                                                 * state_values[new_state]))
+                                                 * state_values[state_prime]))
             return action_values
         
         states = self.get_mdp().get_states()
@@ -154,4 +157,7 @@ class PolicyIteration(Algorithm):
 
             # If we have converged, stop the algorithm and return the policy with its evaluation
             if policy_stable:
-                return Policy(mdp=mdp, policy=policy), state_values
+                q_values = {state: 
+                            action_evaluation(state=state, state_values=state_values) 
+                            for state in states}
+                return Policy(mdp=mdp, policy=policy), state_values, q_values
