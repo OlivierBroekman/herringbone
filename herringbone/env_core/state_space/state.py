@@ -7,6 +7,7 @@ class State:
         is_visitable: bool,
         character: str,
         color: str,
+        idx: int | None
     ):
         self._is_terminal = is_terminal
         self._location = location
@@ -14,6 +15,7 @@ class State:
         self._is_visitable = is_visitable
         self._character = character
         self._color = color
+        self.idx = idx  # 1D, left to right, top to bottom
 
     def __str__(self):
         return str(self._location)
