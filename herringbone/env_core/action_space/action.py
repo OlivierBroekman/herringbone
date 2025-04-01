@@ -4,7 +4,6 @@ class Action:
             self,
             config: dict
     ):
-        
         self.__id = config["id"]
         self._type = config["type"]
         self._directions = config["directions"]
@@ -13,6 +12,9 @@ class Action:
         assert len(config["probabilities"]) == len(config["directions"])
         self._cost = config["cost"]
         self._character = config["char"]
+
+    def get_id(self):
+        return self.__id
 
     def __str__(self):
         return f"{self._character}"
