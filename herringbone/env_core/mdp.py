@@ -17,8 +17,9 @@ class MDP:
         start_coords: tuple[int, int] | None = None,
         seed: int = 42,
         gamma: float = 0.9,
-    ):
-        random.seed(seed)
+    ):  
+        self.seed = seed
+        random.seed(self.seed)
         assert 0 <= gamma <= 1
         self.gamma = gamma
         self._board = Board(state_config, map)
