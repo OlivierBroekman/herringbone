@@ -28,11 +28,6 @@ class DeepQNetwork(nn.Module):
         x = F.relu(self.fc1(x))
         return self.fc2(x)
 
-    def forward(self, x) -> torch.Tensor:
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
-
 
 Transition = namedtuple("Transition", ("state", "action", "state_prime", "reward"))
 
