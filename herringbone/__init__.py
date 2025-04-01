@@ -18,7 +18,8 @@ from .env_core import (
     QLearning,
     Sarsa,
     Render,
-    TDZero
+    TDZero,
+    DeepQLearning
 )
 
 from .tests import _init_algorithms

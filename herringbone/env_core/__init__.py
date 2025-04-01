@@ -9,7 +9,8 @@ from .algorithms import (
     MonteCarloPredictor,
     QLearning,
     Sarsa,
-    TDZero
+    TDZero,
+    DeepQLearning
 )
 from .episode import Episode, Trajectory
 from .state_space import State, Board
