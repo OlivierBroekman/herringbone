@@ -41,39 +41,33 @@ class Episode:
         
     def run(
             self, live_render = None
-    ):
+    )-> None:
         """Runs an episode"""
-        
         depth = 0
         state = self.mdp.get_start_state()
+        self.trajectory.states.append(state)
         reward = float('nan') # No reward in initial state
         self.trajectory.rewards.append(reward)
-        self.trajectory.states.append(state)
         while not state.get_is_terminal() and depth < self.max_depth:
-            
             # Select action
             action = self.policy.get_next_action(state, self.policy.get_policy())
             self.trajectory.actions.append(action)
-                     
+
+            # Render current (s, a, r) state
             if live_render:
                 Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=action,t=depth)
         
-            
-            # Get new state
-            state_prime = max(
-                self.mdp.get_transition_matrices()[action].get_matrix()[state].items(),
-                key=lambda state_prob_pair: state_prob_pair[1]
-            )[0]
-            
-            # Update state
-            state = state_prime
-            self.trajectory.states.append(state_prime)
+            # update state
+            state = self.mdp.get_next_state(state, action)
+            self.trajectory.states.append(state)
             
             # Update reward
-            reward = state_prime.get_reward()
+            reward = state.get_reward()
             self.trajectory.rewards.append(reward)
             
-            depth += 1   
+            depth += 1
+            
+        # Render terminal frame   
         if live_render:
                 Render.preview_frame(self.mdp.get_board(), state,render_mode=live_render,action=None,t=depth)
  
