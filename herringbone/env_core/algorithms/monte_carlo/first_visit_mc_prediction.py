@@ -5,28 +5,23 @@ import numpy as np
 
 
 class MonteCarloPredictor:
-    # initialize
-    # V(s) for all s in States
-    # Returns(S) <- an empty list for all s in S(t)
-
     def __init__(
             self, 
             mdp: MDP, 
     ):
         self.mdp = mdp
-        self.N_visits = {}
-        self.value_functions = {}
+        self.N_visits = {} # Keep track of the visit count for each state
+        self.value_functions = {} # Initalise V(s) for each state
         for s in mdp.get_states():
             self.value_functions[s] = 0.0
             self.N_visits[s] = 0
 
-    # input: policy
     def evaluate_policy(
             self, 
             policy: Policy, 
             n_samples: int = 1000
     )-> None:
-        """Runs policy evaluation using Monte Carlo simulation."""
+        """Runs policy evaluation for N episodes using Monte Carlo simulation."""
         for n in range(n_samples):
             ep = Episode(policy=policy, mdp=self.mdp)
             ep.run()
@@ -36,9 +31,12 @@ class MonteCarloPredictor:
             self, 
             trajectory: Trajectory
     )-> None:
-        """First-visit Monte Carlo update for V"""
+        """First-visit Monte Carlo update for v_pi (s)
+        
+        Pseudocode adapted from: Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press.
+        """
         S, A, R = trajectory.states, trajectory.actions, trajectory.rewards
-        T = len(S) - 1 # Drop terminal state
+        T = len(S) - 1 # Ignore terminal state
         G = 0
         for t in reversed(range(T)):
             G = self.mdp.get_gamma() * G + R[t + 1]  # Compute return
