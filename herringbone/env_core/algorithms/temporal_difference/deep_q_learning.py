@@ -1,17 +1,17 @@
+import sys
 from collections import namedtuple, deque
 from typing import override
 
 import random
-import numpy as np
-import matplotlib.pyplot as plt
 import torch
 from torch import nn
 import torch.nn.functional as F
 from torch.nn import DataParallel
 
-from herringbone.env_core.algorithms.temporal_difference.q_learning import QLearning
+from herringbone.env_core.mdp import MDP
 from herringbone.env_core.state_space.state import State
 from herringbone.env_core.action_space.action import Action
+from herringbone.env_core.algorithms.temporal_difference.q_learning import QLearning
 
 
 class DeepQNetwork(nn.Module):
@@ -67,8 +67,27 @@ class DeepQLearning(QLearning):
     LOSS_FN = nn.MSELoss()
     OPTIMIZER = torch.optim.AdamW
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(
+        self,
+        num_episodes: int,
+        mdp: MDP,
+        alpha: float = 0.5,
+        epsilon: float = 1.0,
+        epsilon_min: float = sys.float_info.epsilon,
+        epsilon_delta: float = 0.01,
+        reward_threshold: float = 1.0,
+        reward_increment: float = 1.0,
+    ):
+        super().__init__(
+            num_episodes=num_episodes,
+            mdp=mdp,
+            alpha=alpha,
+            epsilon=epsilon,
+            epsilon_min=epsilon_min,
+            epsilon_delta=epsilon_delta,
+            reward_threshold=reward_threshold,
+            reward_increment=reward_increment
+        )
         torch.manual_seed(self.mdp.seed)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.use_data_parallel = torch.cuda.device_count() > 1
