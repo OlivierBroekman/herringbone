@@ -11,11 +11,6 @@ from herringbone.env_core.utils.color import Color
 
 import time
 
-# Issues with circular imports??? i HATE this 
-# TODO read this: https://www.reddit.com/r/learnpython/comments/zzgkxj/how_to_avoid_circular_imports_when_using_static/
-# and this https://adamj.eu/tech/2021/05/13/python-type-hints-how-to-fix-circular-imports/
-
-
 class Render:
     valid_render_modes = ["sar", "rewards", "ascii"]
 

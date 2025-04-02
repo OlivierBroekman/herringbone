@@ -60,12 +60,15 @@ class PolicyIteration(Algorithm):
     
     def run(
             self
-    ) -> tuple[Policy, dict[State, float]]:
-        
+    ) -> tuple[Policy, dict[State, float], dict[State, dict[Action, float]]]:
         """
         Policy Iteration algorithm based on pseudocode by: 
         Reinforcement Learning: An Introduction by Sutton, R. & Barto, A.
+
+        Returns:
+            tuple[Policy, dict[State, float], dict[State, dict[Action, float]]]: tuple containing the optimal policy, optimal state values and optimal action values
         """
+        
 
         def policy_evaluation(
                 policy: dict[State, dict[Action, float]],

@@ -13,9 +13,6 @@ class Action:
         self._cost = config["cost"]
         self._character = config["char"]
 
-    def get_id(self):
-        return self.__id
-
     def __str__(self):
         return f"{self._character}"
     
@@ -23,6 +20,9 @@ class Action:
         return f"{self._character}"
    
     # Getters
+    def get_id(self):
+        return self.__id
+
     def get_type(
             self
     ) -> str:

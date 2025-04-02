@@ -7,6 +7,7 @@ from herringbone.env_core.state_space.state import State
 
 
 class EpsilonGreedyPolicy(Policy):
+    """An abstract representation of an epsilon greedy policy"""
     def __init__(
         self,
         mdp: MDP,
@@ -21,6 +22,16 @@ class EpsilonGreedyPolicy(Policy):
         state: State,
         q_values: dict[State, dict[Action, float]]
     ) -> Action:
+        """Returns a random action if smaller than epsilon, 
+           else returns the best possible action at the current state
+
+        Args:
+            state (State): current state
+            q_values (dict[State, dict[Action, float]]): state-action values look-up table
+
+        Returns:
+            Action: the chosen action
+        """
         actions = list(q_values[state].keys())
         if random() < self.epsilon:
             return choice(actions)  

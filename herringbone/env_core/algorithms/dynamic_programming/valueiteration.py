@@ -56,13 +56,19 @@ class ValueIteration(Algorithm):
 
     def run(
             self
-    ) -> tuple[Policy, dict[State, float]]:
-        
+    ) -> tuple[Policy, dict[State, float], dict[State, dict[Action, float]]]:
+        """Value Iteration algorithm based on pseudocode by: 
+        Reinforcement Learning: An Introduction by Sutton, R. & Barto, A.
+
+        Returns:
+            tuple[Policy, dict[State, float], dict[State, dict[Action, float]]]: tuple containing the optimal policy, optimal state values and optimal action values
+        """
         def action_evaluation(
                 state: State,
                 state_values: dict[State, float]
         ) -> dict[Action, float]:
-            """Evaluate all actions at a state"""
+            """Evaluate all actions at a state
+            Can be interpreted as a one-step look-ahead"""
 
             action_values = {action: 0 for action in actions}
 

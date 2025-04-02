@@ -37,6 +37,11 @@ class Episode:
     def peek(
             self, render_mode: str = "rewards"
     ):
+        """Render a snippet of the algorithm being ran
+
+        Args:
+            render_mode (str, optional): the render mode. Defaults to "rewards".
+        """
         Render.preview_frame(board=self.mdp.get_board(), agent_state=None, render_mode=render_mode)
         
     def run(

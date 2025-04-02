@@ -21,13 +21,13 @@ class Policy:
             self, 
             actions: list[Action], 
             board: Board
-            ) -> dict[State, dict[Action, float]]:
+    ) -> dict[State, dict[Action, float]]:
         
         """
         Creates a default, uniform policy,
         Where every action is just as likely as any other in any state.
 
-        Arguments:
+        Args:
             actions: list[Action]: List of actions retrieved from action_config.json
             board: Board: Board retrieved from state_config.json
 
@@ -43,8 +43,18 @@ class Policy:
         return policy
 
     def update_policy_action(self, state: State, action: Action, probability: float, auto_normalization: bool = False):
-        """
-        Updates the probability of taking a specific action in a given state.
+        """Updates the probability of taking a specific action in a given state.
+
+        Args:
+            state (State): current state
+            action (Action): chosen action
+            probability (float): new probability
+            auto_normalization (bool, optional): whether the transition probabilities should be normalized. Defaults to False.
+
+        Raises:
+            ValueError: invalid state
+            ValueError: invalid action
+            ValueError: sum of all probabilities cannot be zero
         """
         if state not in self._policy:
             raise ValueError("State not found in policy.")
@@ -70,9 +80,27 @@ class Policy:
                 max_action = max(actions, key=actions.get)
                 for action in actions:
                         actions[action] = 1.0 if action == max_action else 0.0
-        
 
+    
+    def get_next_action(
+        self,
+        state: State,
+        q_values: dict[State, dict[Action, float]]
+    ) -> Action:
+        """Return the best possible action at  the current state
+
+        Args:
+            state (State): current state
+            q_values (dict[State, dict[Action, float]]): state-action values look-up table
+
+        Returns:
+            Action: the best possible action
+        """
         
+        actions = list(q_values[state].keys()) 
+        probabilities = list(q_values[state].values())  
+
+        return random.choices(actions, weights=probabilities, k=1)[0]
         
     def __str__(self): 
 
@@ -101,19 +129,6 @@ class Policy:
 
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
         return grid
-    
-    def get_next_action(
-        self,
-        state: State,
-        q_values: dict[State, dict[Action, float]]
-    ) -> Action:
-        
-        actions = list(q_values[state].keys()) 
-        probabilities = list(q_values[state].values())  
-
-        return random.choices(actions, weights=probabilities, k=1)[0]
-
-
 
     
     # Setters and getters
