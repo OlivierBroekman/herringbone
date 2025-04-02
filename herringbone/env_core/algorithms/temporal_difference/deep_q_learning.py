@@ -85,7 +85,7 @@ class DeepQLearning(QLearning):
             epsilon_min=epsilon_min,
             epsilon_delta=epsilon_delta,
             reward_threshold=reward_threshold,
-            reward_increment=reward_increment
+            reward_increment=reward_increment,
         )
         torch.manual_seed(self.mdp.seed)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -112,14 +112,23 @@ class DeepQLearning(QLearning):
 
     @override
     def run(self) -> dict[State, dict[Action, float]]:
+        """
+        Train the DQN agent to estimate the Q-function.
+        """
         step_count = 0
 
-        for e in range(self.num_episodes):
+        for _ in range(self.num_episodes):
+
+            # Initialize finite sequence of actions and observations (preprocessing absent)
             state = self.mdp.get_start_state()
 
             while not state.get_is_terminal() and step_count < self.DEPTH_MAX:
+
+                # With probability ε select random action a_t
                 if random.random() < self.epsilon:
                     action = random.choice(self.actions)
+
+                # Otherwise select a_t = max_a Q*(s_t, a; θ)
                 else:
                     with torch.no_grad():
                         action = self.actions[
@@ -129,13 +138,17 @@ class DeepQLearning(QLearning):
                             .item()
                         ]
 
+                # Execute action a_t in emulator and observe reward r_t and s_{t+1}
                 state_prime = self.mdp.get_next_state(state, action)
                 self.reward_last = state_prime.get_reward()
+
+                # Store transition (s_t, a_t, r_t, s_{t+1}) in replay memory
                 self.memory.push(state, action, state_prime, self.reward_last)
                 self.rewards.append(self.reward_last)  # For analysis
                 state = state_prime
                 step_count += 1
 
+            # Sample random mini-batch of transitions (s_j, a_j, r_j, s_{j+1}) from replay memory
             if len(self.memory) > self.MINI_BATCH_SIZE and any(
                 trans.state_prime.get_is_terminal() for trans in self.memory
             ):
@@ -143,6 +156,7 @@ class DeepQLearning(QLearning):
                 self.optimize(mini_batch)
                 self.decay_epsilon()
 
+                # Periodically update the target net with the current policy weights
                 if step_count > self.SYNC_RATE:
                     self.dqn_target.load_state_dict(self.dqn_policy.state_dict())
                     step_count = 0
@@ -155,12 +169,19 @@ class DeepQLearning(QLearning):
     def optimize(
         self, mini_batch: list[Transition[State, Action, State, float]]
     ) -> None:
+        """
+        Update the DQN policy using a mini-batch of transitions.
+        """
         q_list_curr = []
         q_list_target = []
 
         for state, action, state_prime, reward in mini_batch:
+
+            # Set y_j to r_j for terminal s_{j+1}
             if state_prime.get_is_terminal():
                 target = torch.tensor([reward], dtype=torch.float).to(self.device)
+
+            # Set y_j to r_j + γ max_{a'} Q(s_{j+1}, a'; θ) for non-terminal s_{j+1}
             else:
                 with torch.no_grad():
                     target = (
@@ -173,25 +194,34 @@ class DeepQLearning(QLearning):
                         .detach()
                     )
 
+            # Get the current Q-value according to the policy net
             q_curr = self.dqn_policy(self.get_state_vector(state)).to(self.device)
             q_list_curr.append(q_curr)
 
+            # Get the current target Q-value according to the target net (Bellman)
             q_target = self.dqn_target(self.get_state_vector(state)).to(self.device)
             q_target[action.get_id()] = target
             q_list_target.append(q_target)
 
+        # Perform a gradient descent step on (y_j - Q(s_j, a_j; θ))^2
         loss = self.LOSS_FN(torch.stack(q_list_curr), torch.stack(q_list_target))
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 
     def get_state_vector(self, state: State) -> torch.Tensor:
+        """
+        Represent a state as one-hot encoded vector.
+        """
         input_tensor = torch.zeros(self.num_states).to(self.device)
         input_tensor[state.idx] = 1
 
         return input_tensor
 
-    def __set_q_values(self, dqn: nn.Module) -> None:  # For policy display
+    def __set_q_values(self, dqn: nn.Module) -> None:
+        """
+        Set Q-value table for display.
+        """
         for s in self.states:
             q = dqn(self.get_state_vector(s).to(self.device)).detach().cpu().numpy()
             self.q_values[s] = {
