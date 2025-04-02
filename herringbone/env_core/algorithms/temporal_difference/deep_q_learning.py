@@ -141,7 +141,7 @@ class DeepQLearning(QLearning):
 
         # torch.save(self.dqn_policy.state_dict(), "dqn_policy.pt")
         # self.plot_history()
-        self.set_q_values(self.dqn_policy)
+        self.__set_q_values(self.dqn_policy)
 
         return self.q_values
 
@@ -184,19 +184,13 @@ class DeepQLearning(QLearning):
 
         return input_tensor
 
-    def set_q_values(
-        self, dqn: nn.Module
-    ) -> dict[State, dict[Action, float]]:  # TODO silly, for policy display
+    def __set_q_values(self, dqn: nn.Module) -> None:  # For policy display
         for s in self.states:
-            q_values = (
-                dqn(self.get_state_vector(s).to(self.device)).detach().cpu().numpy()
-            )
+            q = dqn(self.get_state_vector(s).to(self.device)).detach().cpu().numpy()
             self.q_values[s] = {
-                action: q_values[action_idx]
-                for action_idx, action in enumerate(self.actions)
+                a: 0 if s.get_is_terminal() else q[a_idx]
+                for a_idx, a in enumerate(self.actions)
             }
-
-        return self.q_values
 
     def plot_history(self) -> None:
         rewards_cumulat = np.array(
