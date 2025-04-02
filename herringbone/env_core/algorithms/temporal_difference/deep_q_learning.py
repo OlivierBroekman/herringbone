@@ -131,11 +131,17 @@ class DeepQLearning(QLearning):
                 # Otherwise select a_t = max_a Q*(s_t, a; θ)
                 else:
                     with torch.no_grad():
+                        q_values = self.dqn_policy(self.get_state_vector(state)).to(
+                            self.device
+                        )
                         action = self.actions[
-                            self.dqn_policy(self.get_state_vector(state))
-                            .to(self.device)
-                            .argmax()
-                            .item()
+                            random.choice(
+                                torch.nonzero(q_values == q_values.max())
+                                .squeeze()
+                                .cpu()
+                                .numpy()
+                                .flatten()
+                            )
                         ]
 
                 # Execute action a_t in emulator and observe reward r_t and s_{t+1}
