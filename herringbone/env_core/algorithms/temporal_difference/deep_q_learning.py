@@ -97,9 +97,6 @@ class DeepQLearning(QLearning):
             self.dqn_policy.parameters(), lr=1e-4, amsgrad=True
         )
 
-        self.rewards = np.zeros(self.num_episodes)  # For analysis
-        self.epsila = np.zeros(self.num_episodes)  # For analysis
-
     @override
     def run(self) -> dict[State, dict[Action, float]]:
         step_count = 0
@@ -122,10 +119,9 @@ class DeepQLearning(QLearning):
                 state_prime = self.mdp.get_next_state(state, action)
                 self.reward_last = state_prime.get_reward()
                 self.memory.push(state, action, state_prime, self.reward_last)
+                self.rewards.append(self.reward_last)  # For analysis
                 state = state_prime
                 step_count += 1
-
-            self.rewards[e] = self.reward_last
 
             if len(self.memory) > self.MINI_BATCH_SIZE and any(
                 trans.state_prime.get_is_terminal() for trans in self.memory
@@ -133,14 +129,12 @@ class DeepQLearning(QLearning):
                 mini_batch = self.memory.sample(self.MINI_BATCH_SIZE)
                 self.optimize(mini_batch)
                 self.decay_epsilon()
-                self.epsila[e] = self.epsilon
 
                 if step_count > self.SYNC_RATE:
                     self.dqn_target.load_state_dict(self.dqn_policy.state_dict())
                     step_count = 0
 
         # torch.save(self.dqn_policy.state_dict(), "dqn_policy.pt")
-        # self.plot_history()
         self.__set_q_values(self.dqn_policy)
 
         return self.q_values
@@ -191,21 +185,3 @@ class DeepQLearning(QLearning):
                 a: 0 if s.get_is_terminal() else q[a_idx]
                 for a_idx, a in enumerate(self.actions)
             }
-
-    def plot_history(self) -> None:
-        rewards_cumulat = np.array(
-            [
-                np.sum(self.rewards[max(0, e - 100) : e + 1])
-                for e in range(self.num_episodes)
-            ]
-        )
-
-        plt.figure(figsize=(8, 5))
-        plt.subplot(1, 2, 1)
-        plt.plot(rewards_cumulat)
-        plt.subplot(1, 2, 2)
-        plt.plot(self.epsila[1:])
-
-        plt.tight_layout()
-        plt.savefig("analysis_dq.png")
-        plt.close()
