@@ -93,7 +93,7 @@ class Render:
     def preview_Q(mdp: MDP, learned_Q: dict[State, dict[Action, float]]) -> None:
         states_2d = mdp.get_board().states
         actions = mdp.get_actions()
-        cell_width = len(f"{max(actions, key=lambda a: len(a.get_character()))}: {0:.2f}") + 2
+        cell_width = len(f"{max(actions, key=lambda a: len(a.get_character()))}: {100:.2f}") + 2
         num_cols = len(states_2d[1])
         
         grid = f"╔{('═' * (cell_width + 2) + '╦') * (num_cols - 1)}{'═' * (cell_width + 1)}═╗\n"
