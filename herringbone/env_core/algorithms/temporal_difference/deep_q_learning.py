@@ -6,7 +6,6 @@ import random
 import torch
 from torch import nn
 import torch.nn.functional as F
-from torch.nn import DataParallel
 
 from herringbone.env_core.mdp import MDP
 from herringbone.env_core.state_space.state import State
@@ -90,7 +89,6 @@ class DeepQLearning(QLearning):
         )
         torch.manual_seed(self.mdp.seed)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.use_data_parallel = torch.cuda.device_count() > 1
 
         self.states = self.mdp.get_states()
         self.num_states = len(self.states)
@@ -106,10 +104,6 @@ class DeepQLearning(QLearning):
             num_actions=self.num_actions,
         )
         self.dqn_target.load_state_dict(self.dqn_policy.state_dict())
-
-        if self.use_data_parallel:
-            self.dqn_policy = DataParallel(self.dqn_policy)
-            self.dqn_target = DataParallel(self.dqn_target)
 
         self.memory = ReplayMemory(self.REPLAY_MEMORY_SIZE)
         self.optimizer = self.OPTIMIZER(
