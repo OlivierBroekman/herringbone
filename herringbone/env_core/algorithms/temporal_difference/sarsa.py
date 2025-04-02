@@ -1,5 +1,4 @@
 from typing import override
-import matplotlib.pyplot as plt
 
 from herringbone.env_core.action_space import Action
 from herringbone.env_core.algorithms.temporal_difference.td_control import TDControl
