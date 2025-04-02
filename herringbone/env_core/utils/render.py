@@ -94,4 +94,26 @@ class Render:
         grid += f"╚{('═' * (len_char + 2) + '╩') * (num_cols - 1) + '═' * (len_char + 1)}═╝"
         print(grid)
 
-    
+    @staticmethod
+    def preview_Q(mdp: MDP, learned_Q: dict[State, dict[Action, float]]) -> None:
+        states_2d = mdp.get_board().states
+        actions = mdp.get_actions()
+        cell_width = len(f"{max(actions, key=lambda a: len(a.get_character()))}: {0:.2f}") + 2
+        num_cols = len(states_2d[1])
+        
+        grid = f"╔{('═' * (cell_width + 2) + '╦') * (num_cols - 1)}{'═' * (cell_width + 1)}═╗\n"
+
+        for i_row, row in enumerate(states_2d):
+            for a in actions:
+                grid += f"║ {"".join(
+                    f"{" ║ ".join([f"{a.get_character()}: {learned_Q[state][a]:.2f}"]).center(cell_width)} ║ "
+                    for state in row)}"
+                grid += '' if a.get_id() == actions[-1].get_id() else '\n'
+            grid += '\n'
+
+            if i_row < len(states_2d) - 1:
+                grid += "╠" + ('═' * (cell_width + 2) + '╬') * (num_cols - 1) + '═' * (cell_width + 1) + "═╣\n"
+
+        grid += f"╚{('═' * (cell_width + 2) + '╩') * (num_cols - 1) + '═' * (cell_width + 1)}═╝"
+        
+        print(grid)
