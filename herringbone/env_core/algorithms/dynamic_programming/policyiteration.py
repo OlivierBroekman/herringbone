@@ -14,7 +14,7 @@ class PolicyIteration(Algorithm):
         
         assert 0 <= theta_threshold <= 1
         self._mdp = mdp
-        self._policy = Policy(mdp=self.get_mdp()).get_policy()
+        self._policy = Policy(mdp=self.get_mdp())
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
@@ -29,14 +29,14 @@ class PolicyIteration(Algorithm):
 
     def set_policy(
             self,
-            new_policy: dict[State, dict[Action, float]]
+            new_policy: Policy
     ):
 
         self._policy = new_policy
     
     def get_policy(
             self
-    ) -> dict[State, dict[Action, float]]:
+    ) -> Policy:
 
         return self._policy
     
@@ -68,7 +68,7 @@ class PolicyIteration(Algorithm):
         """
 
         def policy_evaluation(
-                policy: Policy,
+                policy: dict[State, dict[Action, float]],
                 mdp: MDP
         ) -> dict[State, float]:
             """
@@ -77,24 +77,26 @@ class PolicyIteration(Algorithm):
             """
             
             # We only need to initialise delt and state values
-            delta = 0
+            delta = 1
             state_values = {state: 0 for state in states}
 
-            while delta <= self.get_theta_threshold():
+            while delta >= self.get_theta_threshold():
                 delta = 0
                 for state in states:
+                    if state.get_is_terminal():
+                        continue
                     old_value = state_values[state]
                     new_value = 0
                     # Loop over all of the possible actions given by the policy
                     for action, action_probability in policy[state].items():
                         # Get all possible new states for each action, given by the transition matrix
-                        for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                        for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                             # Calculate the expected value of the state
                             new_value += (action_probability 
                                           * transition_probability 
-                                          * (state.get_reward() 
+                                          * (state_prime.get_reward() 
                                              + gamma
-                                             * state_values[new_state]))
+                                             * state_values[state_prime]))
                     
                     state_values[state] = new_value
                     
@@ -114,17 +116,20 @@ class PolicyIteration(Algorithm):
             # Set initial action values to zero
             action_values = {action: 0 for action in actions}
 
+            if state.get_is_terminal():
+                return action_values
+
             # Add the value of each action to the dict
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability 
-                                              * (state.get_reward() 
+                                              * (state_prime.get_reward() 
                                                  + gamma 
-                                                 * state_values[new_state]))
+                                                 * state_values[state_prime]))
             return action_values
         
         states = self.get_mdp().get_states()
-        policy = self.get_policy()
+        policy = self.get_policy().get_policy()
         mdp = self.get_mdp()
         gamma = mdp.get_gamma()
 
@@ -142,14 +147,18 @@ class PolicyIteration(Algorithm):
                 action_values = action_evaluation(state=state, state_values=state_values)
 
                 # Find the best action out of the action values
-                best_action = max(action_values, key=action_values.get)
+                best_action_value = max(action_values.values())
+                best_actions = [a for a, v in action_values.items() if v == best_action_value]
 
                 # Update the policy
-                policy[state] = {act: (1 if act == best_action else 0) for act in policy[state].keys()}
+                policy[state] = {act: (1/len(best_actions) if act in best_actions else 0) for act in policy[state].keys()}
 
-                if chosen_action != best_action:
+                if chosen_action not in best_actions:
                     policy_stable = False
 
             # If we have converged, stop the algorithm and return the policy with its evaluation
             if policy_stable:
-                return policy, state_values
+                q_values = {state: 
+                            action_evaluation(state=state, state_values=state_values) 
+                            for state in states}
+                return Policy(mdp=mdp, policy=policy), state_values, q_values

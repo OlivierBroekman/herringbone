@@ -12,7 +12,7 @@ class ValueIteration(Algorithm):
     ):
         assert 0 <= theta_threshold <= 1
         self._mdp = mdp
-        self._policy = Policy(mdp=self.get_mdp()).get_policy()
+        self._policy = Policy(mdp=self.get_mdp())
         self._board = mdp.get_board()
         self._actions = mdp.get_actions()
         self._theta_threshold = theta_threshold
@@ -25,14 +25,14 @@ class ValueIteration(Algorithm):
         return self._mdp
 
     def set_policy(
-            self, new_policy: dict[State, dict[Action, float]]
+            self, new_policy: Policy
     ):
 
         self._policy = new_policy
     
     def get_policy(
             self
-    ) -> dict[State, dict[Action, float]]:
+    ) -> Policy:
 
         return self._policy
     
@@ -64,30 +64,35 @@ class ValueIteration(Algorithm):
         ) -> dict[Action, float]:
             """Evaluate all actions at a state"""
 
-            actions = mdp.get_actions()
-
             action_values = {action: 0 for action in actions}
 
+            if state.get_is_terminal():
+                return action_values
+
             for action in actions:
-                for new_state, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
+                for state_prime, transition_probability in mdp.get_transition_matrices()[action].get_matrix()[state].items():
                     action_values[action] += (transition_probability
-                                              * (state.get_reward()
+                                              * (state_prime.get_reward()
                                                  + gamma
-                                                 * state_values[new_state]))
+                                                 * state_values[state_prime]))
             return action_values
         
-        states = self.get_mdp().get_states()
-        policy = self.get_policy()
         mdp = self.get_mdp()
+        states = mdp.get_states()
+        actions = mdp.get_actions()
+        policy = self.get_policy().get_policy()
         gamma = mdp.get_gamma()
 
         state_values = {state: 0 for state in states}
 
-        delta = 0
+        delta = 1
 
         # Value Iteration
-        while delta <= self.get_theta_threshold():
+        while delta >= self.get_theta_threshold():
+            delta = 0
             for state in states:
+                if state.get_is_terminal():
+                    continue
                 # Find the maximum value of all actions at the current state
                 action_values = action_evaluation(state=state, state_values=state_values)
                 best_action_value = max(action_values.values())
@@ -102,10 +107,14 @@ class ValueIteration(Algorithm):
         for state in states:
             # Get best action
             action_values = action_evaluation(state=state, state_values=state_values)
-            best_action = max(action_values, key=action_values.get)
+            best_action_value = max(action_values.values())
+            best_actions = [a for a, v in action_values.items() if v == best_action_value]
 
             # Greedily take the best action at the current state
-            policy[state][best_action] = 1
-        
-        return policy, state_values
+            policy[state] = {act: (1/len(best_actions) if act in best_actions else 0) for act in policy[state].keys()}
+
+        q_values = {state: 
+                    action_evaluation(state=state, state_values=state_values) 
+                    for state in states}
+        return Policy(mdp=mdp, policy=policy), state_values, q_values
 

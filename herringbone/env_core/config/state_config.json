@@ -22,7 +22,7 @@
   },
   "3": {
     "is_terminal": true,
-    "reward": -100,
+    "reward": -1000,
     "is_visitable": true,
     "character": "hole",
     "color": "red"
