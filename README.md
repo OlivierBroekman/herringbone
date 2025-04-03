@@ -12,7 +12,7 @@ Customizable grid world environment and algorithm set for reinforcement learning
 
 ### Installation
 
-To install the package, clone the repository or download it from the [release page](../../releases)
+This package requires Python 3.12 or higher. To install it, clone the repository or download it from the [release page](../../releases)
 
 ```bash
 git clone https://github.com/olivier-broekman/herringbone.git
@@ -52,7 +52,10 @@ For information on contributing and coding & Github etiquette read [CONTRIBUTING
 [@bram-bolt](https://github.com/Bram-Bolt)
 
 ## License
-This project is licensed under the ??? License - see the  [LICENSE](LICENSE)  file for details.
+
+This project is licensed under the GNU General Public License, Version 3 - see the [LICENSE](LICENSE) file for details.
+
+[![GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Acknowledgments
 :) 
