@@ -124,11 +124,10 @@
 - [x] Board (path_config: Path, path_map: Path)
   * self.states: list[list[State]]
   * observe_states(): dict <!--Deprecated?-->
-- [x] State (is_terminal: bool, location: list[int], start_location: list[int], reward: float, is_visitable: bool, character: str, color: str)
+- [x] State (is_terminal: bool, location: list[int], start_location: list[int], reward: float, character: str, color: str)
   * self.is_terminal: bool
   * self.location: list[int]
   * self.reward: float
-  * self.is_visitable: bool <!--Deprecated?-->
   * self.color: str
 
 ### transition_space

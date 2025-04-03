@@ -24,7 +24,6 @@ def init_state(
             is_terminal=state_vals["is_terminal"],
             location=coordinates,
             reward=state_vals["reward"],
-            is_visitable=state_vals["is_visitable"],
             character=state_vals["character"],
             color=state_vals["color"],
             idx=idx,

@@ -4,7 +4,6 @@ class State:
         is_terminal: bool,
         location: list[int],
         reward: float,
-        is_visitable: bool,
         character: str,
         color: str,
         idx: int | None
@@ -12,7 +11,6 @@ class State:
         self._is_terminal = is_terminal
         self._location = location
         self._reward = reward
-        self._is_visitable = is_visitable
         self._character = character
         self._color = color
         self.idx = idx  # 1D, left to right, top to bottom
@@ -42,9 +40,6 @@ class State:
 
     def get_reward(self) -> float:
         return self._reward
-
-    def get_is_visitable(self) -> bool:
-        return self._is_visitable
 
     def set_character(self, new_char: str):
         self._character = new_char
