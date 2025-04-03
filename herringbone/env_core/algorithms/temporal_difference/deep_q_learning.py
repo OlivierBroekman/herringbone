@@ -88,7 +88,7 @@ class DeepQLearning(QLearning):
             reward_increment=reward_increment,
         )
         torch.manual_seed(self.mdp.seed)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cpu")
 
         self.states = self.mdp.get_states()
         self.num_states = len(self.states)
