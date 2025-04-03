@@ -30,7 +30,7 @@ pip install .
 You can now use the environment with `import herringbone`. 
 
 ### Demo
-A demon file on how to use the package can be found in `.ipynb` and `.py` format can be found in the main repo.
+A demo file on how to use the package can be found in [demo.ipynb](demo.ipynb).
 
 A more detailed explanation of each algorithm can be found [here](docs/algorithms.md).
 
