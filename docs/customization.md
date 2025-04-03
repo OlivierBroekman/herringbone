@@ -38,7 +38,7 @@ A state contains the properties of a field on the board (note that this contains
   },
   "1": {
     "is_terminal": false,
-    "reward": 0,
+    "reward": -1,
     "is_visitable": true,
     "character": "=^.^=",
     "color": "red"
@@ -48,6 +48,27 @@ A state contains the properties of a field on the board (note that this contains
     "reward": 10,
     "is_visitable": true,
     "character": "<x)))><",
+    "color": "green"
+  },
+  "3": {
+    "is_terminal": true,
+    "reward": -1000,
+    "is_visitable": true,
+    "character": "hole",
+    "color": "red"
+  },
+  "4": {
+    "is_terminal": true,
+    "reward": 100,
+    "is_visitable": true,
+    "character": "<✰))><",
+    "color": "blue"
+  },
+  "5": {
+    "is_terminal": true,
+    "reward": -1,
+    "is_visitable": true,
+    "character": "<B))><",
     "color": "green"
   }
 }
@@ -66,7 +87,7 @@ A state contains the properties of a field on the board (note that this contains
             1
         ],
         "cost": 0,
-        "char": "←"
+        "char": "↑"
     },
     "down": {
         "id": 1,
@@ -78,7 +99,7 @@ A state contains the properties of a field on the board (note that this contains
             1
         ],
         "cost": 0,
-        "char": "→"
+        "char": "↓"
     },
     "left": {
         "id": 2,
@@ -90,7 +111,7 @@ A state contains the properties of a field on the board (note that this contains
             1
         ],
         "cost": 0,
-        "char": "↑"
+        "char": "←"
     },
     "right": {
         "id": 3,
@@ -102,7 +123,7 @@ A state contains the properties of a field on the board (note that this contains
             1
         ],
         "cost": 0,
-        "char": "↓"
+        "char": "→"
     }
 }
 ```

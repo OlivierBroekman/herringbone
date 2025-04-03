@@ -11,3 +11,4 @@
 - [x] 3.1. **TD(0)** (TD prediction)
 - [x] 3.2. **Sarsa** (on-policy TD control)
 - [x] 3.3. **Q-learning** (off-policy TD control)
+- [x] 3.4. **Deep-Q-learning** (deep TD control)
