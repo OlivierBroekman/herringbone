@@ -10,7 +10,7 @@ class Board:
             path_config: Path,
             path_map: Path
     ):
-        self.agent = State(None, None, None, None, "=^.^=", "red", None)
+        self.agent = State(None, None, None, "=^.^=", "red", None)
  
         self.states = load_map(path_config, path_map)
 
