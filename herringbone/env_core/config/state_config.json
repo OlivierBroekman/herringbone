@@ -34,5 +34,11 @@
     "reward": -1,
     "character": "<B))><",
     "color": "green"
+  },
+  "6": {
+    "is_terminal": true,
+    "reward": -100,
+    "character": "||||",
+    "color": "green"
   }
 }
