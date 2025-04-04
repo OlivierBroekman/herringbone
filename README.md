@@ -12,6 +12,8 @@ Customizable grid world environment and algorithm set for reinforcement learning
 
 ### Installation
 
+![WIP](https://img.shields.io/badge/status-WIP-orange)
+
 This package requires Python 3.12 or higher. To install it, clone the repository or download it from the [release page](../../releases)
 
 ```bash
@@ -58,4 +60,6 @@ This project is licensed under the GNU General Public License, Version 3 - see t
 [![GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Acknowledgments
-:) 
+
+* Professor Yuzhen Qin
+* Teaching assistant Fynn Gerding
