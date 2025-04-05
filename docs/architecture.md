@@ -233,8 +233,3 @@
 
 17 directories, 60 files
 ```
-
-
----
-// TODO: 
-Don't forget: A function that prints the state-action values for each state-action pair.
