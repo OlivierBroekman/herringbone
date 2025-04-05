@@ -4,6 +4,7 @@
 
 # herringbone - Reinforcement Learning Framework
 
+[![GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Customizable grid world environment and algorithm set for reinforcement learning.
 
@@ -56,8 +57,6 @@ For information on contributing and coding & Github etiquette read [CONTRIBUTING
 ## License
 
 This project is licensed under the GNU General Public License, Version 3 - see the [LICENSE](LICENSE) file for details.
-
-[![GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Acknowledgments
 
