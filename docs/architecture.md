@@ -153,59 +153,85 @@
 
 ## Directory Tree
 ```
-│   __init__.py
-├───env_core
-│   │   mdp.py
-│   │   __init__.py
-│   ├───action_space
-│   │       action.py
-│   │       __init__.py
-│   ├───algorithms
-│   │   │   __init__.py
-│   │   ├───common
-│   │   │       algorithm.py
-│   │   │       epsilon_greedy_policy.py
-│   │   │       policy.py
-│   │   │       __init__.py
-│   │   ├───dynamic_programming
-│   │   │       policyiteration.py
-│   │   │       valueiteration.py
-│   │   │       __init__.py
-│   │   ├───monte_carlo
-│   │   │       first_visit_mc_control.py
-│   │   │       first_visit_mc_prediction.py
-│   │   │       __init__.py
-│   │   │
-│   │   └───temporal_difference
-│   │           q_learning.py
-│   │           sarsa.py
-│   │           td_control.py
-│   │           __init__.py
-│   ├───config
-│   │       action_config.json
-│   │       state_config.json
-│   ├───episode
-│   │       episode.py
-│   │       __init__.py
-│   ├───maps
-│   │       danger_holes.csv
-│   │       double_fish.csv
-│   │       easy.csv
-│   │       example.csv
-│   │       wall_of_death.csv
-│   ├───state_space
-│   │       board.py
-│   │       state.py
-│   │       __init__.py
-│   ├───transition_space
-│   │       transition_matrix.py
-│   │       __init__.py
-│   └───utils
-│           map_loader.py
-│           render.py
-│           __init__.py
-└───tests
-        __init__.py
+.
+├── demo.ipynb
+├── docs
+│   ├── algorithms.md
+│   ├── architecture.md
+│   ├── CONTRIBUTING.md
+│   ├── customization.md
+│   └── roadmap.md
+├── herringbone
+│   ├── env_core
+│   │   ├── action_space
+│   │   │   ├── action.py
+│   │   │   └── __init__.py
+│   │   ├── algorithms
+│   │   │   ├── common
+│   │   │   │   ├── algorithm.py
+│   │   │   │   ├── epsilon_greedy_policy.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── policy.py
+│   │   │   ├── dynamic_programming
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── policyiteration.py
+│   │   │   │   └── valueiteration.py
+│   │   │   ├── __init__.py
+│   │   │   ├── monte_carlo
+│   │   │   │   ├── first_visit_mc_control.py
+│   │   │   │   ├── first_visit_mc_prediction.py
+│   │   │   │   └── __init__.py
+│   │   │   └── temporal_difference
+│   │   │       ├── deep_q_learning.py
+│   │   │       ├── __init__.py
+│   │   │       ├── q_learning.py
+│   │   │       ├── sarsa.py
+│   │   │       ├── td_control.py
+│   │   │       └── td_zero.py
+│   │   ├── config
+│   │   │   ├── action_config.json
+│   │   │   └── state_config.json
+│   │   ├── episode
+│   │   │   ├── episode.py
+│   │   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   ├── maps
+│   │   │   ├── danger_holes.csv
+│   │   │   ├── double_fish.csv
+│   │   │   ├── easy.csv
+│   │   │   ├── example2.csv
+│   │   │   ├── example.csv
+│   │   │   ├── flappy_bird.csv
+│   │   │   ├── gamma.csv
+│   │   │   ├── heart.csv
+│   │   │   ├── maze.csv
+│   │   │   ├── mega.csv
+│   │   │   ├── slides.csv
+│   │   │   └── wall_of_death.csv
+│   │   ├── mdp.py
+│   │   ├── state_space
+│   │   │   ├── board.py
+│   │   │   ├── __init__.py
+│   │   │   └── state.py
+│   │   ├── transition_space
+│   │   │   ├── __init__.py
+│   │   │   └── transition_matrix.py
+│   │   └── utils
+│   │       ├── actions_loader.py
+│   │       ├── color.py
+│   │       ├── config_loader.py
+│   │       ├── __init__.py
+│   │       ├── map_loader.py
+│   │       └── render.py
+│   ├── __init__.py
+│   └── tests
+│       ├── _init_algorithms.py
+│       └── __init__.py
+├── LICENSE
+├── README.md
+└── requirements.txt
+
+17 directories, 60 files
 ```
 
 
