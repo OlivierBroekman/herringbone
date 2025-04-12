@@ -24,7 +24,7 @@ IDs can be tweaked in the states config.
 A state contains the properties of a field on the board (note that this contains the empty field/state). The states config maps the ID of a states to its properties, and is essential for loading maps.
 
 > [!WARNING]
-> **IMPORTANT**: A states config should ALWAYS contain a 0 for empty field and 1 for agent!
+> **IMPORTANT**: A states config should ALWAYS contain a 0 for empty field!
 
 *Default:*
 ```json
