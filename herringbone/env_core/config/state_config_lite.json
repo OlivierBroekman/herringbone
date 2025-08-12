@@ -1,0 +1,26 @@
+{
+  "0": {
+    "is_terminal": false,
+    "reward": -1,
+    "character": " ",
+    "color": "blue"
+  },
+  "1": {
+    "is_terminal": true,
+    "reward": -100,
+    "character": "||||",
+    "color": "red"
+  },
+  "2": {
+    "is_terminal": true,
+    "reward": 10,
+    "character": "<x)))><",
+    "color": "green"
+  },
+  "3": {
+    "is_terminal": true,
+    "reward": 100,
+    "character": "<✰))><",
+    "color": "blue"
+  }
+}
