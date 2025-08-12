@@ -6,9 +6,9 @@ from herringbone.env_core.state_space.state import State
 
 class Board:
     def __init__(
-            self,
-            path_config: Path,
-            path_map: Path
+        self,
+        path_config: Path | str,
+        path_map: Path | str | list[list[int]]
     ):
         self.agent = State(None, None, None, "=^.^=", "red", None)
  

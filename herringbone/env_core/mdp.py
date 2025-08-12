@@ -10,8 +10,8 @@ from herringbone.env_core.utils.actions_loader import load_actions
 class MDP:
     def __init__(
         self,
-        state_config: Path,
-        map: Path,
+        state_config: Path | str,
+        map: Path | str | list[list[int]],
         action_config: Path,
         transition_matrices: dict[Action, TransitionMatrix] | None = None,
         start_coords: tuple[int, int] | None = None,
