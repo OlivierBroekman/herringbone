@@ -32,16 +32,32 @@ def init_state(
         raise KeyError(f"State has no attribute: {e}") from e
 
 
-def load_map(path_config: Path, path_map: Path) -> list[list[State]]:
-    config = load_config(Path(path_config))
-    map_ = read_map(Path(path_map))
+def load_map(
+    path_config: Path | str,
+    map_data: Path | str | list[list[int]]
+) -> list[list[State]]:
+    path_config = Path(path_config)
+
+    if isinstance(map_data, (str, Path)):
+        map_data = Path(map_data)
+        map_ = read_map(map_data)
+        map_source = map_data
+    elif isinstance(map_data, list):
+        map_ = map_data
+        map_source = "<in-memory map>"
+    else:
+        raise TypeError(
+            f"map_data must be Path, str (raw path), or list[list[int]], not {type(map_data).__name__}"
+        )
+
+    config = load_config(path_config)
 
     def get_state(state_id: int, coordinates: list[int, int], idx: int):
         try:
             return init_state(config[str(state_id)], coordinates, idx)
         except KeyError:
             raise KeyError(
-                f"Unknown state ID '{state_id}' found at {coordinates} in {path_map}."
+                f"Unknown state ID '{state_id}' found at {coordinates} in {map_source}."
             )
 
     return [
